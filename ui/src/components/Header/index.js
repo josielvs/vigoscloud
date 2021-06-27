@@ -1,0 +1,81 @@
+// @ts-nocheck
+import React, { useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
+import PbxContext from '../../context/PbxContext';
+import logo from '../../img/logo.png';
+import { accessLocalStorage } from '../../services';
+
+const Header = () => {
+  const getItensStateGlobal = useContext(PbxContext);
+  let { path, setPath } = getItensStateGlobal;
+  const hystoryPath = useHistory().location.pathname;
+  if(!path) path = hystoryPath;
+  const dataRender = (
+    <div className="navbar header-custon card-header" role="navigation" aria-label="main navigation">
+      <div className="navbar-brand">
+        <p className="navbar-item">
+          <img src={logo} alt="logo" width="200" height="100" />
+        </p>
+        <p role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </p>
+      </div>
+      <div className="navbar-menu">
+        <div className="navbar-start">
+          <Link to="/home" className="navbar-item" onClick={() => setPath('/home')}>
+            Home
+          </Link>
+        <div className="navbar-start">
+          <Link to={{ pathname: "#" }} target="_blank" className="navbar-item">
+            WebPhone
+          </Link>
+          <Link to="/relatorios" className="navbar-item" onClick={() => setPath('/relatorios')}>
+            Relatórios
+          </Link>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <p className="navbar-link">
+              Configurações
+            </p>
+              <div className="navbar-dropdown">
+                <p className="navbar-item">
+                  Adicionar Ramais
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <p className="navbar-link">
+              Troubleshooting
+            </p>
+              <div className="navbar-dropdown">
+                <p className="navbar-item">
+                  Análise SIP
+                </p>
+              </div>
+            </div>
+        </div>
+          <div className="navbar-end">
+            <div className="navbar-item">
+              <div className="buttons are-small">
+                <Link to="/" onClick={() => {
+                  accessLocalStorage.removeUserItem();
+                  setPath('/');
+                }}
+                >
+                  <button className="button is-sm is-primary">
+                    Log out
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  );
+  return path !== '/' ? dataRender : null;
+}
+
+export default Header;
