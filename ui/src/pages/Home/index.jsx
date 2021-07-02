@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
 import EventsGet from '../../components/Events/EventsGet';
-import { fetchCallsDataBase, fetchEndpoints } from '../../services';
+import { fetchCallsDataBase, fetchEndpoints, accessLocalStorage } from '../../services';
 import EndpointsList from '../../components/Endpoints/EndpointsList';
 import Loading from '../../img/loading.gif';
 
@@ -9,6 +10,8 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const getItensStateGlobal = useContext(PbxContext);
   const { setEndpoints, ipEndpoints, setCallsOfDay } = getItensStateGlobal;
+
+  const history = useHistory();
 
   const getApiEndpoints = useCallback(async () => {
     const endpointsReceived = await fetchEndpoints();
@@ -28,11 +31,17 @@ function Home() {
 
     return callResponsed;
   }, [setCallsOfDay]);
+
+  const validateUserLogged = async () => {
+    const dataUser = await accessLocalStorage.getUserLocalStorage();
+    if (!dataUser) return history.push('/');
+    await getApiEndpoints();
+    await getApiCallOnDay()
+  }
   
   useEffect(() => {
-    getApiEndpoints();
-    getApiCallOnDay()
-  }, [getApiEndpoints, getApiCallOnDay])
+    validateUserLogged();
+  }, [])
 
   return (
     <div >
