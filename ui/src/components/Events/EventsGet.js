@@ -19,11 +19,10 @@ const EventsGet = () => {
   
   const fetchEvents = useCallback(async () => {
     const { ipRequest } = await accessLocalStorage.getUserLocalStorage();
-    const ip = ipRequest.replace(/http/i, 'ws');
+    let ip = ipRequest.replace(/http/i, 'ws');
     const dbLocal = localStorage;
     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
     pbxEvents.onerror = await function error(error){ console.log(error); };
-
 
     const setIdCallsRealTimeLS = (call) => {
       let lsCallsRealTime = JSON.parse(localStorage.getItem('realTimeCalls'));
@@ -43,6 +42,7 @@ const EventsGet = () => {
         ipEndpoint = ipEndpoint.split(':')[0];
         const nameEndpoint = obj.endpoint.resource;
         const stateEndpoint = obj.endpoint.state;
+        console.log('Events_Get: ', stateEndpoint);
         const sendDbEndpoint = {
           endpoint: obj.endpoint.resource,
           state: obj.endpoint.state,
