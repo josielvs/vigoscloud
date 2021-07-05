@@ -27,7 +27,7 @@ function Login() {
   };
 
   useEffect(() => {
-    () => {
+    const validateData = () => {
       const validLocalEmail = validEmail(emailLocal);
       const validLocalPass = validPassword(password);
       if (validLocalEmail && validLocalPass) {
@@ -35,6 +35,7 @@ function Login() {
       }
       return setDisable(true);
     }
+    validateData();
   }, [emailLocal, password]);
 
   return (
@@ -52,9 +53,7 @@ function Login() {
               <img src={logo} alt="Vigos" />
             </figure>
         </div>
-        <div className="card-content">
-          <div className="content">
-          <div className="field">
+          <div className="field column is-full">
             <div className="control column is-full">
               <label className="label">E-mail
                 <input
@@ -66,7 +65,7 @@ function Login() {
               </label>
             </div>
           </div>
-          <div className="field">
+          <div className="field column is-full">
             <div className="control column is-full">
               <label className="label">Senha
                 <input
@@ -77,8 +76,6 @@ function Login() {
                 />
               </label>
             </div>
-          </div>
-          </div>
           </div>
           <div className="notification is-danger mx-5" hidden={ notification }>
             <button className="delete" onClick={ () => setNotification(true) }></button>

@@ -11,6 +11,10 @@ const Header = () => {
   let { path, setPath } = getItensStateGlobal;
   const hystoryPath = useHistory().location.pathname;
   if(!path) path = hystoryPath;
+  const user = accessLocalStorage.getUserLocalStorage();
+  if (!user) return null;
+  const { ipRequest } = user;
+  const protocolUriActive = ipRequest.replace(/http/i, 'https');
   const dataRender = (
     <div className="navbar header-custon card-header" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -29,7 +33,7 @@ const Header = () => {
             Home
           </Link>
         <div className="navbar-start">
-          <Link to={{ pathname: "#" }} target="_blank" className="navbar-item">
+          <Link to={{ pathname: protocolUriActive }} target="_blank" className="navbar-item">
             WebPhone
           </Link>
           <Link to="/relatorios" className="navbar-item" onClick={() => setPath('/relatorios')}>

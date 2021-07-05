@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
-import { fetchCallsDataBase, fetchRecCall } from '../../services';
+import { fetchCallsDataBase, accessLocalStorage } from '../../services';
 import Charts from '../../components/Reports/Charts';
 import ReportList from '../../components/Reports/ReportList';
 import ChartsSendCalls from '../../components/Reports/ChartsSendCalls';
@@ -11,6 +12,8 @@ function Reports() {
   const [loading, setLoading] = useState(true);
   const getItensStateGlobal = useContext(PbxContext);
   const { filterReportList, setCallsDb, setDataDbImutate, checkFilter, setFilterCheck, dayDb } = getItensStateGlobal;
+
+  const history = useHistory();
 
   const getCallsDataBase = useCallback( async () => {
     let callsApiResult = await fetchCallsDataBase(dayDb);
@@ -37,10 +40,16 @@ function Reports() {
     
     if(!checkFilter) setCallsDb(callsMutationResult);
   }, [checkFilter, dayDb, filterReportList, setCallsDb, setDataDbImutate, setFilterCheck]);
+
+  const validateUserLogged = async () => {
+    const dataUser = await accessLocalStorage.getUserLocalStorage();
+    if (!dataUser) return history.push('/');
+    await getCallsDataBase();
+  }
   
   useEffect(() => {
-    getCallsDataBase()
-  }, [getCallsDataBase])
+    validateUserLogged()
+  }, [])
 
   return (
     <div>
