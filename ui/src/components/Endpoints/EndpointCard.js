@@ -89,14 +89,18 @@ const EndpointCard = (props) => {
           <p>{resource}</p>
           <p>{state}</p>
           <p>{channel_ids.toUpperCase()}</p>
-          <p className="ip">{ ipDbReceived }</p>
+          {/* <p className="ip">{ ipDbReceived }</p> */}
         </div>
         <div className="card mb-4 mx-1">
           <div className={ iconsClass }>
-            <Link to="#" onClick={ () => handleClick(resource) } hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
+            <Link to="#" hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
+            <Link to="#" hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+            <Link to="#" hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
+            <Link to="#" hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+            {/* <Link to="#" onClick={ () => handleClick(resource) } hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
             <Link to="#" onClick={ () => handleClickStop() } hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
             <Link to="#" onClick={ () => handleTransfer(resource) } hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
-            <Link to="#" onClick={ () => handleTransferStop(resource) } hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+            <Link to="#" onClick={ () => handleTransferStop(resource) } hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link> */}
             <Link to="#"><FontAwesomeIcon icon={faEye} fixedWidth className="icon"/></Link>
           </div>
         </div>
