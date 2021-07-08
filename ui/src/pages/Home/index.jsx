@@ -41,7 +41,7 @@ function Home() {
   
   useEffect(() => {
     validateUserLogged();
-  }, [])
+  }, [ipEndpoints])
 
   return (
     <div >

@@ -3,13 +3,23 @@ const { ami } = require('../config');
 const { amiCallsModel } = require('../models');
 const { callsRealTimeController } = require('../controllers');
 const { authMiddleware } = require('../middlewares')
+const { call } = require('./Call');
 
 const callsRoutes = Router();
 
 const data = amiCallsModel.factory(ami);
 
+// const click2CallController = callsRealTimeController.clickController(data);
 const click2CallController = callsRealTimeController.clickController(data);
-callsRoutes.post('/click', authMiddleware, click2CallController);
+callsRoutes.post('/click', authMiddleware, (req, res) => {
+  const { name, dest, exten } = req.body;
+    try {
+      call(name, dest, exten);
+      res.status(200).send({message: 'Ligação realizada com sucesso!'});
+    } catch (error) {
+      res.status(500).send({ error, message: 'Não foi possivel realizar a ligação!'});
+    }
+});
 
 const cancelClick2CallController = callsRealTimeController.cancelClickController(data);
 callsRoutes.post('/cancel-click', authMiddleware, cancelClick2CallController);

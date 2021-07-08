@@ -28,14 +28,14 @@ const Charts = () => {
       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
 
       const endpointSize = element.src;
-      if (endpointSize.length === 4) {
+      if (endpointSize.length < 5 && element.statuscall === 'Atendida') {
         endpointsArray.push(element.src);
       }
     });
 
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.src;
-      if(isPhoneInternal.length === 4) {
+      if(isPhoneInternal.length < 5 && Number(isPhoneInternal)) {
         return element;
       }
       return null;
@@ -75,6 +75,7 @@ const Charts = () => {
   const { datasets } = chartItems;
   return (
     <div className="chart-calls-atended">
+    <h2>Chamadas Realizadas</h2>
       <Bar
         data={ {labels, datasets } }
         options={{

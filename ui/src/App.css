@@ -150,6 +150,7 @@ h1 {
 }
 
 .chart-calls-atended {
+  align-items: center;
   margin-left: 15px;
   margin-top: 15px;
   max-width: 49%;

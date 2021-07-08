@@ -7,3 +7,5 @@
 /ui/.env.production
 
 /api/recs
+
+node_modules

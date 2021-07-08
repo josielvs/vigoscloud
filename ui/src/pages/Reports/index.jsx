@@ -11,17 +11,12 @@ import Loading from '../../img/loading.gif';
 function Reports() {
   const [loading, setLoading] = useState(true);
   const getItensStateGlobal = useContext(PbxContext);
-  const { filterReportList, setCallsDb, setDataDbImutate, checkFilter, setFilterCheck, dayDb } = getItensStateGlobal;
+  const { filterReportList, setCallsDb, setDataDbImutate, checkFilter, setCheckFilter, dayDb } = getItensStateGlobal;
 
   const history = useHistory();
 
-  const getCallsDataBase = useCallback( async () => {
-    let callsApiResult = await fetchCallsDataBase(dayDb);
-
-    if (callsApiResult) setLoading(false);
-    
-    if (!callsApiResult) callsApiResult = [];
-    const callsMutationResult = callsApiResult.filter(call => call.callprotocol).map((call) => {
+  const checkTypeOfCall = (calls) => {
+    const analiseCall = calls.filter(call => call.callprotocol).map((call) => {
       if(Number(call.billsec) === 0) {
         call['statuscall'] = 'Não Atendida';
       } else {
@@ -29,17 +24,34 @@ function Reports() {
       }
       return call;
     });
+    return analiseCall;
+  };
 
-    const filterReports = callsMutationResult.filter((call) => {
+  const reporttFilters = (calls) => {
+    const filterCalls = calls.filter((call) => {
       const { column, dataOfColum } = filterReportList;
       return call[column] && call[column].includes(dataOfColum);
     });
+    return filterCalls;
+  };
 
-    if(filterReports.length !== 0) setFilterCheck(true);
+  const getCallsDataBase = useCallback( async () => {
+    let callsApiResult = await fetchCallsDataBase(dayDb);
+    // let callsTodayResult = await fetchCallsDataBase({ day: 0 });
+
+    if (callsApiResult) setLoading(false);
+    
+    if (!callsApiResult) callsApiResult = [];
+    const callsMutationResult = checkTypeOfCall(callsApiResult);
+
+    const filterReports = reporttFilters(callsMutationResult);
+
+    if(filterReports.length !== 0) setCheckFilter(true);
+    console.log(checkFilter);
     setDataDbImutate(callsApiResult);
     
     if(!checkFilter) setCallsDb(callsMutationResult);
-  }, [checkFilter, dayDb, filterReportList, setCallsDb, setDataDbImutate, setFilterCheck]);
+  }, [checkFilter, dayDb, filterReportList, setCallsDb, setDataDbImutate, setCheckFilter]);
 
   const validateUserLogged = async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();

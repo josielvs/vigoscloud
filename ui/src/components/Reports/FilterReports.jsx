@@ -32,7 +32,6 @@ const FilterDateReports = () => {
 
   const convertDateForFind = (data) => {
     const { name, value } = data;
-    console.log(name, value);
     if (name === 'start-date') {
       setStartDate(value);
     } else {

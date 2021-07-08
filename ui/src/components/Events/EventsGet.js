@@ -10,9 +10,7 @@ const EventsGet = () => {
 
   const [getItemsCallsAnswers, setGetItemsCallsAnswers] = useState([]);
 
-  const { 
-    REACT_APP_HOST_WS,
-    REACT_APP_API_PORT_AST,
+  const {
     REACT_APP_API_USER_AST,
     REACT_APP_API_PASS_AST
   } = process.env;
