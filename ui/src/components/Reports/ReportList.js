@@ -2,6 +2,9 @@ import React, { useContext } from 'react';
 import ReportTable from './ReportTable';
 import PbxContext from '../../context/PbxContext'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
+
 const ReportList = () => {
   const getItensStateGlobal = useContext(PbxContext);
   const { callsDb } = getItensStateGlobal;
@@ -33,11 +36,21 @@ const ReportList = () => {
       <hr />
       <section className="section calls-information">
         <div className="table-container">
-          <h1>Histórico de Chamadas</h1>
-          <div className="download-calls">
-            <button className="button is-info is-pulled-right" onClick={ csvGenerate } style={ { width: '260px' } } > Baixar CSV </button>
+          <div className="columns mt-1 mb-0">
+            <div className="column is-three-fifths is-offset-one-fifth">
+              <div className="control">
+                <h1 className="is-size-4 has-text-centered has-text-weight-bold">Histórico de Chamadas</h1>
+              </div>
+            </div>
           </div>
-          <hr />
+          <div className="download-calls">
+            <button className="button is-info is-pulled-right px-6" onClick={ csvGenerate }>
+              <span>
+                <FontAwesomeIcon icon={faFileCsv} fixedWidth />
+              </span>
+              <span> Download CSV</span>
+            </button>
+          </div>
           <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
               <thead>
                   <tr>

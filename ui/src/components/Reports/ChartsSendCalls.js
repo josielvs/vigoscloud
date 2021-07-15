@@ -74,29 +74,30 @@ const Charts = () => {
 
   const { datasets } = chartItems;
   return (
-    <div className="chart-calls-atended">
-    <h2>Chamadas Realizadas</h2>
-      <Bar
-        data={ {labels, datasets } }
-        options={{
-          title:{
-            display:true,
-            text:'Chamadas Realizadas',
-            fontSize:20,
-          },
-          legend:{
-            display:false,
-            position:'right'
-          },
-          scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-          }
-        }}
-      />
+    // <div className="chart-calls-atended">
+    <div className="column is-half">
+      <h2 className="has-text-left is-size-5">Chamadas Realizadas</h2>
+        <Bar
+          data={ {labels, datasets } }
+          options={{
+            title:{
+              display:true,
+              text:'Chamadas Realizadas',
+              fontSize:20,
+            },
+            legend:{
+              display:false,
+              position:'right'
+            },
+            scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+            }
+          }}
+        />
     </div>
   );
 }
