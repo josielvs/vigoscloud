@@ -13,3 +13,19 @@ exports.readByDateController = (callsDb) => {
     res.status(200).json(calls);
   }
 }
+
+exports.readByProtocolController = (callsDb) => {
+  return async (req, res, next) => {
+    const { protocol } = req.body;
+    const call = await callsDb.readByProtocol(protocol);
+    res.status(200).json(call);
+  }
+}
+
+exports.readByAreaCodeController = (callsDb) => {
+  return async (req, res, next) => {
+    const { code } = req.body;
+    const call = await callsDb.readByAreaCode(code);
+    res.status(200).json(call);
+  }
+}

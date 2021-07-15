@@ -89,7 +89,7 @@ const EndpointCard = (props) => {
           <p>{resource}</p>
           <p>{state}</p>
           <p>{channel_ids.toUpperCase()}</p>
-          {/* <p className="ip">{ ipDbReceived }</p> */}
+          <p className="ip">{ ipDbReceived }</p>
         </div>
         <div className="card mb-4 mx-1">
           <div className={ iconsClass }>

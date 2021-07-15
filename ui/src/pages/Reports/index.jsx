@@ -6,6 +6,7 @@ import Charts from '../../components/Reports/Charts';
 import ReportList from '../../components/Reports/ReportList';
 import ChartsSendCalls from '../../components/Reports/ChartsSendCalls';
 import FilterReports from '../../components/Reports/FilterReports';
+import FilterReportsCalls from '../../components/Reports/FilterReportsCalls';
 import Loading from '../../img/loading.gif';
 
 function Reports() {
@@ -77,7 +78,8 @@ function Reports() {
             <ChartsSendCalls />
           </div>
           <hr />
-          <FilterReports />
+          {/* <FilterReports /> */}
+          <FilterReportsCalls />
           <ReportList />
           </>
       }
