@@ -10,8 +10,6 @@ function Provider({ children }) {
   const [callsDb, setCallsDb] = useState([]);
   const [dataDbImutate, setDataDbImutate] = useState([]);
   const [filterReportList, setFilterReportList] = useState({
-    // startDateStateGlobal: '',
-    // endDateStateGlobal: '',
     columnGlobalState: '',
     dataOfColumGlobalState: '',
   });
@@ -27,9 +25,16 @@ function Provider({ children }) {
   });
   const [callsAnalist, setCallsAnalist] = useState([]);
   const [callsOfDay, setCallsOfDay] = useState([]);
-  const [dayDb, setDayDb] = useState({ day: 1 });
+  const [dayDb, setDayDb] = useState({ day: 0 });
   const [channelInState, setChannelInState] = useState({});
   const [clickToCallChannel, setClickToCallChannel] =useState('')
+
+
+  const toggleAlternate = (id) => {
+    const showMenu = document.querySelector(id);
+    showMenu.classList.toggle('is-active');
+    showMenu.classList.toggle('is-hidden');
+  };
 
   const contextValues = {
     user,
@@ -59,7 +64,8 @@ function Provider({ children }) {
     channelInState,
     setChannelInState,
     clickToCallChannel,
-    setClickToCallChannel
+    setClickToCallChannel,
+    toggleAlternate,
   };
   
   return (

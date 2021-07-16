@@ -43,14 +43,15 @@ const ReportList = () => {
               </div>
             </div>
           </div>
-          <div className="download-calls">
+          {/* <div className="is-flex-desktop">
             <button className="button is-info is-pulled-right px-6" onClick={ csvGenerate }>
               <span>
                 <FontAwesomeIcon icon={faFileCsv} fixedWidth />
               </span>
               <span> Download CSV</span>
             </button>
-          </div>
+          </div> */}
+          <div class="table-container is-flex-wrap-wrap">
           <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
               <thead>
                   <tr>
@@ -113,6 +114,7 @@ const ReportList = () => {
                 })
               }
           </table>
+          </div>
         </div>
       </section>
       <br />

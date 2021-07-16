@@ -24,50 +24,73 @@ const FilterReportsCalls = () => {
       </div>
       <form>
         <div className="columns mx-2">
-          <div className="field column is-2 mx-1">
+          <div className="field column mx-0">
             <label className="label">Data Inicial
               <div className="control">
               <input className="input" type="date" name="start-date"/>
             </div>
             </label>
           </div>
-          <div className="field column is-2 mx-1">
+          <div className="field column mx-0">
             <label className="label">Data Final
               <div className="control">
               <input className="input" type="date" name="end-date"/>
             </div>
             </label>
           </div>
-          <div className="field column mx-1">
-            <label className="label">Protocolo
+          <div className="column mx-0">
+            <label className="label">Tipo
               <div className="control">
-                <input className="input" type="text" placeholder="Digite do protocolo"/>
+                <input className="input" type="text" placeholder="Ex.: 60"/>
               </div>
             </label>
           </div>
-          <div className="field column mx-1">
-            <label className="label">Código de Área
-              <div className="control">
-                <input className="input" type="text" placeholder="Digite do DDD - Ex.: 11"/>
-              </div>
-            </label>
-          </div>
-          <div className="field column mx-1">
-            <label className="label">Telefone
-              <div className="control">
-                <input className="input" type="text" placeholder="Somente números"/>
-              </div>
-            </label>
-          </div>
-          <div className="column mx-1">
-            <label className="label is-flex-wrap-nowrap">Tempo em Linha (seg.)
+          <div className="column mx-0">
+            <label className="label">Status
               <div className="control">
                 <input className="input" type="number" placeholder="Ex.: 60"/>
               </div>
             </label>
           </div>
-          <div className="column mx-1">
-            <label className="label">Tempo Espera (seg.)
+          <div className="column mx-0">
+            <label className="label">Setor
+              <div className="control">
+                <input className="input" type="number" placeholder="Ex.: 60"/>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div className="columns mx-2">
+          <div className="field column mx-0">
+            <label className="label">Protocolo
+              <div className="control">
+                <input className="input" type="text" placeholder="Digite do prot."/>
+              </div>
+            </label>
+          </div>
+          <div className="field column mx-0">
+            <label className="label">Código de Área
+              <div className="control">
+                <input className="input" type="text" placeholder="Digite o DDD"/>
+              </div>
+            </label>
+          </div>
+          <div className="field column mx-0">
+            <label className="label">Telefone
+              <div className="control">
+                <input className="input" type="text" placeholder="Apenas números"/>
+              </div>
+            </label>
+          </div>
+          <div className="column mx-0">
+            <label className="label is-flex-wrap-nowrap">Duração (seg.)
+              <div className="control">
+                <input className="input" type="number" placeholder="Ex.: 60"/>
+              </div>
+            </label>
+          </div>
+          <div className="column mx-0">
+            <label className="label">Espera (seg.)
               <div className="control">
                 <input className="input" type="number" placeholder="Ex.: 60"/>
               </div>
@@ -100,11 +123,10 @@ const FilterReportsCalls = () => {
             </label>
           </div>
         </div>
-        <div className="columns mx-2">
-            {/* <div className="field column is-two-fifths mx-1"> */}
-            <div className="field column is-three-fifths is-offset-one-fifth">
-                <div className="control has-text-centered">
-                  <button class="button is-info px-6">
+        <div className="columns is-centered mx-2">
+            <div className="field column is-one-quarter">
+                <div className="control">
+                  <button class="button is-info is-fullwidth px-1">
                     <span class="icon">
                       <FontAwesomeIcon icon={faSearch} fixedWidth />
                     </span>

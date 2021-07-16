@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -15,16 +14,16 @@ const Header = () => {
   if (!user) return null;
   const { ipRequest } = user;
   const protocolUriActive = ipRequest.replace(/http/i, 'https');
-  const dataRender = (
+  const burguerViewer = () => {
+    const showMenu = document.querySelector('#navMenu');
+    showMenu.classList.toggle('is-active');
+    showMenu.classList.toggle('is-hidden');
+  };
+  return path !== '/' ? (
     <div className="navbar header-custon card-header" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <p className="navbar-item">
           <img src={logo} alt="logo" width="200" height="100" />
-        </p>
-        <p role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
         </p>
       </div>
       <div className="navbar-menu">
@@ -77,9 +76,14 @@ const Header = () => {
             </div>
           </div>
       </div>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" onClick={ () => burguerViewer() }>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-  );
-  return path !== '/' ? dataRender : null;
+    )
+    : null;
 }
 
 export default Header;

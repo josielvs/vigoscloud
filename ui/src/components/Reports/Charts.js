@@ -56,9 +56,9 @@ const Charts = () => {
       return object; 
     },{});
 
-    const axisYSet = Object.values(endpointList).reduce((acc, cur, array) => {
+    const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
       if (acc < cur) acc = cur + 1;
-      return acc;
+      return acc < 6 ? 6 : acc;
     }, 0);
 
     setLabels(Object.keys(endpointList));

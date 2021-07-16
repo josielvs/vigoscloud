@@ -87,7 +87,7 @@ const FilterDateReports = () => {
           <div className="select filter-buttom">
             <select  value={columnSelected} onChange={(e) => setColumnSelected(e.target.value)}>
               <option value="">Selecione</option>
-	  {/* <option value="duration">Tempo Total da Ligação</option> */}
+	            {/* <option value="duration">Tempo Total da Ligação</option> */}
               <option value="statuscall">Status da Ligação</option>
               <option value="typecall">Tipo</option>
             </select>

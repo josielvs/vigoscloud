@@ -19,19 +19,25 @@ const Charts = () => {
   });
 
   const chartBarGenerate = useCallback(() => {
-    const endpointsArray = [];
 
     let dateFormated;
     callsDb.filter(call => call.callprotocol).forEach(element => {
       const dateReceived = element.calldate.split('T');
       dateFormated = dateReceived[0].split('-');
       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
-
-      const endpointSize = element.src;
-      if (endpointSize.length < 5 && element.statuscall === 'Atendida') {
-        endpointsArray.push(element.src);
-      }
     });
+
+    const reduceEndipoints = callsDb.reduce((acc, cur) => {
+      const endpoint = cur.src;
+      if (endpoint.length < 5 && acc[cur.src] && cur.disposition === 'ANSWERED' && cur.typecall === 'Efetuada') {
+        acc[cur.src] += 1;
+      } else if (!acc[cur.src] && endpoint.length < 5) {
+        acc[cur.src] = 1;
+      }
+      return acc;
+    }, {});
+
+    console.log('ChartSend: ', reduceEndipoints);
 
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.src;
@@ -54,9 +60,9 @@ const Charts = () => {
       return object; 
     },{});
 
-    const axisYSet = Object.values(endpointList).reduce((acc, cur, array) => {
-      if (acc < cur) acc = cur + 4;
-      return acc;
+    const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+      if (acc < cur) acc = cur + 1;
+      return acc < 6 ? 6 : acc;
     }, 0);
 
     setLabels(Object.keys(endpointList));
@@ -67,11 +73,10 @@ const Charts = () => {
           backgroundColor: 'rgb(187, 255, 0)',
           borderColor: 'rgb(102, 255, 0)',
           borderWidth: 1,
-          data: [...Object.values(endpointList), axisYSet],
+          data: [...Object.values(reduceEndipoints), axisYSet],
         }
       ]
     });
-    console.log([...Object.values(endpointList), axisYSet]);
   }, [callsDb]);
   
   useEffect(() => {
