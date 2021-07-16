@@ -30,7 +30,7 @@ function Provider({ children }) {
   const [clickToCallChannel, setClickToCallChannel] =useState('')
 
 
-  const toggleAlternate = (id) => {
+  const toggleIsHidden = (id) => {
     const showMenu = document.querySelector(id);
     showMenu.classList.toggle('is-active');
     showMenu.classList.toggle('is-hidden');
@@ -65,7 +65,7 @@ function Provider({ children }) {
     setChannelInState,
     clickToCallChannel,
     setClickToCallChannel,
-    toggleAlternate,
+    toggleIsHidden,
   };
   
   return (

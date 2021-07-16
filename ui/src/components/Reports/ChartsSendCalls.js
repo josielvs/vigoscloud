@@ -37,8 +37,6 @@ const Charts = () => {
       return acc;
     }, {});
 
-    console.log('ChartSend: ', reduceEndipoints);
-
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.src;
       if(isPhoneInternal.length < 5 && Number(isPhoneInternal)) {
@@ -62,7 +60,7 @@ const Charts = () => {
 
     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
       if (acc < cur) acc = cur + 1;
-      return acc < 6 ? 6 : acc;
+      return acc <= 6 ? 7 : acc;
     }, 0);
 
     setLabels(Object.keys(endpointList));

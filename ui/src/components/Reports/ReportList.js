@@ -51,7 +51,7 @@ const ReportList = () => {
               <span> Download CSV</span>
             </button>
           </div> */}
-          <div class="table-container is-flex-wrap-wrap">
+          <div className="table-container is-flex-wrap-wrap">
           <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
               <thead>
                   <tr>

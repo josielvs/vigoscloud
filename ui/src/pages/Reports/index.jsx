@@ -49,7 +49,6 @@ function Reports() {
     const filterReports = reporttFilters(callsMutationResult);
 
     if(filterReports.length !== 0) setCheckFilter(true);
-    console.log(checkFilter);
     setDataDbImutate(callsApiResult);
     
     if(!checkFilter) setCallsDb(callsMutationResult);

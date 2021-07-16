@@ -7,18 +7,14 @@ import { accessLocalStorage } from '../../services';
 
 const Header = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  let { path, setPath } = getItensStateGlobal;
+  let { path, setPath, toggleIsHidden } = getItensStateGlobal;
   const hystoryPath = useHistory().location.pathname;
   if(!path) path = hystoryPath;
   const user = accessLocalStorage.getUserLocalStorage();
   if (!user) return null;
   const { ipRequest } = user;
   const protocolUriActive = ipRequest.replace(/http/i, 'https');
-  const burguerViewer = () => {
-    const showMenu = document.querySelector('#navMenu');
-    showMenu.classList.toggle('is-active');
-    showMenu.classList.toggle('is-hidden');
-  };
+  
   return path !== '/' ? (
     <div className="navbar header-custon card-header" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -76,7 +72,7 @@ const Header = () => {
             </div>
           </div>
       </div>
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" onClick={ () => burguerViewer() }>
+      <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" onClick={ () => toggleIsHidden('#navMenu') }>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>

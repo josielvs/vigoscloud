@@ -6,11 +6,11 @@ import { accessLocalStorage } from '../../services';
 
 const Burger = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  let { setPath, toggleAlternate } = getItensStateGlobal;
+  let { setPath, toggleIsHidden } = getItensStateGlobal;
 
   const handleClick = (path, toggleId) => {
     setPath(path);
-    toggleAlternate(toggleId);
+    toggleIsHidden(toggleId);
   }
 
   return (

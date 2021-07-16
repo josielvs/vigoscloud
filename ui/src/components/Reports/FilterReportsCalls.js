@@ -103,7 +103,7 @@ const FilterReportsCalls = () => {
               <input className="mr-1" type="checkbox"/>
                 Filtrar por Ramal
               <div className="control">
-                <div class="select is-multiple is-hidden">
+                <div className="select is-multiple is-hidden">
                   <select multiple size="8">
                     <option value="Argentina">Argentina</option>
                     <option value="Bolivia">Bolivia</option>
@@ -126,8 +126,8 @@ const FilterReportsCalls = () => {
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
                 <div className="control">
-                  <button class="button is-info is-fullwidth px-1">
-                    <span class="icon">
+                  <button className="button is-info is-fullwidth px-1">
+                    <span className="icon">
                       <FontAwesomeIcon icon={faSearch} fixedWidth />
                     </span>
                     <span>

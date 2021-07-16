@@ -40,7 +40,6 @@ const EventsGet = () => {
         ipEndpoint = ipEndpoint.split(':')[0];
         const nameEndpoint = obj.endpoint.resource;
         const stateEndpoint = obj.endpoint.state;
-        console.log('Events_Get: ', stateEndpoint);
         const sendDbEndpoint = {
           endpoint: obj.endpoint.resource,
           state: obj.endpoint.state,
