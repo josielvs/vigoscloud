@@ -59,8 +59,6 @@ export const cancelTrasferCall = async (data) => {
 
 
 export const enterToCall = async (id) => {
-  // const { token } = await accessLocalStorage.getUserLocalStorage();
-
   try {
     const response = await axios
       .post(`${REACT_APP_HOST}/ari/channels?api_key=vigospbx:vigosinterface&channelId/snoop`);
@@ -73,7 +71,6 @@ export const enterToCall = async (id) => {
 
 export const requestToken = async (userData, ip) => {
   try {
-    // const token = await axios.post(`${REACT_APP_HOST}/api/login`, userData);
     const token = await axios.post(`${ip}api/login`, userData);
     return token;
   } catch (error) {

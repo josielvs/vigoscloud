@@ -7268,3 +7268,3892 @@ src/services/api.js
   Line 87:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (50:12)
+
+  48 |       {
+  49 |         loading ?
+> 50 |         <di<img className="has-text-centered mt-6 pt-6" src={ Loading } alt="Vigos" />
+     |            ^
+  51 |         :
+  52 |         <div className="App">
+  53 |           <EndpointsList />
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (50:13)
+
+  48 |       {
+  49 |         loading ?
+> 50 |         <div<img className="has-text-centered mt-6 pt-6" src={ Loading } alt="Vigos" />
+     |             ^
+  51 |         :
+  52 |         <div className="App">
+  53 |           <EndpointsList />
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (50:13)
+
+  48 |       {
+  49 |         loading ?
+> 50 |         <div<img className="has-text-centered mt-6 pt-6" src={ Loading } alt="Vigos" />
+     |             ^
+  51 |         :
+  52 |         <div className="App">
+  53 |           <EndpointsList />
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token, expected ":" (59:3)
+
+  57 |       }
+  58 |     </div>
+> 59 |   );
+     |   ^
+  60 | }
+  61 |
+  62 | export default Home;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token, expected ":" (60:3)
+
+  58 |       }
+  59 |     </div>
+> 60 |   );
+     |   ^
+  61 | }
+  62 |
+  63 | export default Home;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token, expected ":" (61:3)
+
+  59 |       }
+  60 |     </div>
+> 61 |   );
+     |   ^
+  62 | }
+  63 |
+  64 | export default Home;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (53:9)
+
+  51 |           <img className="has-text-centered mt-6 pt-6" src={ Loading } alt="Vigos" />
+  52 |         <
+> 53 |         :
+     |         ^
+  54 |         <div className="App">
+  55 |           <EndpointsList />
+  56 |           <EventsGet />
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (52:11)
+
+  50 |         <div className="columns">
+  51 |           <d
+> 52 |           <img className="mt-6 pt-6" src={ Loading } alt="Vigos" />
+     |           ^
+  53 |         </div>
+  54 |         :
+  55 |         <div className="App">
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (52:11)
+
+  50 |         <div className="columns">
+  51 |           <di
+> 52 |           <img className="mt-6 pt-6" src={ Loading } alt="Vigos" />
+     |           ^
+  53 |         </div>
+  54 |         :
+  55 |         <div className="App">
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (52:11)
+
+  50 |         <div className="columns">
+  51 |           <div
+> 52 |           <img className="mt-6 pt-6" src={ Loading } alt="Vigos" />
+     |           ^
+  53 |         </div>
+  54 |         :
+  55 |         <div className="App">
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token, expected ":" (62:3)
+
+  60 |       }
+  61 |     </div>
+> 62 |   );
+     |   ^
+  63 | }
+  64 |
+  65 | export default Home;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token, expected ":" (63:3)
+
+  61 |       }
+  62 |     </div>
+> 63 |   );
+     |   ^
+  64 | }
+  65 |
+  66 | export default Home;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+  Line 51:46:  'Loading' is not defined  no-undef
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token, expected "," (7:17)
+
+   5 | import { fetchCallsDataBase, fetchEndpoints, accessLocalStorage } from '../../services';
+   6 | import EndpointsList from '../../components/Endpoints/EndpointsList';
+>  7 | import {Loading from '../../img/loading.gif';}
+     |                 ^
+   8 |
+   9 | function Home() {
+  10 |   const [loading, setLoading] = useState(true);
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (9:1)
+
+   7 | import {}
+   8 |
+>  9 | function Home() {
+     | ^
+  10 |   const [loading, setLoading] = useState(true);
+  11 |   const getItensStateGlobal = useContext(PbxContext);
+  12 |   const { setEndpoints, ipEndpoints, setCallsOfDay } = getItensStateGlobal;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (9:1)
+
+   7 | import {} 
+   8 |
+>  9 | function Home() {
+     | ^
+  10 |   const [loading, setLoading] = useState(true);
+  11 |   const getItensStateGlobal = useContext(PbxContext);
+  12 |   const { setEndpoints, ipEndpoints, setCallsOfDay } = getItensStateGlobal;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (9:1)
+
+   7 | import {} from 
+   8 |
+>  9 | function Home() {
+     | ^
+  10 |   const [loading, setLoading] = useState(true);
+  11 |   const getItensStateGlobal = useContext(PbxContext);
+  12 |   const { setEndpoints, ipEndpoints, setCallsOfDay } = getItensStateGlobal;
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unterminated string constant. (7:16)
+
+   5 | import { fetchCallsDataBase, fetchEndpoints, accessLocalStorage } from '../../services';
+   6 | import EndpointsList from '../../components/Endpoints/EndpointsList';
+>  7 | import {} from '
+     |                ^
+   8 |
+   9 | function Home() {
+  10 |   const [loading, setLoading] = useState(true);
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Empty dependency (no request)
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+  Line 52:46:  'Loading' is not defined  no-undef
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (55:9)
+
+  53 |         //   </div>
+  54 |         // </div>
+> 55 |         :
+     |         ^
+  56 |         <div className="App">
+  57 |           <EndpointsList />
+  58 |           <EventsGet />
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (56:9)
+
+  54 |         // </div>
+  55 |         
+> 56 |         :
+     |         ^
+  57 |         <div className="App">
+  58 |           <EndpointsList />
+  59 |           <EventsGet />
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (57:9)
+
+  55 |         <Lo
+  56 |         :
+> 57 |         <div className="App">
+     |         ^
+  58 |           <EndpointsList />
+  59 |           <EventsGet />
+  60 |           {/* <CallsResponseds /> */}
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token (57:9)
+
+  55 |         <Loading
+  56 |         :
+> 57 |         <div className="App">
+     |         ^
+  58 |           <EndpointsList />
+  59 |           <EventsGet />
+  60 |           {/* <CallsResponseds /> */}
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components/Loading' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+src/components/Loading/Loading.js
+Syntax error: Identifier 'Loading' has already been declared. (4:7)
+
+  2 | import Loading from '../../img/loading.gif';
+  3 |
+> 4 | const Loading = () => {
+    |       ^
+  5 |   return (
+  6 |     <div className="field column is-three-fifths is-offset-one-fifth">
+  7 |     <div className="control has-text-centered">
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Loading/Loading.js
+Syntax error: Identifier 'Loading' has already been declared. (6:7)
+
+  4 | import '../../libs/bulma.min.css';
+  5 |
+> 6 | const Loading = () => {
+    |       ^
+  7 |   return (
+  8 |     <div className="field column is-three-fifths is-offset-one-fifth">
+  9 |     <div className="control has-text-centered">
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Loading/Loading.js
+Syntax error: Identifier 'Loading' has already been declared. (6:7)
+
+  4 | import '../../libs/bulma.min.css';
+  5 |
+> 6 | const Loading = () => {
+    |       ^
+  7 |   return (
+  8 |     <div className="field column is-three-fifths is-offset-one-fifth">
+  9 |       <div className="control has-text-centered">
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'Loading' is not exported from '../../components/Loading/Loading'.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'Loading' is not exported from '../../components/Loading/Loading'.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'Loading' is not exported from '../../components/Loading/Loading'.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+  Line 55:10:  'Loading' is not defined  react/jsx-no-undef
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'LoadingModule' is not exported from '../../components/Loading/Loading'.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+  Line 55:10:  'LoadingModule' is not defined  react/jsx-no-undef
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'LoadingModule' is not exported from '../../components/Loading/Loading'.
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'LoadingModule' is not exported from '../../components/Loading/Loading'.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'LoadingModule' is not exported from '../../components/Loading/LoadingModule'.
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Module not found: Can't resolve '../../components' in '/opt/vigoscloud/ui/src/pages/Home'
+Compiling...
+Failed to compile.
+
+./src/pages/Home/index.jsx
+Attempted import error: 'LoadingModule' is not exported from '../../components/Loading/LoadingModule'.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+Syntax error: Unexpected token, expected "," (7:24)
+
+   5 | import { fetchCallsDataBase, fetchEndpoints, accessLocalStorage } from '../../services';
+   6 | import EndpointsList from '../../components/Endpoints/EndpointsList';
+>  7 | import { LoadingModule from '../../components/Loading/LoadingModule'
+     |                        ^
+   8 |
+   9 | function Home() {
+  10 |   const [loading, setLoading] = useState(true);
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Home/index.jsx
+  Line 50:10:  'LoadingModule' is not defined  react/jsx-no-undef
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/pages/Reports/index.jsx
+Syntax error: Unexpected token (74:11)
+
+  72 |         loading ?
+  73 |           <
+> 74 |           :
+     |           ^
+  75 |           <>
+  76 |             <div className="columns mx-2 mt-2 mb-0">
+  77 |               <div className="column is-three-fifths is-offset-one-fifth">
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 87:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 85:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (73:6)
+
+  71 |         x: {
+  72 |           type: 'time',
+> 73 |     })
+     |      ^
+  74 |   }, [callsDb]);
+  75 |   
+  76 |   useEffect(() => {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (74:6)
+
+  72 |           type: 'time',
+  73 |           
+> 74 |     })
+     |      ^
+  75 |   }, [callsDb]);
+  76 |   
+  77 |   useEffect(() => {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (74:6)
+
+  72 |           type: 'time',
+  73 |         }
+> 74 |     })
+     |      ^
+  75 |   }, [callsDb]);
+  76 |   
+  77 |   useEffect(() => {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (75:6)
+
+  73 |         }
+  74 |       
+> 75 |     })
+     |      ^
+  76 |   }, [callsDb]);
+  77 |   
+  78 |   useEffect(() => {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (73:11)
+
+  71 |         y: {
+  72 |           nam
+> 73 |           type: 'number',
+     |           ^
+  74 |         }
+  75 |       }
+  76 |     })
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (73:11)
+
+  71 |         y: {
+  72 |           name
+> 73 |           type: 'number',
+     |           ^
+  74 |         }
+  75 |       }
+  76 |     })
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (73:15)
+
+  71 |         y: {
+  72 |           name:
+> 73 |           type: 'number',
+     |               ^
+  74 |         }
+  75 |       }
+  76 |     })
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (73:11)
+
+  71 |         y: {
+  72 |           name: ''
+> 73 |           type: 'number',
+     |           ^
+  74 |         }
+  75 |       }
+  76 |     })
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (71:7)
+
+  69 |       ],
+  70 |       options
+> 71 |       scales: {
+     |       ^
+  72 |         y: {
+  73 |           name: 'tickLength',
+  74 |           type: 'number',
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (71:13)
+
+  69 |       ],
+  70 |       options: 
+> 71 |       scales: {
+     |             ^
+  72 |         y: {
+  73 |           name: 'tickLength',
+  74 |           type: 'number',
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (73:7)
+
+  71 |         
+  72 |       }
+> 73 |       scales: {
+     |       ^
+  74 |         y: {
+  75 |           name: 'tickLength',
+  76 |           type: 'number',
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (66:24)
+
+  64 |           backgroundColor: 'rgba(30,144,255)',
+  65 |           borderColor: 'rgba(30,144,255)',
+> 66 |           borderWidth: ,
+     |                        ^
+  67 |           data: Object.values(endpointList),
+  68 |         }
+  69 |       ],
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 82:8:  'Bar' is not defined  react/jsx-no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 82:8:  'Bar' is not defined  react/jsx-no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+./src/components/Reports/Charts.js
+Attempted import error: 'BarElement' is not exported from 'react-chartjs-2'.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:21)
+
+   95 |                 y: {
+   96 |                     beginAtZero: true
+>  97 |                     alignToPixels
+      |                     ^
+   98 |                 }
+   99 |             }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:21)
+
+   95 |                 y: {
+   96 |                     beginAtZero: true
+>  97 |                     alignToPixels:
+      |                     ^
+   98 |                 }
+   99 |             }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:21)
+
+   95 |                 y: {
+   96 |                     beginAtZero: true
+>  97 |                     alignToPixels: 
+      |                     ^
+   98 |                 }
+   99 |             }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:21)
+
+   95 |                 y: {
+   96 |                     beginAtZero: true
+>  97 |                     alignToPixels: true
+      |                     ^
+   98 |                 }
+   99 |             }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:21)
+
+   95 |                 y: {
+   96 |                     beginAtZero: true
+>  97 |                     alignToPixels: true,
+      |                     ^
+   98 |                 }
+   99 |             }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:23)
+
+   95 |                   y: {
+   96 |                       beginAtZero: true
+>  97 |                       gri
+      |                       ^
+   98 |                   }
+   99 |               }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:23)
+
+   95 |                   y: {
+   96 |                       beginAtZero: true
+>  97 |                       grid
+      |                       ^
+   98 |                   }
+   99 |               }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:23)
+
+   95 |                   y: {
+   96 |                       beginAtZero: true
+>  97 |                       grid: 
+      |                       ^
+   98 |                   }
+   99 |               }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (97:23)
+
+   95 |                   y: {
+   96 |                       beginAtZero: true
+>  97 |                       grid: {}
+      |                       ^
+   98 |                   }
+   99 |               }
+  100 |           }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 98:25:  'borderWidth' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (98:37)
+
+   96 |                       beginAtZero: true,
+   97 |                       grid: {
+>  98 |                         tickLength: ,
+      |                                     ^
+   99 |                       }
+  100 |                   }
+  101 |               }
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 71:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Missing semicolon. (71:18)
+
+  69 |       ],
+  70 |     })
+> 71 |     console.log()''
+     |                  ^
+  72 |   }, [callsDb]);
+  73 |   
+  74 |   useEffect(() => {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 67:31:  'NumberendpointList' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (68:9)
+
+  66 |           borderWidth: 0,
+  67 |           data: Object.values(Number(endpointList),
+> 68 |         }
+     |         ^
+  69 |       ],
+  70 |     })
+  71 |     console.log('Charts: ', endpointList);
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Missing semicolon. (71:57)
+
+  69 |       ],
+  70 |     })
+> 71 |     console.log('Charts: ', Object.values(endpointList)));
+     |                                                         ^
+  72 |   }, [callsDb]);
+  73 |   
+  74 |   useEffect(() => {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (67:33)
+
+  65 |           borderColor: 'rgba(30,144,255)',
+  66 |           borderWidth: 0,
+> 67 |           data: [5, 2, 3, 5], 10,
+     |                                 ^
+  68 |         }
+  69 |       ],
+  70 |     })
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (61:14)
+
+  59 |     const 
+  60 |
+> 61 |     setLabels(Object.keys(endpointList));
+     |              ^
+  62 |     setChartItens({
+  63 |       datasets: [
+  64 |         {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:15)
+
+  57 |     },{});
+  58 |
+> 59 |     const axis
+     |               ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:16)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisY
+     |                ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:17)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYS
+     |                 ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:19)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet
+     |                   ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:19)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet 
+     |                   ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 59:22:  'en' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (59:43)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet = endpointList.reduce(())
+     |                                           ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (59:43)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet = endpointList.reduce(() =)
+     |                                           ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (59:48)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet = endpointList.reduce(() => )
+     |                                                ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (59:56)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet = endpointList.reduce((acc, cur) => );
+     |                                                        ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 59:56:  'c' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (59:61)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet = endpointList.reduce((acc, cur) => cur >);
+     |                                                             ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (59:56)
+
+  57 |     },{});
+  58 |
+> 59 |     const axisYSet = endpointList.reduce((acc, cur) => );
+     |                                                        ^
+  60 |
+  61 |     setLabels(Object.keys(endpointList));
+  62 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "(" (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "(" (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if 
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (60:11)
+
+  58 |
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+> 60 |       if ()
+     |           ^
+  61 |     });
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if (acc )
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (60:16)
+
+  58 |
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+> 60 |       if (acc <)
+     |                ^
+  61 |     });
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (60:17)
+
+  58 |
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+> 60 |       if (acc < )
+     |                 ^
+  61 |     });
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if (acc < cu)
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if (acc < cur)
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if (acc < cur) 
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 60:22:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if (acc < cur) acc =
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = 
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (61:5)
+
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur +
+> 61 |     });
+     |     ^
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+  64 |     setChartItens({
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 60:22:  'reacc' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Missing semicolon. (60:27)
+
+  58 |
+  59 |     const axisYSet = endpointList.reduce((acc, cur) => {
+> 60 |       if (acc < cur) retur acc = cur + 1;
+     |                           ^
+  61 |     });
+  62 |
+  63 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 60:22:  'returacc' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 61:7:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+  Line 61:7:  'ret' is not defined                                                   no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 60:22:  'returnacc' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 61:7:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+  Line 61:7:  'ret' is not defined                                                   no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (64:17)
+
+  62 |     }, 0);
+  63 |
+> 64 |     setLabels([]...Object.keys(endpointList), axisYSet);
+     |                 ^
+  65 |     setChartItens({
+  66 |       datasets: [
+  67 |         {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (64:54)
+
+  62 |     }, 0);
+  63 |
+> 64 |     setLabels([...Object.keys(endpointList), axisYSet);
+     |                                                      ^
+  65 |     setChartItens({
+  66 |       datasets: [
+  67 |         {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (64:44)
+
+  62 |     }, 0);
+  63 |
+> 64 |     setLabels([...Object.keys(endpointList));
+     |                                            ^
+  65 |     setChartItens({
+  66 |       datasets: [
+  67 |         {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 72:45:  'ax' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (68:9)
+
+  66 |           borderWidth: 0,
+  67 |           data: Object.values(Number(endpointList),
+> 68 |         }
+     |         ^
+  69 |       ],
+  70 |     })
+  71 |     console.log('Charts: ', endpointList);
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:18)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return {acc;
+     |                  ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:18)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [acc;
+     |                  ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:21)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [...acc;
+     |                     ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:45)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [...Object.values(endpointList)acc;
+     |                                             ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:50)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [...Object.values(endpointList), acc;
+     |                                                  ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:50)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [...Object.values(endpointList), acc;
+     |                                                  ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:18)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [acc;
+     |                  ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:43)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [...Object.keys(endpointList)acc;
+     |                                           ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:47)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [...Object.keys(endpointList),acc;
+     |                                               ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (61:48)
+
+  59 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  60 |       if (acc < cur) acc = cur + 1;
+> 61 |       return [...Object.keys(endpointList), acc;
+     |                                                ^
+  62 |     }, 0);
+  63 |
+  64 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:14)
+
+  57 |     },{});
+  58 |
+> 59 |     const ele
+     |              ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:17)
+
+  57 |     },{});
+  58 |
+> 59 |     const elemen
+     |                 ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:17)
+
+  57 |     },{});
+  58 |
+> 59 |     const values
+     |                 ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:19)
+
+  57 |     },{});
+  58 |
+> 59 |     const valuesOn
+     |                   ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:20)
+
+  57 |     },{});
+  58 |
+> 59 |     const valuesOnE
+     |                    ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:28)
+
+  57 |     },{});
+  58 |
+> 59 |     const valuesOnEndpoints
+     |                            ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:29)
+
+  57 |     },{});
+  58 |
+> 59 |     const valuesCOnEndpoints
+     |                             ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:33)
+
+  57 |     },{});
+  58 |
+> 59 |     const valuesCallsOnEndpoints
+     |                                 ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: 'Const declarations' require an initialization value. (59:33)
+
+  57 |     },{});
+  58 |
+> 59 |     const valuesCallsOnEndpoints 
+     |                                 ^
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (60:5)
+
+  58 |
+  59 |     const valuesCallsOnEndpoints =
+> 60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+     |     ^
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+  63 |     }, 0);
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token (60:5)
+
+  58 |
+  59 |     const valuesCallsOnEndpoints = 
+> 60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
+     |     ^
+  61 |       if (acc < cur) acc = cur + 1;
+  62 |       return [, acc];
+  63 |     }, 0);
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 62:7:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+  Line 62:7:  'cons' is not defined                                                  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+  Line 16:29:  'endpointList' is not defined  no-undef
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (77:57)
+
+  75 |       ],
+  76 |     })
+> 77 |     console.log('Charts: ', [Object.values(endpointList));
+     |                                                         ^
+  78 |   }, [callsDb]);
+  79 |   
+  80 |   useEffect(() => {
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/Charts.js
+Syntax error: Unexpected token, expected "," (62:18)
+
+  60 |     const axisYSet = Object.values(endpointList).reduce((acc, cur, array) => {
+  61 |       if (acc < cur) acc = cur + 1;
+> 62 |       return [acc;
+     |                  ^
+  63 |     }, 0);
+  64 |
+  65 |     setLabels(Object.keys(endpointList));
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/ChartsSendCalls.js
+  Line 74:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/ChartsSendCalls.js
+Syntax error: Unexpected token (58:34)
+
+  56 |
+  57 |     const axisYSet = Object.values(endpointList).reduce((acc, cur, array) => {
+> 58 |       if (acc < cur) acc = cur + ;
+     |                                  ^
+  59 |       return acc;
+  60 |     }, 0);
+  61 |
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 84:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.

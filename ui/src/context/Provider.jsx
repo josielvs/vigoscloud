@@ -27,7 +27,7 @@ function Provider({ children }) {
   });
   const [callsAnalist, setCallsAnalist] = useState([]);
   const [callsOfDay, setCallsOfDay] = useState([]);
-  const [dayDb, setDayDb] = useState({ day: 0 });
+  const [dayDb, setDayDb] = useState({ day: 1 });
   const [channelInState, setChannelInState] = useState({});
   const [clickToCallChannel, setClickToCallChannel] =useState('')
 

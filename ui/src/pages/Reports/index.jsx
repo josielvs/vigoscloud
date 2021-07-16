@@ -5,9 +5,8 @@ import { fetchCallsDataBase, accessLocalStorage } from '../../services';
 import Charts from '../../components/Reports/Charts';
 import ReportList from '../../components/Reports/ReportList';
 import ChartsSendCalls from '../../components/Reports/ChartsSendCalls';
-// import FilterReports from '../../components/Reports/FilterReports';
 import FilterReportsCalls from '../../components/Reports/FilterReportsCalls';
-import Loading from '../../img/loading.gif';
+import Loading from '../../components/Loading/LoadingModule';
 
 import '../../libs/bulma.min.css';
 
@@ -70,7 +69,7 @@ function Reports() {
     <div>
       {
         loading ?
-          <img className="loading mt-6 pt-6" src={ Loading } alt="Vigos" />
+          <Loading />
           :
           <>
             <div className="columns mx-2 mt-2 mb-0">

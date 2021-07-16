@@ -54,6 +54,11 @@ const Charts = () => {
       return object; 
     },{});
 
+    const axisYSet = Object.values(endpointList).reduce((acc, cur, array) => {
+      if (acc < cur) acc = cur + 4;
+      return acc;
+    }, 0);
+
     setLabels(Object.keys(endpointList));
     setChartItens({
       datasets: [
@@ -62,10 +67,11 @@ const Charts = () => {
           backgroundColor: 'rgb(187, 255, 0)',
           borderColor: 'rgb(102, 255, 0)',
           borderWidth: 1,
-          data: Object.values(endpointList),
+          data: [...Object.values(endpointList), axisYSet],
         }
       ]
     });
+    console.log([...Object.values(endpointList), axisYSet]);
   }, [callsDb]);
   
   useEffect(() => {

@@ -10,7 +10,7 @@ const EndpointsList = () => {
     if(!newEndpoints) newEndpoints = [];
     const elementsPage = 
       <div className="home">
-        <h1>Status Ramais</h1>
+        <h1 className="is-size-4 has-text-centered has-text-weight-bold">Status Ramais</h1>
         <div className="endpoints-information">
           <div className="endpoints-display">
             {

@@ -140,7 +140,7 @@ const EventsGet = () => {
 
   return (
       <section className="card section calls-information my-6 py-2">
-        <h2 className="is-size-5">Chamadas em Tempo Real</h2>
+        <h2 className="is-size-4 has-text-centered has-text-weight-bold">Chamadas em Tempo Real</h2>
         <div className="table-container">
             <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
                 <thead>
