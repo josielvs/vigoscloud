@@ -111,6 +111,18 @@ export const fetchCallsDataBase = async (day) => {
   }
 }
 
+export const fetchCallsByDateDB = async (day) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/db`, day, { headers: { Authorization: token } });
+    return response.data.rows;
+  } catch (error) {
+    return error;
+  }
+}
+
 export const fetchCallsAnalistas = async (id) => {
   try {
     const request = await fetch(`${REACT_APP_HOST}/api/analistas/${id}`);

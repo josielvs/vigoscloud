@@ -20,7 +20,7 @@ function Home() {
       setEndpoints(endpointsReceived);
       return ipEndpoints;
     }
-  }, [setEndpoints, ipEndpoints]);
+  }, [ipEndpoints]);
 
   const getApiCallOnDay = useCallback(async () => {
     let callOfDayReceived = await fetchCallsDataBase({ day: 0 });

@@ -39,7 +39,6 @@ const EndpointCard = (props) => {
     ipDbReceived = '';
     iconsClass = 'is-hidden';
     myClass = 'is-hidden';
-    // myClass = 'has-background-primary-light';
   }
 
   const handleClick = async (dest, name) => {

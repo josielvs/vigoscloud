@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { fetchCallsByDateDB } from '../../services';
 
 import PbxContext from '../../context/PbxContext'
 import '../../libs/bulma.min.css';
@@ -12,6 +13,12 @@ const FilterReportsCalls = () => {
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+
+  const readCallsOnDate = async () => {
+    if (endDate) {
+      const callsDate = await fetchCallsByDateDB();
+    }
+  };
 
   return (
     <div>
@@ -41,21 +48,36 @@ const FilterReportsCalls = () => {
           <div className="column mx-0">
             <label className="label">Tipo
               <div className="control">
-                <input className="input" type="text" placeholder="Ex.: 60"/>
+                <div className="select">
+                  <select>
+                    <option>Selecione</option>
+                    <option>With options</option>
+                  </select>
+                </div>
               </div>
             </label>
           </div>
           <div className="column mx-0">
             <label className="label">Status
               <div className="control">
-                <input className="input" type="number" placeholder="Ex.: 60"/>
+                <div className="select">
+                  <select>
+                    <option>Selecione</option>
+                    <option>With options</option>
+                  </select>
+                </div>
               </div>
             </label>
           </div>
           <div className="column mx-0">
             <label className="label">Setor
               <div className="control">
-                <input className="input" type="number" placeholder="Ex.: 60"/>
+                <div className="select">
+                  <select>
+                    <option>Selecione</option>
+                    <option>With options</option>
+                  </select>
+                </div>
               </div>
             </label>
           </div>
