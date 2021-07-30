@@ -6,7 +6,6 @@ const {
   REACT_APP_HOST,
   REACT_APP_API_USER_AST,
   REACT_APP_API_PASS_AST,
-  REACT_APP_API_HOST
 } = process.env
 
 export const clickToCall = async (data) => {
@@ -111,12 +110,12 @@ export const fetchCallsDataBase = async (day) => {
   }
 }
 
-export const fetchCallsByDateDB = async (day) => {
+export const fetchCallsByDateDB = async (days) => {
   const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
   
   try {
     const response = await axios
-      .post(`${ipRequest}api/db`, day, { headers: { Authorization: token } });
+      .post(`${ipRequest}api/db/by-date`, days, { headers: { Authorization: token } });
     return response.data.rows;
   } catch (error) {
     return error;

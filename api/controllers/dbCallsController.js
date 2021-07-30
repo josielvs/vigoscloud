@@ -7,10 +7,16 @@ exports.readAllController = (callsDb) => {
 }
 
 exports.readByDateController = (callsDb) => {
-  return async (req, res, next) => {
-    const { dateStart, dateStop } = req.body;
-    const calls = await callsDb.readByDate(dateStart, dateStop);
-    res.status(200).json(calls);
+  const { dateStart, dateStop } = req.body;
+
+  try {
+    async (req, res, next) => {
+      const calls = await callsDb.readByDate(dateStart, dateStop);
+      res.status(200).json(calls);
+    }
+  } catch (error) {
+    next(error);
+  }
   }
 }
 

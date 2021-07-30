@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { fetchCallsByDateDB } from '../../services';
+import { fetchCallsByDateDB } from '../../services/api';
 
 import PbxContext from '../../context/PbxContext'
 import '../../libs/bulma.min.css';
@@ -9,15 +9,21 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { setCallsDb } = getItensStateGlobal;
+  const { setCallsDb, dateConverter } = getItensStateGlobal;
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [filtredByDate, setFiltredByDate] = useState([]);
+
+  // const addOthersFilters = (calls) => {
+  //   const filterCall = calls.
+  // };
 
   const readCallsOnDate = async () => {
-    if (endDate) {
-      const callsDate = await fetchCallsByDateDB();
-    }
+    const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+    console.log(callsOnSelectedDate);
+    // addOthersFilters(callsOnSelectedDate);
+    // setFiltredByDate(callsOnSelectedDate);
   };
 
   return (
@@ -34,48 +40,62 @@ const FilterReportsCalls = () => {
           <div className="field column mx-0">
             <label className="label">Data Inicial
               <div className="control">
-              <input className="input" type="date" name="start-date"/>
+              <input className="input" type="date" onChange={(e) => setStartDate(e.target.value)} />
             </div>
             </label>
           </div>
           <div className="field column mx-0">
             <label className="label">Data Final
               <div className="control">
-              <input className="input" type="date" name="end-date"/>
+              <input className="input" type="date" onChange={(e) => setEndDate(e.target.value)}
+              />
             </div>
             </label>
           </div>
-          <div className="column mx-0">
+          <div className="column mx-0 mt-1 is-one-quarter">
+            <div className="field column mt-2">
+                <div className="control">
+                  <button className="button is-info is-fullwidth" type="button" onClick={ () => readCallsOnDate() }>
+                    <span className="icon">
+                      <FontAwesomeIcon icon={faSearch} fixedWidth />
+                    </span>
+                    <span>
+                      FILTRAR DATA
+                    </span>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div className="columns mx-2">
+          <div className="column is-4 mx-0">
             <label className="label">Tipo
               <div className="control">
-                <div className="select">
-                  <select>
-                    <option>Selecione</option>
-                    <option>With options</option>
+                <div className="select column is-full pl-0">
+                  <select className="column is-full">
+                    <option className="column">Selecione</option>
                   </select>
                 </div>
               </div>
             </label>
           </div>
-          <div className="column mx-0">
+          <div className="column is-4 mx-0">
             <label className="label">Status
               <div className="control">
-                <div className="select">
-                  <select>
+                <div className="select column is-full pl-0">
+                  <select className="select column is-full">
                     <option>Selecione</option>
-                    <option>With options</option>
                   </select>
                 </div>
               </div>
             </label>
           </div>
-          <div className="column mx-0">
+          <div className="column is-4 mx-0">
             <label className="label">Setor
               <div className="control">
-                <div className="select">
-                  <select>
+                <div className="select column is-full pl-0">
+                  <select className="select column is-full">
                     <option>Selecione</option>
-                    <option>With options</option>
                   </select>
                 </div>
               </div>
@@ -148,7 +168,7 @@ const FilterReportsCalls = () => {
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
                 <div className="control">
-                  <button className="button is-info is-fullwidth px-1">
+                  <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => readCallsOnDate() }>
                     <span className="icon">
                       <FontAwesomeIcon icon={faSearch} fixedWidth />
                     </span>

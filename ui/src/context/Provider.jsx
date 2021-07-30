@@ -27,8 +27,7 @@ function Provider({ children }) {
   const [callsOfDay, setCallsOfDay] = useState([]);
   const [dayDb, setDayDb] = useState({ day: 0 });
   const [channelInState, setChannelInState] = useState({});
-  const [clickToCallChannel, setClickToCallChannel] =useState('')
-
+  const [clickToCallChannel, setClickToCallChannel] =useState('');
 
   const toggleIsHidden = (id) => {
     const showMenu = document.querySelector(id);
