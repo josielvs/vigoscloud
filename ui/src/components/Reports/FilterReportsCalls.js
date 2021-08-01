@@ -9,21 +9,24 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { setCallsDb, dateConverter } = getItensStateGlobal;
+  const { callsDb, setCallsDb, dateConverter } = getItensStateGlobal;
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [filtredByDate, setFiltredByDate] = useState([]);
-
-  // const addOthersFilters = (calls) => {
-  //   const filterCall = calls.
-  // };
+  const [typeCallsLocal, setTypeCallsLocal] = useState('');
+  const [sectorLocal, setSectorLocal] = useState('');
+  const [statusCallLocal, setStatusCallLocal] = useState('');
+  const [protocolLocal, setProtocolLocal] = useState('');
+  const [areaCodeLocal, setAreaCodeLocal] = useState('');
+  const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
+  const [durationLocal, setDurationLocal] = useState('');
+  const [waitLocal, setWaitLocal] = useState('');
+  const [extensionsLocal, setExtensionsLocal] = useState([]);
 
   const readCallsOnDate = async () => {
     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
-    console.log(callsOnSelectedDate);
-    // addOthersFilters(callsOnSelectedDate);
-    // setFiltredByDate(callsOnSelectedDate);
+    // console.log('Filter', callsOnSelectedDate);
+    setCallsDb(callsOnSelectedDate);
   };
 
   return (
@@ -60,7 +63,7 @@ const FilterReportsCalls = () => {
                       <FontAwesomeIcon icon={faSearch} fixedWidth />
                     </span>
                     <span>
-                      FILTRAR DATA
+                      FILTRAR POR DATA
                     </span>
                   </button>
                 </div>
@@ -72,8 +75,10 @@ const FilterReportsCalls = () => {
             <label className="label">Tipo
               <div className="control">
                 <div className="select column is-full pl-0">
-                  <select className="column is-full">
-                    <option className="column">Selecione</option>
+                  <select className="column is-full" value={ typeCallsLocal } onChange={ (e) => setTypeCallsLocal(e.target.value) }>
+                    <option className="column" value="">Selecione</option>
+                    <option value="Efetuada">Efetuada</option>
+                    <option value="Recebida">Recebida</option>
                   </select>
                 </div>
               </div>
@@ -83,8 +88,10 @@ const FilterReportsCalls = () => {
             <label className="label">Status
               <div className="control">
                 <div className="select column is-full pl-0">
-                  <select className="select column is-full">
-                    <option>Selecione</option>
+                  <select className="select column is-full" value={ statusCallLocal } onChange={(e) => setStatusCallLocal(e.target.value)}>
+                    <option value="">Selecione</option>
+                    <option value="ANSWERED">Atendida</option>
+                    <option value="NO ANSWER">Não Atendida</option>
                   </select>
                 </div>
               </div>
@@ -94,8 +101,14 @@ const FilterReportsCalls = () => {
             <label className="label">Setor
               <div className="control">
                 <div className="select column is-full pl-0">
-                  <select className="select column is-full">
-                    <option>Selecione</option>
+                  <select className="select column is-full" value={ sectorLocal } onChange={(e) => setSectorLocal(e.target.value)}>
+                    <option value="">Selecione</option>
+                    { 
+                      callsDb
+                        .filter((call) => call.lastapp === 'Queue')
+                        .reduce((unique, item) => unique.includes(item.lastdata) ? unique : [...unique, item.lastdata], [])
+                        .map((sector, index) => <option key={index}>{ sector.charAt(0).toUpperCase() + sector.slice(1).split(',')[0] }</option>)
+                    }
                   </select>
                 </div>
               </div>
@@ -106,35 +119,35 @@ const FilterReportsCalls = () => {
           <div className="field column mx-0">
             <label className="label">Protocolo
               <div className="control">
-                <input className="input" type="text" placeholder="Digite do prot."/>
+                <input className="input" type="text" placeholder="Digite do prot." onChange={ (e) => setProtocolLocal(e.target.value) } />
               </div>
             </label>
           </div>
           <div className="field column mx-0">
             <label className="label">Código de Área
               <div className="control">
-                <input className="input" type="text" placeholder="Digite o DDD"/>
+                <input className="input" type="text" placeholder="Digite o DDD" onChange={ (e) => setAreaCodeLocal(e.target.value) } />
               </div>
             </label>
           </div>
           <div className="field column mx-0">
             <label className="label">Telefone
               <div className="control">
-                <input className="input" type="text" placeholder="Apenas números"/>
+                <input className="input" type="text" placeholder="Apenas números" onChange={ (e) => setPhoneNumberLocal(e.target.value) } />
               </div>
             </label>
           </div>
           <div className="column mx-0">
             <label className="label is-flex-wrap-nowrap">Duração (seg.)
               <div className="control">
-                <input className="input" type="number" placeholder="Ex.: 60"/>
+                <input className="input" type="number" placeholder="Ex.: 60" onChange={ (e) => setDurationLocal(e.target.value) } />
               </div>
             </label>
           </div>
           <div className="column mx-0">
             <label className="label">Espera (seg.)
               <div className="control">
-                <input className="input" type="number" placeholder="Ex.: 60"/>
+                <input className="input" type="number" placeholder="Ex.: 60" onChange={ (e) => setWaitLocal(e.target.value) } />
               </div>
             </label>
           </div>
@@ -145,20 +158,19 @@ const FilterReportsCalls = () => {
               <input className="mr-1" type="checkbox"/>
                 Filtrar por Ramal
               <div className="control">
-                <div className="select is-multiple is-hidden">
-                  <select multiple size="8">
-                    <option value="Argentina">Argentina</option>
-                    <option value="Bolivia">Bolivia</option>
-                    <option value="Brazil">Brazil</option>
-                    <option value="Chile">Chile</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Ecuador">Ecuador</option>
-                    <option value="Guyana">Guyana</option>
-                    <option value="Paraguay">Paraguay</option>
-                    <option value="Peru">Peru</option>
-                    <option value="Suriname">Suriname</option>
-                    <option value="Uruguay">Uruguay</option>
-                    <option value="Venezuela">Venezuela</option>
+                {/* <div className="select is-multiple is-hidden"> */}
+                <div className="select is-multiple">
+                  <select multiple size="8" value={extensionsLocal} onChange={(e) => setExtensionsLocal(e.target.value)}>
+                    <option value="">Selecione</option>
+                    { 
+                      callsDb
+                        .reduce((unique, item) => {
+                          if (item.dst === '5359906') console.log(item)
+                          return unique;
+                        }, [])
+                        // .reduce((unique, item) => unique.includes(item.dst) ? unique : [...unique, item.dst], [])
+                        .map((sector, index) => console.log(sector.dst))// <option key={index}>{ sector }</option>)// sector.charAt(0).toUpperCase() + sector.slice(1).split(',')[0] }</option>)
+                    }
                   </select>
                 </div>
               </div>
