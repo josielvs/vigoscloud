@@ -9,3 +9,5 @@
 /api/recs
 
 node_modules
+
+/ui/log_ux.txt

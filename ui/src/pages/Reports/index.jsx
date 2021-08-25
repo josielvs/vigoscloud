@@ -13,46 +13,22 @@ import '../../libs/bulma.min.css';
 function Reports() {
   const [loading, setLoading] = useState(true);
   const getItensStateGlobal = useContext(PbxContext);
-  const { filterReportList, setCallsDb, setDataDbImutate, checkFilter, setCheckFilter, dayDb } = getItensStateGlobal;
+  const { setCallsDb, dayDb, addStatusCalls, formatClidCalls } = getItensStateGlobal;
 
   const history = useHistory();
 
-  const checkTypeOfCall = (calls) => {
-    const analiseCall = calls.filter(call => call.callprotocol).map((call) => {
-      if(Number(call.billsec) === 0) {
-        call['statuscall'] = 'Não Atendida';
-      } else {
-        call['statuscall'] = 'Atendida';
-      }
-      return call;
-    });
-    return analiseCall;
-  };
-
-  const reporttFilters = (calls) => {
-    const filterCalls = calls.filter((call) => {
-      const { column, dataOfColum } = filterReportList;
-      return call[column] && call[column].includes(dataOfColum);
-    });
-    return filterCalls;
-  };
-
   const getCallsDataBase = useCallback( async () => {
     let callsApiResult = await fetchCallsDataBase(dayDb);
-    // let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-
-    if (callsApiResult) setLoading(false);
     
     if (!callsApiResult) callsApiResult = [];
-    const callsMutationResult = checkTypeOfCall(callsApiResult);
 
-    const filterReports = reporttFilters(callsMutationResult);
-
-    if(filterReports.length !== 0) setCheckFilter(true);
-    setDataDbImutate(callsApiResult);
+    const addPropStatusCall = addStatusCalls(callsApiResult);
+    const formatClidCallsUnit = formatClidCalls(addPropStatusCall);
     
-    if(!checkFilter) setCallsDb(callsMutationResult);
-  }, [checkFilter, dayDb, filterReportList, setCallsDb, setDataDbImutate, setCheckFilter]);
+    if (callsApiResult || !Error) setLoading(false);
+    
+    return setCallsDb(formatClidCallsUnit);
+  }, [dayDb, setCallsDb]);
 
   const validateUserLogged = async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();

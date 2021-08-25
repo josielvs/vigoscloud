@@ -9,11 +9,6 @@ function Provider({ children }) {
   const [ipEndpoints, setIpEndpoints] = useState({});
   const [callsDb, setCallsDb] = useState([]);
   const [dataDbImutate, setDataDbImutate] = useState([]);
-  const [filterReportList, setFilterReportList] = useState({
-    columnGlobalState: '',
-    dataOfColumGlobalState: '',
-  });
-  const [checkFilter, setCheckFilter] = useState(false)
   const [path, setPath] = useState('');
   const [realTimeCall, setRealTimeCall] = useState({
     numberConnected: '',
@@ -35,6 +30,14 @@ function Provider({ children }) {
     showMenu.classList.toggle('is-hidden');
   };
 
+  const addStatusCalls = (calls) => {
+    return calls.map((call) => Number(call.billsec) !== 0 ? Object.assign(call, { statuscall : 'Atendida' }) : Object.assign(call, { statuscall : 'Não Atendida' }));
+  };
+
+  const formatClidCalls = (calls) => {
+    return calls.map((call) => Object.assign(call, { clid : call.clid.split('<')[1].replace(/>/g, '') }));
+  };
+
   const contextValues = {
     user,
     setUser,
@@ -46,12 +49,6 @@ function Provider({ children }) {
     setIpEndpoints,
     callsDb,
     setCallsDb,
-    filterReportList,
-    setFilterReportList,
-    dataDbImutate,
-    setDataDbImutate,
-    checkFilter,
-    setCheckFilter,
     realTimeCall,
     setRealTimeCall,
     callsAnalist,
@@ -65,6 +62,8 @@ function Provider({ children }) {
     clickToCallChannel,
     setClickToCallChannel,
     toggleIsHidden,
+    addStatusCalls,
+    formatClidCalls
   };
   
   return (

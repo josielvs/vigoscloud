@@ -9,10 +9,11 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { callsDb, setCallsDb, dateConverter } = getItensStateGlobal;
+  const { callsDb, setCallsDb, formatClidCalls, addStatusCalls } = getItensStateGlobal;
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [extensionsList, setExtensionsList] = useState([]);
   const [typeCallsLocal, setTypeCallsLocal] = useState('');
   const [sectorLocal, setSectorLocal] = useState('');
   const [statusCallLocal, setStatusCallLocal] = useState('');
@@ -21,13 +22,46 @@ const FilterReportsCalls = () => {
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [durationLocal, setDurationLocal] = useState('');
   const [waitLocal, setWaitLocal] = useState('');
-  const [extensionsLocal, setExtensionsLocal] = useState([]);
+  const [extensionsLocal, setExtensionsLocal] = useState({});
+
+  const filterEndpointsExten = (data) => {
+    const extensSended = data
+      .filter((call) => call.clid.length > 2 && call.clid.length < 5)
+      .map((call) => call.clid);
+
+    const extenReceived = data
+      .filter((call) => call.lastapp === 'Queue' && call.dstchannel.includes('PJSIP'))
+      .map((call) => call.dstchannel.split('/')[1].split('-')[0]);
+    
+    const union = extenReceived.concat(extensSended);
+
+    const result = union.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+
+    console.log('Filter_Line_40',callsDb);
+
+    return setExtensionsList(result.sort());
+  };
+
+  const addFiltersOnCalls = () => {
+    const result = callsDb.filter((call) => typeCallsLocal === '' ? call : call.typecall === typeCallsLocal)
+      .filter((call) => statusCallLocal === '' ? call : call.disposition === statusCallLocal)
+      .filter((call) => sectorLocal === '' ? call : call.lastdata === sectorLocal)
+
+    return setCallsDb(result);
+  };
 
   const readCallsOnDate = async () => {
     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
-    // console.log('Filter', callsOnSelectedDate);
-    setCallsDb(callsOnSelectedDate);
+    let dataFormated = formatClidCalls(callsOnSelectedDate);
+    dataFormated = addStatusCalls(dataFormated);
+    filterEndpointsExten(dataFormated);
+    return setCallsDb(dataFormated);
   };
+
+  const handleChange = (e) => {
+    let value = Array.from(e.target.selectedOptions, option => option.value);
+    setExtensionsLocal({ values: value });
+  }
 
   return (
     <div>
@@ -107,7 +141,7 @@ const FilterReportsCalls = () => {
                       callsDb
                         .filter((call) => call.lastapp === 'Queue')
                         .reduce((unique, item) => unique.includes(item.lastdata) ? unique : [...unique, item.lastdata], [])
-                        .map((sector, index) => <option key={index}>{ sector.charAt(0).toUpperCase() + sector.slice(1).split(',')[0] }</option>)
+                        .map((sector, index) => <option key={index} value={sector}>{ sector.charAt(0).toUpperCase() + sector.slice(1).split(',')[0] }</option>)
                     }
                   </select>
                 </div>
@@ -160,16 +194,11 @@ const FilterReportsCalls = () => {
               <div className="control">
                 {/* <div className="select is-multiple is-hidden"> */}
                 <div className="select is-multiple">
-                  <select multiple size="8" value={extensionsLocal} onChange={(e) => setExtensionsLocal(e.target.value)}>
+                  <select multiple size="8" name="endpoints" onChange={ (e) => handleChange(e) }>
                     <option value="">Selecione</option>
                     { 
-                      callsDb
-                        .reduce((unique, item) => {
-                          if (item.dst === '5359906') console.log(item)
-                          return unique;
-                        }, [])
-                        // .reduce((unique, item) => unique.includes(item.dst) ? unique : [...unique, item.dst], [])
-                        .map((sector, index) => console.log(sector.dst))// <option key={index}>{ sector }</option>)// sector.charAt(0).toUpperCase() + sector.slice(1).split(',')[0] }</option>)
+                      extensionsList
+                        .map((extension, index) => <option value={extension} key={index}>{ extension }</option>)
                     }
                   </select>
                 </div>
@@ -180,7 +209,7 @@ const FilterReportsCalls = () => {
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
                 <div className="control">
-                  <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => readCallsOnDate() }>
+                  <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => addFiltersOnCalls() }>
                     <span className="icon">
                       <FontAwesomeIcon icon={faSearch} fixedWidth />
                     </span>

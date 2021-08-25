@@ -19,8 +19,6 @@ const Charts = () => {
   });
 
   const chartBarGenerate = useCallback(() => {
-    const endpointsArray = [];
-
     let dateFormated;
     callsDb.filter(call => call.callprotocol).forEach(element => {
       const dateReceived = element.calldate.split('T');
