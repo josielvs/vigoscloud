@@ -63,7 +63,7 @@ function Provider({ children }) {
     setClickToCallChannel,
     toggleIsHidden,
     addStatusCalls,
-    formatClidCalls
+    formatClidCalls,
   };
   
   return (

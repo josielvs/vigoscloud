@@ -42,12 +42,9 @@ const FilterReportsCalls = () => {
     return setExtensionsList(result.sort());
   };
 
-  const addFiltersOnCalls = () => {
-    const result = callsDb.filter((call) => typeCallsLocal === '' ? call : call.typecall === typeCallsLocal)
-      .filter((call) => statusCallLocal === '' ? call : call.disposition === statusCallLocal)
-      .filter((call) => sectorLocal === '' ? call : call.lastdata === sectorLocal)
-
-    return setCallsDb(result);
+  const filterByEndpoints = () => {
+    const changeClassInput = document.getElementById('select-endpoints');
+    changeClassInput.classList.toggle('is-hidden');
   };
 
   const readCallsOnDate = async () => {
@@ -55,7 +52,28 @@ const FilterReportsCalls = () => {
     let dataFormated = formatClidCalls(callsOnSelectedDate);
     dataFormated = addStatusCalls(dataFormated);
     filterEndpointsExten(dataFormated);
-    return setCallsDb(dataFormated);
+    return dataFormated;
+  };
+
+  const addFiltersOnCalls = async () => {
+    const checkState = '';
+    const calls = startDate !== checkState && endDate !== checkState ? await readCallsOnDate() : callsDb;
+    const result = await Promise.all(calls.filter((call) => typeCallsLocal === checkState ? call : call.typecall === typeCallsLocal)
+      .filter((call) => statusCallLocal === checkState ? call : call.disposition === statusCallLocal)
+      .filter((call) => sectorLocal === checkState ? call : call.lastdata === sectorLocal)
+      .filter((call) => protocolLocal === checkState ? call : call.callprotocol.includes(protocolLocal))
+    );
+
+    const phoneFilter =  await Promise.all(result.map((call) => {
+      const destCalls = result.filter((c) => c.dst.includes(phoneNumberLocal));
+      const srcCalls = result.filter((c) => c.src.includes(phoneNumberLocal));
+
+      const allLocalizedCalls = destCalls.concat(srcCalls);
+
+      return phoneNumberLocal === checkState ? call : allLocalizedCalls;
+    }));
+
+    return phoneNumberLocal === checkState ? setCallsDb(result) : setCallsDb(...phoneFilter);
   };
 
   const handleChange = (e) => {
@@ -89,7 +107,7 @@ const FilterReportsCalls = () => {
             </div>
             </label>
           </div>
-          <div className="column mx-0 mt-1 is-one-quarter">
+          {/* <div className="column mx-0 mt-1 is-one-quarter">
             <div className="field column mt-2">
                 <div className="control">
                   <button className="button is-info is-fullwidth" type="button" onClick={ () => readCallsOnDate() }>
@@ -102,7 +120,7 @@ const FilterReportsCalls = () => {
                   </button>
                 </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="columns mx-2">
           <div className="column is-4 mx-0">
@@ -172,14 +190,14 @@ const FilterReportsCalls = () => {
             </label>
           </div>
           <div className="column mx-0">
-            <label className="label is-flex-wrap-nowrap">Duração (seg.)
+            <label className="label is-flex-wrap-nowrap">Duração (em segundos)
               <div className="control">
                 <input className="input" type="number" placeholder="Ex.: 60" onChange={ (e) => setDurationLocal(e.target.value) } />
               </div>
             </label>
           </div>
           <div className="column mx-0">
-            <label className="label">Espera (seg.)
+            <label className="label">Espera (em segundos)
               <div className="control">
                 <input className="input" type="number" placeholder="Ex.: 60" onChange={ (e) => setWaitLocal(e.target.value) } />
               </div>
@@ -189,13 +207,13 @@ const FilterReportsCalls = () => {
         <div className="columns mx-2">
           <div className="column is-one-fifth mx-1">
             <label className="label">
-              <input className="mr-1" type="checkbox"/>
+              <input className="mr-1" type="checkbox"  onChange={ (e) => filterByEndpoints() }/>
                 Filtrar por Ramal
               <div className="control">
-                {/* <div className="select is-multiple is-hidden"> */}
-                <div className="select is-multiple">
+                <div id="select-endpoints" className="select is-multiple is-hidden">
+                {/* <div className="select is-multiple"> */}
                   <select multiple size="8" name="endpoints" onChange={ (e) => handleChange(e) }>
-                    <option value="">Selecione</option>
+                    <option value="">Selecione o(os) Ramal(is)</option>
                     { 
                       extensionsList
                         .map((extension, index) => <option value={extension} key={index}>{ extension }</option>)
