@@ -62,6 +62,7 @@ const FilterReportsCalls = () => {
       .filter((call) => statusCallLocal === checkState ? call : call.disposition === statusCallLocal)
       .filter((call) => sectorLocal === checkState ? call : call.lastdata === sectorLocal)
       .filter((call) => protocolLocal === checkState ? call : call.callprotocol.includes(protocolLocal))
+      .filter((call) => durationLocal === checkState ? call : Number(call.billsec) <= durationLocal && Number(call.billsec) !== 0)
     );
 
     const phoneFilter =  await Promise.all(result.map((call) => {
@@ -196,13 +197,13 @@ const FilterReportsCalls = () => {
               </div>
             </label>
           </div>
-          <div className="column mx-0">
+          {/* <div className="column mx-0">
             <label className="label">Espera (em segundos)
               <div className="control">
                 <input className="input" type="number" placeholder="Ex.: 60" onChange={ (e) => setWaitLocal(e.target.value) } />
               </div>
             </label>
-          </div>
+          </div> */}
         </div>
         <div className="columns mx-2">
           <div className="column is-one-fifth mx-1">
@@ -211,8 +212,7 @@ const FilterReportsCalls = () => {
                 Filtrar por Ramal
               <div className="control">
                 <div id="select-endpoints" className="select is-multiple is-hidden">
-                {/* <div className="select is-multiple"> */}
-                  <select multiple size="8" name="endpoints" onChange={ (e) => handleChange(e) }>
+                  <select multiple size="8" name="endpoints" onChange={ (e) => handleChange(e) } disabled>
                     <option value="">Selecione o(os) Ramal(is)</option>
                     { 
                       extensionsList
