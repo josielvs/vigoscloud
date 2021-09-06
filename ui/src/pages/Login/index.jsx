@@ -7,7 +7,7 @@ import logo from '../../img/logo.png';
 
 function Login() {
   const getItensStateGlobal = useContext(PbxContext);
-  const { setUser } = getItensStateGlobal;
+  const { setUser, setPath } = getItensStateGlobal;
   const [notification, setNotification] = useState(true);
   const [emailLocal, setEmailLocal] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +23,7 @@ function Login() {
     if (response.status !== errorCode) return setNotification(false);
     if (response) accessLocalStorage.setUserLocalStorage({ ...response.data, ipRequest });
     setUser(response.data.user);
+    setPath('/home')
     history.push('home');
   };
 

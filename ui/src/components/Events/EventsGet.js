@@ -40,7 +40,6 @@ const EventsGet = () => {
         ipEndpoint = ipEndpoint.split(':')[0];
         const nameEndpoint = obj.endpoint.resource;
         const stateEndpoint = obj.endpoint.state;
-        console.log('Events_Get: ', stateEndpoint);
         const sendDbEndpoint = {
           endpoint: obj.endpoint.resource,
           state: obj.endpoint.state,
@@ -140,7 +139,7 @@ const EventsGet = () => {
 
   return (
       <section className="card section calls-information my-6 py-2">
-        <h2 className="is-size-5">Chamadas em Tempo Real</h2>
+        <h2 className="is-size-4 has-text-centered has-text-weight-bold">Chamadas em Tempo Real</h2>
         <div className="table-container">
             <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
                 <thead>

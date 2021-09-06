@@ -19,19 +19,22 @@ const Charts = () => {
   });
 
   const chartBarGenerate = useCallback(() => {
-    const endpointsArray = [];
-
     let dateFormated;
     callsDb.filter(call => call.callprotocol).forEach(element => {
       const dateReceived = element.calldate.split('T');
       dateFormated = dateReceived[0].split('-');
       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
-
-      const endpointSize = element.dst;
-      if (endpointSize.length < 5) {
-        endpointsArray.push(element.dst);
-      }
     });
+
+    const reduceEndipoints = callsDb.reduce((acc, cur) => {
+      const endpoint = cur.dst;
+      if (endpoint.length < 5 && acc[cur.dst] && cur.disposition === 'ANSWERED' && cur.typecall === 'Efetuada') {
+        acc[cur.dst] += 1;
+      } else if (!acc[cur.dst] && endpoint.length < 5) {
+        acc[cur.dst] = 1;
+      }
+      return acc;
+    }, {});
 
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.dst;
@@ -56,6 +59,11 @@ const Charts = () => {
       return object; 
     },{});
 
+    const axisYSet = Object.values(reduceEndipoints).reduce((acc, cur) => {
+      if (acc < cur) acc = cur + 1;
+      return acc <= 6 ? 7 : acc;
+    }, 0);
+
     setLabels(Object.keys(endpointList));
     setChartItens({
       datasets: [
@@ -63,10 +71,10 @@ const Charts = () => {
           label: dateFormated,
           backgroundColor: 'rgba(30,144,255)',
           borderColor: 'rgba(30,144,255)',
-          borderWidth: 1,
-          data: Object.values(endpointList),
+          borderWidth: 0,
+          data: [...Object.values(endpointList), axisYSet],
         }
-      ]
+      ],
     })
   }, [callsDb]);
   
@@ -76,26 +84,26 @@ const Charts = () => {
   
   const { datasets } = chartItems;
   return (
-    <div className="chart-calls-atended">
-      <h2>Chamadas Recebidas</h2>
+    <div className="column is-half">
+      <h2 className="has-text-left is-size-5">Chamadas Recebidas</h2>
       <Bar
-        data={ {labels, datasets } }
+        data={ { labels, datasets } }
         options={{
-          title:{
-            display:true,
-            text:'Quantidade de Atendimentos',
+          title: {
+            display: true,
+            text: 'Quantidade de Atendimentos',
             fontSize:20,
           },
           legend:{
-            display:false,
-            position:'right'
+            display: true,
+            position: 'right'
           },
-          scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
           }
         }}
       />

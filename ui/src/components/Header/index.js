@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -8,23 +7,19 @@ import { accessLocalStorage } from '../../services';
 
 const Header = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  let { path, setPath } = getItensStateGlobal;
+  let { path, setPath, toggleIsHidden } = getItensStateGlobal;
   const hystoryPath = useHistory().location.pathname;
   if(!path) path = hystoryPath;
   const user = accessLocalStorage.getUserLocalStorage();
   if (!user) return null;
   const { ipRequest } = user;
   const protocolUriActive = ipRequest.replace(/http/i, 'https');
-  const dataRender = (
+  
+  return path !== '/' ? (
     <div className="navbar header-custon card-header" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <p className="navbar-item">
           <img src={logo} alt="logo" width="200" height="100" />
-        </p>
-        <p role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
         </p>
       </div>
       <div className="navbar-menu">
@@ -77,9 +72,14 @@ const Header = () => {
             </div>
           </div>
       </div>
+      <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" onClick={ () => toggleIsHidden('#navMenu') }>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-  );
-  return path !== '/' ? dataRender : null;
+    )
+    : null;
 }
 
 export default Header;

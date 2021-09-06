@@ -16,7 +16,8 @@ const EndpointCard = (props) => {
 
   const { endpoint } = props;
   const { resource, state } = endpoint;
-  let { channel_ids } = props.endpoint;
+  let { channel_ids, myClass } = props.endpoint;
+  let fontColorChanged = '';
   const ipDB = localStorage.getItem(endpoint.resource);
   const endpointReceived = JSON.parse(ipDB);
   let iconsClass = '';
@@ -27,13 +28,17 @@ const EndpointCard = (props) => {
   if(channel_ids.length < 1 && state === 'online') {
     channel_ids = 'livre';
     iconsClass = 'icons-endpoints';
+    myClass = 'has-background-success';
   } else if (channel_ids.length > 0 && state === 'online') {
-      channel_ids = 'ocupado';
-      iconsClass = 'icons-endpoints'
+      channel_ids = 'ocup.';
+      iconsClass = 'icons-endpoints';
+      myClass = 'has-background-danger-dark';
+      fontColorChanged = 'has-text-white';
   } else {
     channel_ids = '---';
     ipDbReceived = '';
-    iconsClass = 'is-hidden'
+    iconsClass = 'is-hidden';
+    myClass = 'is-hidden';
   }
 
   const handleClick = async (dest, name) => {
@@ -82,30 +87,52 @@ const EndpointCard = (props) => {
   };
 
   return (
-    <>
-      <div>
-        <div className={channel_ids ? `endpoint-item ${channel_ids}` :  "endpoint-item"}>
-          <strong>Ramal</strong>
-          <p>{resource}</p>
-          <p>{state}</p>
-          <p>{channel_ids.toUpperCase()}</p>
-          {/* <p className="ip">{ ipDbReceived }</p> */}
+      <div
+        className={ `column is-narrow has-text-centered ${myClass} ${fontColorChanged} px-5 py-3 mx-1 my-1` }
+        id={resource}
+      >
+        <p className="is-size-6 has-text-weight-bold">Ramal</p>
+        <p className="is-size-6">{resource}</p>
+        <p className="is-size-6">{state}</p>
+        <p className="is-size-6 has-text-weight-semibold">{channel_ids.toUpperCase()}</p>
+      {/* <div className="card mb-4 mx-1">
+        <div className={ iconsClass }>
+          <Link to="#" hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
+          <Link to="#" hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+          <Link to="#" hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
+          <Link to="#" hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+          <Link to="#" onClick={ () => handleClick(resource) } hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
+          <Link to="#" onClick={ () => handleClickStop() } hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+          <Link to="#" onClick={ () => handleTransfer(resource) } hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
+          <Link to="#" onClick={ () => handleTransferStop(resource) } hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+          <Link to="#"><FontAwesomeIcon icon={faEye} fixedWidth className="icon"/></Link>
         </div>
-        <div className="card mb-4 mx-1">
-          <div className={ iconsClass }>
-            <Link to="#" hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
-            <Link to="#" hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
-            <Link to="#" hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
-            <Link to="#" hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
-            {/* <Link to="#" onClick={ () => handleClick(resource) } hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
-            <Link to="#" onClick={ () => handleClickStop() } hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
-            <Link to="#" onClick={ () => handleTransfer(resource) } hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
-            <Link to="#" onClick={ () => handleTransferStop(resource) } hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link> */}
-            <Link to="#"><FontAwesomeIcon icon={faEye} fixedWidth className="icon"/></Link>
-          </div>
-        </div>
-      </div>
-    </>
+      </div> */}
+    {/* // <>
+    //   <div>
+    //     <div className={channel_ids ? `endpoint-item ${channel_ids}` :  "endpoint-item"}>
+    //       <strong>Ramal</strong>
+    //       <p>{resource}</p>
+    //       <p>{state}</p>
+    //       <p>{channel_ids.toUpperCase()}</p>
+    //       <p className="ip">{ ipDbReceived }</p>
+    //     </div>
+    //     <div className="card mb-4 mx-1">
+    //       <div className={ iconsClass }>
+    //         <Link to="#" hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
+    //         <Link to="#" hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+    //         <Link to="#" hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
+    //         <Link to="#" hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+    //         {/* <Link to="#" onClick={ () => handleClick(resource) } hidden={buttonClick2Call}><FontAwesomeIcon icon={faPhoneAlt} fixedWidth className="icon"/></Link>
+    //         <Link to="#" onClick={ () => handleClickStop() } hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+    //         <Link to="#" onClick={ () => handleTransfer(resource) } hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon"/></Link>
+    //         <Link to="#" onClick={ () => handleTransferStop(resource) } hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon"/></Link>
+    //         <Link to="#"><FontAwesomeIcon icon={faEye} fixedWidth className="icon"/></Link>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </> */}
+    </div>
   );
 }
 

@@ -38,7 +38,7 @@ function CallsResponseds() {
 
   return (
     <section className="section calls-information">
-      <h2>Chamadas do dia</h2>
+      <h2 className="is-size-4 has-text-centered has-text-weight-bold">Chamadas do dia</h2>
       <div className="table-container">
         <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>

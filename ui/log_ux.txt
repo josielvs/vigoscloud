@@ -2,7 +2,7 @@
 > react-pbx@1.4.0 start /opt/vigoscloud/ui
 > env-cmd -f ./.env react-scripts start
 
-[34mℹ[39m [90m｢wds｣[39m: Project is running at http://192.168.0.150/
+[34mℹ[39m [90m｢wds｣[39m: Project is running at http://192.168.15.143/
 [34mℹ[39m [90m｢wds｣[39m: webpack output is served from 
 [34mℹ[39m [90m｢wds｣[39m: Content not from webpack is served from /opt/vigoscloud/ui/public
 [34mℹ[39m [90m｢wds｣[39m: 404s will fallback to /
@@ -11,3305 +11,1870 @@ Starting the development server...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected keyword 'const'. (47:3)
+
+  45 |   const 
+  46 |
+> 47 |   const readCallsOnDate = async () => {
+     |   ^
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+  49 |     let dataFormated = formatClidCalls(callsOnSelectedDate);
+  50 |     dataFormated = addStatusCalls(dataFormated);
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (45:19)
+
+  43 |   };
+  44 |
+> 45 |   const addFilters
+     |                   ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (45:21)
+
+  43 |   };
+  44 |
+> 45 |   const addFiltersOn
+     |                     ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-  Line 21:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  Line 21:5:  'conse' is not defined                                                 no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: 'Const declarations' require an initialization value. (22:12)
-
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-  21 |     const 
-> 22 |     console.log(ip);
-     |            ^
-  23 |     const dbLocal = localStorage;
-  24 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
-  25 |     pbxEvents.onerror = await function error(error){ console.log(error); };
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: 'Const declarations' require an initialization value. (21:16)
-
-  19 |     const { ipRequest } = await accessLocalStorage.getUserLocalStorage();
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-> 21 |     const teste 
-     |                ^
-  22 |     console.log(ip);
-  23 |     const dbLocal = localStorage;
-  24 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-  Line 21:19:  'i' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-  Line 22:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  Line 22:5:  'con' is not defined                                                   no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: 'Const declarations' require an initialization value. (23:12)
-
-  21 |     const teste = ip.split('/');
-  22 |     const 
-> 23 |     console.log(teste);
-     |            ^
-  24 |     const dbLocal = localStorage;
-  25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
-  26 |     pbxEvents.onerror = await function error(error){ console.log(error); };
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: 'Const declarations' require an initialization value. (22:17)
-
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-  21 |     const teste = ip.split('/');
-> 22 |     const teste2
-     |                 ^
-  23 |     console.log(teste);
-  24 |     const dbLocal = localStorage;
-  25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: 'Const declarations' require an initialization value. (22:17)
-
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-  21 |     const teste = ip.split('/');
-> 22 |     const teste2 
-     |                 ^
-  23 |     console.log(teste);
-  24 |     const dbLocal = localStorage;
-  25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: Missing semicolon. (25:38)
-
-  23 |     console.log(teste);
-  24 |     const dbLocal = localStorage;
-> 25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
-     |                                      ^
-  26 |     pbxEvents.onerror = await function error(error){ console.log(error); };
-  27 |
-  28 |     const setIdCallsRealTimeLS = (call) => {
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: Unexpected token (22:23)
-
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-  21 |     const teste = ip.split('/');
-> 22 |     const teste2 = `${}`
-     |                       ^
-  23 |     console.log(teste);
-  24 |     const dbLocal = localStorage;
-  25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Events/EventsGet.js
-Syntax error: Unexpected token (22:26)
-
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-  21 |     const teste = ip.split('/');
-> 22 |     const teste2 = `ws:${}`
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (45:26)
+
+  43 |   };
+  44 |
+> 45 |   const addFiltersOnCalls
      |                          ^
-  23 |     console.log(teste);
-  24 |     const dbLocal = localStorage;
-  25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/components/Events/EventsGet.js
-Syntax error: Unexpected token (22:28)
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (45:26)
 
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-  21 |     const teste = ip.split('/');
-> 22 |     const teste2 = `ws://${}`
-     |                            ^
-  23 |     console.log(teste);
-  24 |     const dbLocal = localStorage;
-  25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
+  43 |   };
+  44 |
+> 45 |   const addFiltersOnCalls 
+     |                          ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = 
+  46 |
+> 47 |   const readCallsOnDate = async () => {
+     |   ^
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+  49 |     let dataFormated = formatClidCalls(callsOnSelectedDate);
+  50 |     dataFormated = addStatusCalls(dataFormated);
+
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/components/Events/EventsGet.js
-Syntax error: Unexpected token (22:34)
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (45:30)
 
-  20 |     let ip = ipRequest.replace(/http/i, 'ws');
-  21 |     const teste = ip.split('/');
-> 22 |     const teste2 = `ws://${teste[]}`
-     |                                  ^
-  23 |     console.log(teste);
-  24 |     const dbLocal = localStorage;
-  25 |     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
+  43 |   };
+  44 |
+> 45 |   const addFiltersOnCalls = () 
+     |                              ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (45:30)
+
+  43 |   };
+  44 |
+> 45 |   const addFiltersOnCalls = () =
+     |                              ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
 
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
+  45 |   const addFiltersOnCalls = () => 
+  46 |
+> 47 |   const readCallsOnDate = async () => {
+     |   ^
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+  49 |     let dataFormated = formatClidCalls(callsOnSelectedDate);
+  50 |     dataFormated = addStatusCalls(dataFormated);
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const 
+> 47 |   };
+     |   ^
+  48 |
+  49 |   const readCallsOnDate = async () => {
+  50 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:17)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const filter
+     |                 ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:21)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const filterCall
+     |                     ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:16)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const calls
+     |                ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:21)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const callsFiltr
+     |                     ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:22)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const callsFiltre
+     |                      ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:23)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const callsFiltred
+     |                       ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const callsFiltred = 
+> 47 |   };
+     |   ^
+  48 |
+  49 |   const readCallsOnDate = async () => {
+  50 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const callsFiltred = 
+> 47 |   };
+     |   ^
+  48 |
+  49 |   const readCallsOnDate = async () => {
+  50 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const callsFiltred = 
+> 47 |   };
+     |   ^
+  48 |
+  49 |   const readCallsOnDate = async () => {
+  50 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const callsFiltred = 
+> 47 |   };
+     |   ^
+  48 |
+  49 |   const readCallsOnDate = async () => {
+  50 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (46:3)
+
+  44 |   const addFiltersOnCalls = () => {
+  45 |     const callsFiltred = 
+> 46 |   };
+     |   ^
+  47 |
+  48 |   const readCallsOnDate = async () => {
+  49 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (45:3)
+
+  43 |   const addFiltersOnCalls = () => {
+  44 |     const callsFiltred = 
+> 45 |   };
+     |   ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (45:3)
+
+  43 |   const addFiltersOnCalls = () => {
+  44 |     const callsFiltred = 
+> 45 |   };
+     |   ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (45:3)
+
+  43 |   const addFiltersOnCalls = () => {
+  44 |     const callsFiltred = 
+> 45 |   };
+     |   ^
+  46 |
+  47 |   const readCallsOnDate = async () => {
+  48 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (40:37)
+
+  38 |     const result = union.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+  39 |
+> 40 |     return setExtensionsList(result.);
+     |                                     ^
+  41 |   };
+  42 |
+  43 |   const addFiltersOnCalls = () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+  Line 40:42:  'a' is not defined  no-undef
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (40:46)
+
+  38 |     const result = union.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+  39 |
+> 40 |     return setExtensionsList(result.sort(a < ));
+     |                                              ^
+  41 |   };
+  42 |
+  43 |   const addFiltersOnCalls = () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+  Line 40:42:  'a' is not defined  no-undef
+  Line 40:46:  'b' is not defined  no-undef
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Home/index.jsx
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
   Line 44:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-./src/App.css (./node_modules/css-loader/dist/cjs.js??ref--5-oneOf-4-1!./node_modules/postcss-loader/src??postcss!./src/App.css)
-Syntax error: Unknown word (2:3)
-
-  1 | body {
-> 2 |   alin
-    |   ^
-  3 | }
-  4 | .App {
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: The type cast expression is expected to be wrapped with parenthesis. (58:44)
-
-  56 |       return object; 
-  57 |     },{});
-> 58 |     console.log('Endpoints: ', endpointList:w);
-     |                                            ^
-  59 |
-  60 |     setLabels(Object.keys(endpointList));
-  61 |     setChartItens({
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token (38:37)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.dst;
-> 38 |       if(isPhoneInternal.length === ) {
-     |                                     ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token, expected ")" (38:34)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.dst;
-> 38 |       if(isPhoneInternal.length  4) {
-     |                                  ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token, expected ")" (38:34)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.dst;
-> 38 |       if(isPhoneInternal.length  4) {
-     |                                  ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token (38:36)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.dst;
-> 38 |       if(isPhoneInternal.length == ) {
-     |                                    ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token (31:35)
-
-  29 |
-  30 |       const endpointSize = element.dst;
-> 31 |       if (endpointSize.length === ) {
-     |                                   ^
-  32 |         endpointsArray.push(element.dst);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token (81:7)
-
-  79 |     <div className="chart-calls-atended">
-  80 |       <
-> 81 |       <Bar
-     |       ^
-  82 |         data={ {labels, datasets } }
-  83 |         options={{
-  84 |           title:{
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token (81:7)
-
-  79 |     <div className="chart-calls-atended">
-  80 |       <h2
-> 81 |       <Bar
-     |       ^
-  82 |         data={ {labels, datasets } }
-  83 |         options={{
-  84 |           title:{
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-./src/App.css (./node_modules/css-loader/dist/cjs.js??ref--5-oneOf-4-1!./node_modules/postcss-loader/src??postcss!./src/App.css)
-Syntax error: Unknown word (154:3)
-
-  152 | .chart-calls-atended {
-  153 |   a
-> 154 |   margin-left: 15px;
-      |   ^
-  155 |   margin-top: 15px;
-  156 |   max-width: 49%;
-Compiling...
-Failed to compile.
-
-./src/App.css (./node_modules/css-loader/dist/cjs.js??ref--5-oneOf-4-1!./node_modules/postcss-loader/src??postcss!./src/App.css)
-Syntax error: Unknown word (154:3)
-
-  152 | .chart-calls-atended {
-  153 |   ali
-> 154 |   margin-left: 15px;
-      |   ^
-  155 |   margin-top: 15px;
-  156 |   max-width: 49%;
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected keyword 'if'. (22:5)
+src/components/Reports/FilterReportsCalls.js
+  Line 44:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
 
-  20 |     let 
-  21 |
-> 22 |     if (callsApiResult) setLoading(false);
-     |     ^
-  23 |     
-  24 |     if (!callsApiResult) callsApiResult = [];
-  25 |     const callsMutationResult = callsApiResult.filter(call => call.callprotocol).map((call) => {
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (22:5)
-
-  20 |     let callsTodayResult = 
-  21 |
-> 22 |     if (callsApiResult) setLoading(false);
-     |     ^
-  23 |     
-  24 |     if (!callsApiResult) callsApiResult = [];
-  25 |     const callsMutationResult = callsApiResult.filter(call => call.callprotocol).map((call) => {
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
+src/components/Reports/FilterReportsCalls.js
+  Line 44:17:  'ca' is not defined  no-undef
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
-
-src/pages/Reports/index.jsx
-  Line 22:17:  'callsTodayResult' is not defined  no-undef
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Reports/index.jsx
-  Line 22:17:  'callsTodayResult' is not defined  no-undef
+src/components/Reports/FilterReportsCalls.js
+  Line 42:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Reports/index.jsx
-  Line 18:3:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  Line 18:3:  'cons' is not defined                                                  no-undef
-
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected keyword 'const'. (20:3)
 
-  18 |   const 
-  19 |
-> 20 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  22 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  23 |
+src/components/Reports/FilterReportsCalls.js
+  Line 43:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (18:14)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const check
-     |              ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (18:18)
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unterminated string constant. (43:18)
 
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkType
+  41 |
+  42 |     setStartDate('');
+> 43 |     setEndDate(''');
      |                  ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
+  44 |
+  45 |     return setExtensionsList(result.sort());
+  46 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (18:21)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkTypeOfC
-     |                     ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (18:24)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkTypeOfCall
-     |                        ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (18:24)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkTypeOfCall  
-     |                        ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (18:24)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkTypeOfCall 
-     |                        ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (20:3)
-
-  18 |   const checkTypeOfCall = 
-  19 |
-> 20 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  22 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  23 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (18:28)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkTypeOfCall = ()
-     |                            ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (18:28)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkTypeOfCall = () 
-     |                            ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (18:28)
-
-  16 |   const history = useHistory();
-  17 |
-> 18 |   const checkTypeOfCall = () =
-     |                            ^
-  19 |
-  20 |   const getCallsDataBase = useCallback( async () => {
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (20:3)
-
-  18 |   const checkTypeOfCall = () =>
-  19 |
-> 20 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  22 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  23 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (20:3)
-
-  18 |   const checkTypeOfCall = () =>
-  19 |
-> 20 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  22 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  23 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (20:3)
-
-  18 |   const checkTypeOfCall = () => 
-  19 |
-> 20 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  21 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  22 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  23 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (33:5)
-
-  31 |     const callsMutationResult = 
-  32 |
-> 33 |     const filterReports = callsMutationResult.filter((call) => {
-     |     ^
-  34 |       const { column, dataOfColum } = filterReportList;
-  35 |       return call[column] && call[column].includes(dataOfColum);
-  36 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (31:33)
-
-  29 |     
-  30 |     if (!callsApiResult) callsApiResult = [];
-> 31 |     const callsMutationResult = ......
-     |                                 ^
-  32 |
-  33 |     const filterReports = callsMutationResult.filter((call) => {
-  34 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (32:33)
-
-  30 |     
-  31 |     if (!callsApiResult) callsApiResult = [];
-> 32 |     const callsMutationResult = ......
-     |                                 ^
-  33 |
-  34 |     const filterReports = callsMutationResult.filter((call) => {
-  35 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (19:18)
-
-  17 |
-  18 |   const checkTypeOfCall = () => {
-> 19 |     const analise
-     |                  ^
-  20 |
-  21 |   };
-  22 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (39:33)
-
-  37 |     
-  38 |     if (!callsApiResult) callsApiResult = [];
-> 39 |     const callsMutationResult = ......
-     |                                 ^
-  40 |
-  41 |     const filterReports = callsMutationResult.filter((call) => {
-  42 |       const { column, dataOfColum } = filterReportList;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-  Line 30:3:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  Line 30:3:  'consrt' is not defined                                                no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected keyword 'const'. (32:3)
-
-  30 |   const 
-  31 |
-> 32 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  34 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  35 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (30:16)
-
-  28 |   };
-  29 |
-> 30 |   const reportt
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unterminated string constant. (43:16)
+
+  41 |
+  42 |     setStartDate('');
+> 43 |     setEndDate(');
      |                ^
-  31 |
-  32 |   const getCallsDataBase = useCallback( async () => {
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (30:22)
-
-  28 |   };
-  29 |
-> 30 |   const reporttFilter
-     |                      ^
-  31 |
-  32 |   const getCallsDataBase = useCallback( async () => {
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (30:23)
-
-  28 |   };
-  29 |
-> 30 |   const reporttFilters
-     |                       ^
-  31 |
-  32 |   const getCallsDataBase = useCallback( async () => {
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (32:3)
-
-  30 |   const reporttFilters =
-  31 |
-> 32 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  34 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  35 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (32:3)
-
-  30 |   const reporttFilters = 
-  31 |
-> 32 |   const getCallsDataBase = useCallback( async () => {
-     |   ^
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-  34 |     let callsTodayResult = await fetchCallsDataBase({ day: 0 });
-  35 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (30:27)
-
-  28 |   };
-  29 |
-> 30 |   const reporttFilters = () 
-     |                           ^
-  31 |
-  32 |   const getCallsDataBase = useCallback( async () => {
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (30:27)
-
-  28 |   };
-  29 |
-> 30 |   const reporttFilters = () =
-     |                           ^
-  31 |
-  32 |   const getCallsDataBase = useCallback( async () => {
-  33 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (45:27)
-
-  43 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
   44 |
-> 45 |     const filterReports = .....
-     |                           ^
-  46 |
-  47 |     if(filterReports.length !== 0) setFilterCheck(true);
-  48 |     setDataDbImutate(callsApiResult);
+  45 |     return setExtensionsList(result.sort());
+  46 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (45:27)
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
-  43 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:17)
+
   44 |
-> 45 |     const filterReports = .....
-     |                           ^
-  46 |
-  47 |     if(filterReports.length !== 0) setFilterCheck(true);
-  48 |     setDataDbImutate(callsApiResult);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (32:3)
-
-  30 |   const reporttFilters = () => {
-  31 |     const 
-> 32 |   };
-     |   ^
-  33 |
-  34 |   const getCallsDataBase = useCallback( async () => {
-  35 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: 'Const declarations' require an initialization value. (31:22)
-
-  29 |
-  30 |   const reporttFilters = () => {
-> 31 |     const filterCalls 
-     |                      ^
-  32 |   };
-  33 |
-  34 |   const getCallsDataBase = useCallback( async () => {
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (32:3)
-
-  30 |   const reporttFilters = () => {
-  31 |     const filterCalls =
-> 32 |   };
-     |   ^
-  33 |
-  34 |   const getCallsDataBase = useCallback( async () => {
-  35 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (32:3)
-
-  30 |   const reporttFilters = () => {
-  31 |     const filterCalls = 
-> 32 |   };
-     |   ^
-  33 |
-  34 |   const getCallsDataBase = useCallback( async () => {
-  35 |     let callsApiResult = await fetchCallsDataBase(dayDb);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (48:27)
-
-  46 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
-  47 |
-> 48 |     const filterReports = .....
-     |                           ^
-  49 |
-  50 |     if(filterReports.length !== 0) setFilterCheck(true);
-  51 |     setDataDbImutate(callsApiResult);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (48:27)
-
-  46 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
-  47 |
-> 48 |     const filterReports = .....
-     |                           ^
-  49 |
-  50 |     if(filterReports.length !== 0) setFilterCheck(true);
-  51 |     setDataDbImutate(callsApiResult);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (48:27)
-
-  46 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
-  47 |
-> 48 |     const filterReports = .....
-     |                           ^
-  49 |
-  50 |     if(filterReports.length !== 0) setFilterCheck(true);
-  51 |     setDataDbImutate(callsApiResult);
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (49:27)
-
-  47 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result
+     |                 ^
+  47 |   };
   48 |
-> 49 |     const filterReports = .....
-     |                           ^
-  50 |
-  51 |     if(filterReports.length !== 0) setFilterCheck(true);
-  52 |     setDataDbImutate(callsApiResult);
+  49 |   const readCallsOnDate = async () => {
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (49:27)
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:17)
 
-  47 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result.
+     |                 ^
+  47 |   };
   48 |
-> 49 |     const filterReports = .....
-     |                           ^
-  50 |
-  51 |     if(filterReports.length !== 0) setFilterCheck(true);
-  52 |     setDataDbImutate(callsApiResult);
+  49 |   const readCallsOnDate = async () => {
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/pages/Reports/index.jsx
-Syntax error: Unexpected token (49:27)
+src/components/Reports/FilterReportsCalls.js
+Syntax error: 'Const declarations' require an initialization value. (46:17)
 
-  47 |     const callsMutationResult = checkTypeOfCall(callsApiResult);
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result
+     |                 ^
+  47 |   };
   48 |
-> 49 |     const filterReports = .....
-     |                           ^
-  50 |
-  51 |     if(filterReports.length !== 0) setFilterCheck(true);
-  52 |     setDataDbImutate(callsApiResult);
+  49 |   const readCallsOnDate = async () => {
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = 
+> 47 |   };
+     |   ^
+  48 |
+  49 |   const readCallsOnDate = async () => {
+  50 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+  Line 46:20:  'call' is not defined  no-undef
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:3)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.
+> 47 |   };
+     |   ^
+  48 |
+  49 |   const readCallsOnDate = async () => {
+  50 |     const callsOnSelectedDate = await fetchCallsByDateDB({ dateStart: startDate, dateStop: endDate });
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-  Line 51:36:  'setFilterCheck' is not defined  no-undef
-  Line 55:75:  'setFilterCheck' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-  Line 51:36:  'setFilterCheck' is not defined  no-undef
-  Line 55:75:  'setFilterCheck' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/pages/Reports/index.jsx
-  Line 55:75:  'setFilterCheck' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-  Line 59:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-  Line 59:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-  Line 60:5:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
-  Line 60:5:  'con' is not defined                                                   no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token, expected "," (60:19)
-
-  58 |
-  59 |     console.log(endpointsArray);
-> 60 |     console.log(''callsDb);
-     |                   ^
-  61 |
-  62 |     setLabels(Object.keys(endpointList));
-  63 |     setChartItens({
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:40)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length === 3 && ) {
-     |                                        ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 31:40:  'en' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 31:40:  'end' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:53)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length === 3 && endpointSize.) {
-     |                                                     ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:63)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length === 3 && endpointSize.billsec > ) {
-     |                                                               ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (38:41)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.src;
-> 38 |       if(isPhoneInternal.length === 3 &&) {
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (46:41)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter(() => )
      |                                         ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (38:42)
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (46:45)
 
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.src;
-> 38 |       if(isPhoneInternal.length === 3 && ) {
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => )
+     |                                             ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (46:62)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => call.typecall ===)
+     |                                                              ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (46:63)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => call.typecall === )
+     |                                                               ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (46:63)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => call.typecall === )
+     |                                                               ^
+  47 |   };
+  48 |
+  49 |   const readCallsOnDate = async () => {
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+  Line 48:12:  'se' is not defined  no-undef
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:21)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter(() => );
+     |                     ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:25)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => );
+     |                         ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:45)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.statuscall === );
+     |                                             ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+  Line 47:45:  'disposition' is not defined  no-undef
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (47:42)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition call.disposition === statusCallLocal);
      |                                          ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 38:42:  'ele' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (38:50)
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (47:42)
 
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.src;
-> 38 |       if(isPhoneInternal.length === 3 && element.) {
-     |                                                  ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition call.disposition === statusCallLocal);
+     |                                          ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (47:42)
 
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (38:51)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.src;
-> 38 |       if(isPhoneInternal.length === 3 && element. && endpointSize.billsec > 0) {
-     |                                                   ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition !call.disposition === statusCallLocal);
+     |                                          ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unterminated string constant. (47:46)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition !== 'call.disposition === statusCallLocal);
+     |                                              ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (47:48)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition !== ''call.disposition === statusCallLocal);
+     |                                                ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (47:49)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition !== '' call.disposition === statusCallLocal);
+     |                                                 ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/components/Reports/ChartsSendCalls.js
-  Line 38:7:  Expected an assignment or function call and instead saw an expression  no-unused-expressions
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected ":" (47:87)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition !== '' ? call.disposition === statusCallLocal);
+     |                                                                                       ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: 'Const declarations' require an initialization value. (33:23)
-
-  31 |       if (endpointSize.length === 3) {
-  32 |         const 
-> 33 |         endpointsArray.push(element.src);
-     |                       ^
-  34 |       }
-  35 |     });
-  36 |
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:40)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length === 3 && ) {
-     |                                        ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 31:40:  'end' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:53)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length === 3 && endpointSize.) {
-     |                                                     ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Invalid left-hand side in assignment expression. (31:11)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length === 3 && endpointSize.statuscall =) {
-     |           ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:68)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length === 3 && endpointSize.statuscall === ) {
-     |                                                                    ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (30:14)
-
-  28 |       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
-  29 |
-> 30 |       const  = element.src;
-     |              ^
-  31 |       if (endpointSize.length === 3 && endpointSize.statuscall === 'Atendida') {
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (38:34)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.src;
-> 38 |       if(isPhoneInternal.length <) {
-     |                                  ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (38:36)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.src;
-> 38 |       if(isPhoneInternal.length <= ) {
-     |                                    ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (38:34)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.src;
-> 38 |       if(isPhoneInternal.length <) {
-     |                                  ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:33)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length < && element.statuscall === 'Atendida') {
-     |                                 ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token (31:32)
-
-  29 |
-  30 |       const endpointSize = element.dst;
-> 31 |       if (endpointSize.length <) {
-     |                                ^
-  32 |         endpointsArray.push(element.dst);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-Syntax error: Unexpected token (38:40)
-
-  36 |     const endpointList = callsDb.filter(element => {
-  37 |       const isPhoneInternal = element.dst;
-> 38 |       if(isPhoneInternal.length < 5 && ) {
-     |                                        ^
-  39 |         return element;
-  40 |       }
-  41 |       return null;
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/Charts.js
-  Line 38:40:  'Num' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token (31:76)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length < 5 && element.statuscall === 'Atendida' &&  && Number(isPhoneInternal)) {
-     |                                                                            ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 31:82:  'isPhoneInternal' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 31:75:  'endpointSizeNumber' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-Syntax error: Unexpected token, expected ")" (31:88)
-
-  29 |
-  30 |       const endpointSize = element.src;
-> 31 |       if (endpointSize.length < 5 && element.statuscall === 'Atendida' && endpointSize Number(endpointSize)) {
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected ":" (47:88)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition !== '' ? call.disposition === statusCallLocal );
      |                                                                                        ^
-  32 |         endpointsArray.push(element.src);
-  33 |       }
-  34 |     });
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 31:75:  'pa' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
-
-Search for the keywords to learn more about each error.
-Compiling...
-Failed to compile.
-
-src/components/Reports/ChartsSendCalls.js
-  Line 31:75:  'par' is not defined  no-undef
-
-src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected ":" (47:87)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition === '' ? call.disposition === statusCallLocal);
+     |                                                                                       ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected ":" (47:56)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => call.disposition === '' ? call call.disposition === statusCallLocal);
+     |                                                        ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:45)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => statusCallLocal === && call.disposition === statusCallLocal);
+     |                                             ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:50)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => statusCallLocal === '' ? && call.disposition === statusCallLocal);
+     |                                                  ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected ":" (47:55)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => statusCallLocal === '' ? call call.disposition === statusCallLocal);
+     |                                                       ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected ":" (47:56)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => statusCallLocal === '' ? call  call.disposition === statusCallLocal);
+     |                                                        ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.
 Compiling...
 Failed to compile.
 
 src/services/api.js
-  Line 87:42:  'iprequest' is not defined  no-undef
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (46:60)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => typeCallsLocal call.typecall === typeCallsLocal)
+     |                                                            ^
+  47 |       .filter((call) => statusCallLocal === '' ? call : call.disposition === statusCallLocal);
+  48 |
+  49 |     return setCallsDb(result);
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:42)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => statusCallLocal. ? call : call.disposition === statusCallLocal);
+     |                                          ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (47:51)
+
+  45 |   const addFiltersOnCalls = () => {
+  46 |     const result = callsDb.filter((call) => call.typecall === typeCallsLocal)
+> 47 |       .filter((call) => statusCallLocal.length >  ? call : call.disposition === statusCallLocal);
+     |                                                   ^
+  48 |
+  49 |     return setCallsDb(result);
+  50 |   };
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+  Line 46:45:  'typeCallsLocalcall' is not defined  no-undef
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (46:60)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => typeCallsLocal call.typecall === typeCallsLocal)
+     |                                                            ^
+  47 |       .filter((call) => statusCallLocal === '' ? call : call.disposition === statusCallLocal);
+  48 |
+  49 |     return setCallsDb(result);
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unterminated string constant. (46:64)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => typeCallsLocal === 'call.typecall === typeCallsLocal)
+     |                                                                ^
+  47 |       .filter((call) => statusCallLocal === '' ? call : call.disposition === statusCallLocal);
+  48 |
+  49 |     return setCallsDb(result);
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token, expected "," (46:67)
+
+  44 |
+  45 |   const addFiltersOnCalls = () => {
+> 46 |     const result = callsDb.filter((call) => typeCallsLocal === '' call.typecall === typeCallsLocal)
+     |                                                                   ^
+  47 |       .filter((call) => statusCallLocal === '' ? call : call.disposition === statusCallLocal);
+  48 |
+  49 |     return setCallsDb(result);
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: Unexpected token (143:74)
+
+  141 |                         .filter((call) => call.lastapp === 'Queue')
+  142 |                         .reduce((unique, item) => unique.includes(item.lastdata) ? unique : [...unique, item.lastdata], [])
+> 143 |                         .map((sector, index) => <option key={index} value=>{ sector.charAt(0).toUpperCase() + sector.slice(1).split(',')[0] }</option>)
+      |                                                                          ^
+  144 |                     }
+  145 |                   </select>
+  146 |                 </div>
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+Syntax error: JSX attributes must only be assigned a non-empty expression. (143:75)
+
+  141 |                         .filter((call) => call.lastapp === 'Queue')
+  142 |                         .reduce((unique, item) => unique.includes(item.lastdata) ? unique : [...unique, item.lastdata], [])
+> 143 |                         .map((sector, index) => <option key={index} value={}>{ sector.charAt(0).toUpperCase() + sector.slice(1).split(',')[0] }</option>)
+      |                                                                           ^
+  144 |                     }
+  145 |                   </select>
+  146 |                 </div>
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/components/Reports/FilterReportsCalls.js
+  Line 143:76:  'sec' is not defined  no-undef
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+Compiling...
+Failed to compile.
+
+src/services/api.js
+  Line 83:42:  'iprequest' is not defined  no-undef
 
 Search for the keywords to learn more about each error.

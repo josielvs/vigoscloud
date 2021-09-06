@@ -9,13 +9,6 @@ function Provider({ children }) {
   const [ipEndpoints, setIpEndpoints] = useState({});
   const [callsDb, setCallsDb] = useState([]);
   const [dataDbImutate, setDataDbImutate] = useState([]);
-  const [filterReportList, setFilterReportList] = useState({
-    // startDateStateGlobal: '',
-    // endDateStateGlobal: '',
-    columnGlobalState: '',
-    dataOfColumGlobalState: '',
-  });
-  const [checkFilter, setCheckFilter] = useState(false)
   const [path, setPath] = useState('');
   const [realTimeCall, setRealTimeCall] = useState({
     numberConnected: '',
@@ -27,9 +20,23 @@ function Provider({ children }) {
   });
   const [callsAnalist, setCallsAnalist] = useState([]);
   const [callsOfDay, setCallsOfDay] = useState([]);
-  const [dayDb, setDayDb] = useState({ day: 1 });
+  const [dayDb, setDayDb] = useState({ day: 0 });
   const [channelInState, setChannelInState] = useState({});
-  const [clickToCallChannel, setClickToCallChannel] =useState('')
+  const [clickToCallChannel, setClickToCallChannel] =useState('');
+
+  const toggleIsHidden = (id) => {
+    const showMenu = document.querySelector(id);
+    showMenu.classList.toggle('is-active');
+    showMenu.classList.toggle('is-hidden');
+  };
+
+  const addStatusCalls = (calls) => {
+    return calls.map((call) => Number(call.billsec) !== 0 ? Object.assign(call, { statuscall : 'Atendida' }) : Object.assign(call, { statuscall : 'Não Atendida' }));
+  };
+
+  const formatClidCalls = (calls) => {
+    return calls.map((call) => Object.assign(call, { clid : call.clid.split('<')[1].replace(/>/g, '') }));
+  };
 
   const contextValues = {
     user,
@@ -42,12 +49,6 @@ function Provider({ children }) {
     setIpEndpoints,
     callsDb,
     setCallsDb,
-    filterReportList,
-    setFilterReportList,
-    dataDbImutate,
-    setDataDbImutate,
-    checkFilter,
-    setCheckFilter,
     realTimeCall,
     setRealTimeCall,
     callsAnalist,
@@ -59,7 +60,10 @@ function Provider({ children }) {
     channelInState,
     setChannelInState,
     clickToCallChannel,
-    setClickToCallChannel
+    setClickToCallChannel,
+    toggleIsHidden,
+    addStatusCalls,
+    formatClidCalls,
   };
   
   return (

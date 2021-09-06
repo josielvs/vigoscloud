@@ -4,7 +4,7 @@ import PbxContext from '../../context/PbxContext';
 import EventsGet from '../../components/Events/EventsGet';
 import { fetchCallsDataBase, fetchEndpoints, accessLocalStorage } from '../../services';
 import EndpointsList from '../../components/Endpoints/EndpointsList';
-import Loading from '../../img/loading.gif';
+import Loading from '../../components/Loading/LoadingModule';
 
 function Home() {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ function Home() {
       setEndpoints(endpointsReceived);
       return ipEndpoints;
     }
-  }, [setEndpoints, ipEndpoints]);
+  }, [ipEndpoints]);
 
   const getApiCallOnDay = useCallback(async () => {
     let callOfDayReceived = await fetchCallsDataBase({ day: 0 });
@@ -46,7 +46,8 @@ function Home() {
   return (
     <div >
       {
-        loading ? <img className="loading mt-6 pt-6" src={ Loading } alt="Vigos" />
+        loading ?
+        <Loading />
         :
         <div className="App">
           <EndpointsList />
