@@ -37,8 +37,6 @@ const FilterReportsCalls = () => {
 
     const result = union.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
 
-    console.log('Filter_Line_40',callsDb);
-
     return setExtensionsList(result.sort());
   };
 
