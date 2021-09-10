@@ -31,7 +31,10 @@ const FilterReportsCalls = () => {
 
     const extenReceived = data
       .filter((call) => call.lastapp === 'Queue' && call.dstchannel.includes('PJSIP'))
-      .map((call) => call.dstchannel.split('/')[1].split('-')[0]);
+      .map((call) => {
+        let result = call.dstchannel.split('/')[1].split('-')[0];
+        return result.includes('@') ? result.split('@')[0] : result;
+    });
     
     const union = extenReceived.concat(extensSended);
 
@@ -177,7 +180,7 @@ const FilterReportsCalls = () => {
           <div className="field column mx-0">
             <label className="label">Código de Área
               <div className="control">
-                <input className="input" type="text" placeholder="Digite o DDD" onChange={ (e) => setAreaCodeLocal(e.target.value) } />
+                <input className="input" type="text" placeholder="Digite o DDD" onChange={ (e) => setAreaCodeLocal(e.target.value) } disabled />
               </div>
             </label>
           </div>
