@@ -18,7 +18,7 @@ const EndpointsList = () => {
 
   const fnTeste = () => {
     const getElements = document.getElementById(ipEndpoints.endpoint);
-    // if (ipEndpoints.endpoint === endpoint.resource && endpoint.state === 'offline')console.log(ipEndpoints); // playSoundState(down); 
+    // if (ipEndpoints.endpoint === endpoint.resource && endpoint.state === 'offline')console.log(ipEndpoints); // playSoundState(down);
     // console.log(getElements); // playSoundState(down); 
   };
   
@@ -28,6 +28,7 @@ const EndpointsList = () => {
 
     let newEndpoints = endpoints;
     if(!newEndpoints) newEndpoints = [];
+    if(newEndpoints !== []) newEndpoints.sort((a, b) => a.resource - b.resource)
     const elementsPage = (
       <div className="columns is-multiline is-centered mx-2 mt-6">
             {

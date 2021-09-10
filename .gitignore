@@ -1,13 +1,14 @@
-/api/node_modules
-/ui/node_modules
+api/node_modules
+ui/node_modules
 
-/api/.env
-/ui/.env
+api/.env
+ui/.env
 
-/ui/.env.production
+ui/.env.production
 
-/api/recs
+api/recs
 
 node_modules
 
-/ui/log_ux.txt
+ui/log_ux.txt
+api/log_api.txt
