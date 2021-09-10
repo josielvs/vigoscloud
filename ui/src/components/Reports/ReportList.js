@@ -100,8 +100,8 @@ const ReportList = () => {
                   if(call.typecall === 'Recebida') {
                     isInternalNumberPhone = call.dstchannel;
                     isInternalNumberPhone = isInternalNumberPhone.split('/')[1];
-                    isInternalNumberPhone && isInternalNumberPhone.includes('-')) ? isInternalNumberPhone = isInternalNumberPhone.split('-')[0] : isInternalNumberPhone;
-                    isInternalNumberPhone.includes('@') ? isInternalNumberPhone.split('@')[0] : isInternalNumberPhone;
+                    isInternalNumberPhone = isInternalNumberPhone && isInternalNumberPhone.includes('-') ? isInternalNumberPhone.split('-')[0] : isInternalNumberPhone;
+                    isInternalNumberPhone = isInternalNumberPhone.includes('@') ? isInternalNumberPhone.split('@')[0] : isInternalNumberPhone;
                   } else {
                     isInternalNumberPhone = call.dst;
                   }
