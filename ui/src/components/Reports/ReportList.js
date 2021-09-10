@@ -101,6 +101,7 @@ const ReportList = () => {
                     isInternalNumberPhone = call.dstchannel;
                     isInternalNumberPhone = isInternalNumberPhone.split('/')[1];
                     isInternalNumberPhone = isInternalNumberPhone.split('-')[0];
+                    isInternalNumberPhone.includes('@') ? isInternalNumberPhone.split('@')[0] : isInternalNumberPhone;
                   } else {
                     isInternalNumberPhone = call.dst;
                   }
