@@ -15,10 +15,10 @@ class ReportTable extends React.Component {
           <td>{dateBrFull}</td>
           <td>{src}</td>
           <td>{dst}</td>
+          <td>{statuscall}</td>
+          <td>{typecall}</td>
           <td>{callDuration}</td>
           <td>{callBillsec}</td>
-          <td>{typecall}</td>
-          <td>{statuscall}</td>
           <td>{callprotocol}</td>
 	  <td><Link to={{ pathname: `http://${url}/api/download/file/${callprotocol}` }} target="_blank"><FontAwesomeIcon icon={faPlay} fixedWidth /></Link></td>
         </tr>

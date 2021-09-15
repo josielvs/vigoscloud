@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ReportTable from './ReportTable';
+import NoDataLoad from './NoDataLoad';
 import PbxContext from '../../context/PbxContext'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,17 +10,70 @@ const ReportList = () => {
   const getItensStateGlobal = useContext(PbxContext);
   const { callsDb } = getItensStateGlobal;
 
+  const convertDateAndTime = (call) => {
+    const addZero = (number) => {
+      return number <= 9 ? `0${number}` : number;
+    }
+    const dateReceived = call.calldate.split('T');
+    let dateFormated = dateReceived[0].split('-');
+    dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
+    const upGetDate = new Date(call.calldate);
+    const updateTime = `${addZero(upGetDate.getHours())}:${addZero(upGetDate.getMinutes())}:${addZero(upGetDate.getSeconds())}`;
+    const dateBrNew = `${dateFormated} ${updateTime}`
+
+    return dateBrNew;
+  };
+
+  const secConvert = (time) => {
+    const hours = Math.floor( time / 3600 );
+    const minutes = Math.floor( (time % 3600) / 60 );
+    const seconds = time % 60;
+    
+    const doubleDigitsMinutes = minutes < 10 ? `0${minutes}` : minutes;      
+    const doubleDigitsSeconds = seconds < 10 ? `0${seconds}` : seconds;
+    const doubleDigitsHours = hours < 10 ? `0${hours}` : hours;
+
+    const timeFullFormated = `${doubleDigitsHours}:${doubleDigitsMinutes}:${doubleDigitsSeconds}`
+    
+    return timeFullFormated;
+  }
+
+  const callDestinationConvert = (call) => {
+    let numberOfDestination = call.dstchannel;
+    numberOfDestination = numberOfDestination.split('/')[1];
+    numberOfDestination = numberOfDestination.split('-')[0];
+    numberOfDestination.includes('@') ? numberOfDestination.split('@')[0] : numberOfDestination;
+    return numberOfDestination;
+  };
+
+  const addKeyProtocolNumber = (objectArray, properties) => {
+    return objectArray.reduce((acc, obj) => {
+      let key = obj[properties];
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(obj);
+      return acc;
+    }, {});
+  };
+
+  const checkCallResponsedOrNot = (allCalls) => {
+    const addCallsOfProtocol = addKeyProtocolNumber(allCalls, 'callprotocol');
+    return addCallsOfProtocol;
+  };
+  console.log(checkCallResponsedOrNot(callsDb));
+
   const csvGenerate = () => {
-    let csv = 'Data e Hora, Ligação De, Ligação Para, Total da Ligação, Tempo Em Linha, Tipo, Status da Ligação, Protocolo\n';
+    let csv = 'Data e Hora, Ligação De, Ligação Para, Status da Ligação, Tipo, Total da Ligação, Tempo Em Linha, Protocolo\n';
 
     callsDb.forEach(row => {
       csv += row.dateBrFull;
       csv += `,${row.src}`;
       csv += `,${row.dst}`;
+      csv += `,${row.statuscall}`;
+      csv += `,${row.typecall}`;
       csv += `,${row.callDuration}`;
       csv += `,${row.callBillsec}`;
-      csv += `,${row.typecall}`;
-      csv += `,${row.statuscall}`;
       csv += `,${row.callprotocol}`;
       csv += '\n';
     });
@@ -31,7 +85,7 @@ const ReportList = () => {
     hiddenElement.click();
   };
 
-  return (
+  return callsDb && callsDb === [] ? { NoDataLoad } : (
     <div className="report-page">
       <hr />
       <section className="section calls-information">
@@ -43,14 +97,14 @@ const ReportList = () => {
               </div>
             </div>
           </div>
-          {/* <div className="is-flex-desktop">
+          <div className="is-flex-desktop">
             <button className="button is-info is-pulled-right px-6" onClick={ csvGenerate }>
               <span>
                 <FontAwesomeIcon icon={faFileCsv} fixedWidth />
               </span>
               <span> Download CSV</span>
             </button>
-          </div> */}
+          </div>
           <div className="table-container is-flex-wrap-wrap">
           <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
               <thead>
@@ -58,53 +112,22 @@ const ReportList = () => {
                   <th scope="col">Data</th>
                   <th scope="col">Ligação De</th>
                   <th scope="col">Ligação Para</th>
+                  <th scope="col">Status da Ligação</th>
+                  <th scope="col">Tipo</th>
                   <th scope="col">Total da Ligação</th>
                   <th scope="col">Tempo Em Linha</th>
-                  <th scope="col">Tipo</th>
-                  <th scope="col">Status da Ligação</th>
                   <th scope="col">Protocolo</th>
                   <th scope="col">Gravação</th>
                   </tr>
               </thead>
               {
                callsDb.filter(call => call.callprotocol).map((call, index) => {
-                  function addZero(number){
-                    if (number <= 9)
-                        return "0" + number;
-                    else
-                        return number;
-                  }
-                  const dateReceived = call.calldate.split('T');
-                  let dateFormated = dateReceived[0].split('-');
-                  dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
-                  const upGetDate = new Date(call.calldate);
-                  const updateTime = `${addZero(upGetDate.getHours())}:${addZero(upGetDate.getMinutes())}:${addZero(upGetDate.getSeconds())}`;
-                  const newFormatDateFull = `${dateFormated} ${updateTime}`;
-
-                  function secConvert(time){
-                    const hours = Math.floor( time / 3600 );
-                    const minutes = Math.floor( (time % 3600) / 60 );
-                    const seconds = time % 60;
-                    
-                    const doubleDigitsMinutes = minutes < 10 ? `0${minutes}` : minutes;      
-                    const doubleDigitsSeconds = seconds < 10 ? `0${seconds}` : seconds;
-                    const doubleDigitsHours = hours < 10 ? `0${hours}` : hours;
-                    
-                    return `${doubleDigitsHours}:${doubleDigitsMinutes}:${doubleDigitsSeconds}`;
-                  }
+                  const newFormatDateFull = convertDateAndTime(call);
 
                   const callDuration = secConvert(call.duration);
                   const callBillsec = secConvert(call.billsec);
 
-                  let isInternalNumberPhone;
-                  if(call.typecall === 'Recebida') {
-                    isInternalNumberPhone = call.dstchannel;
-                    isInternalNumberPhone = isInternalNumberPhone.split('/')[1];
-                    isInternalNumberPhone = isInternalNumberPhone && isInternalNumberPhone.includes('-') ? isInternalNumberPhone.split('-')[0] : isInternalNumberPhone;
-                    isInternalNumberPhone = isInternalNumberPhone.includes('@') ? isInternalNumberPhone.split('@')[0] : isInternalNumberPhone;
-                  } else {
-                    isInternalNumberPhone = call.dst;
-                  }
+                  const isInternalNumberPhone = call.typecall === 'Recebida' ? callDestinationConvert(call) : call.dst;
 
                   call['dst'] = isInternalNumberPhone;
                   call['dateBrFull'] = newFormatDateFull;
