@@ -25,13 +25,14 @@ const Charts = () => {
       dateFormated = dateReceived[0].split('-');
       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
     });
+    const actualDate = new Date();
+    dateFormated ? dateFormated : dateFormated = `${actualDate.getDate()}/${actualDate.getMonth()+1}/${actualDate.getFullYear()}`;
 
     const reduceEndipoints = callsDb.reduce((acc, cur) => {
       const endpoint = cur.dst;
-      const checkClid = cur.clid;
-      if (endpoint.length < 5 && acc[cur.dst] && cur.disposition === 'ANSWERED' && cur.typecall === 'Efetuada' && endpoint.length !== checkClid.length) {
+      if (endpoint && endpoint.length < 5 && endpoint.length > 2 && acc[cur.dst] && cur.disposition === 'ANSWERED' && cur.typecall === 'Efetuada') {
         acc[cur.dst] += 1;
-      } else if (!acc[cur.dst] && endpoint.length < 5) {
+      } else if (endpoint && !acc[cur.dst] && endpoint.length < 5 && endpoint.length > 2) {
         acc[cur.dst] = 1;
       }
       return acc;
@@ -39,7 +40,7 @@ const Charts = () => {
     // Josiel
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.dst;
-      if(isPhoneInternal.length < 5 && Number(isPhoneInternal)) {
+      if(isPhoneInternal && isPhoneInternal.length < 5 && isPhoneInternal.length > 2 && Number(isPhoneInternal)) {
         return element;
       }
       return null;

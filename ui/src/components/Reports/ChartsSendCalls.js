@@ -26,6 +26,8 @@ const Charts = () => {
       dateFormated = dateReceived[0].split('-');
       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
     });
+    const actualDate = new Date();
+    dateFormated ? dateFormated : dateFormated = `${actualDate.getDate()}/${actualDate.getMonth()+1}/${actualDate.getFullYear()}`;
 
     const reduceEndipoints = callsDb.reduce((acc, cur) => {
       const endpoint = cur.src;
@@ -114,3 +116,4 @@ const Charts = () => {
 }
 
 export default Charts;
+
