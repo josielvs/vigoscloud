@@ -37,7 +37,7 @@ const Charts = () => {
       }
       return acc;
     }, {});
-
+    // Josiel
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.dst;
       if(isPhoneInternal && isPhoneInternal.length < 5 && isPhoneInternal.length > 2 && Number(isPhoneInternal)) {
@@ -47,14 +47,15 @@ const Charts = () => {
     }).reduce((object, item) => {
       if (item.billsec > 0) {
         let endpoint = item.dst;
+        const sourceCall = item.src;
         if (endpoint.length === 7) {
           let formatEndpoint = item.lastdata;
           formatEndpoint = formatEndpoint.split('/')[1];
           endpoint = formatEndpoint.split(',')[0];
         }
-        if ( !object[endpoint] ) {
-          object[endpoint]=1;
-        } else {
+        if (!object[endpoint] && endpoint.length !== sourceCall.length) {
+          object[endpoint] = 1;
+        } else if (endpoint.length !== sourceCall.length) {
           object[endpoint]++;
         }
       }

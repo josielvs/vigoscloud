@@ -31,6 +31,7 @@ const Charts = () => {
 
     const reduceEndipoints = callsDb.reduce((acc, cur) => {
       const endpoint = cur.src;
+      const checkClid = cur.dst
       if (endpoint.length < 5 && acc[cur.src] && cur.disposition === 'ANSWERED' && cur.typecall === 'Efetuada') {
         acc[cur.src] += 1;
       } else if (!acc[cur.src] && endpoint.length < 5) {
@@ -47,19 +48,20 @@ const Charts = () => {
       return null;
     }).reduce((object, item) => {
       let endpoint = item.src;
+      const destiny = item.dst;
       if (endpoint.length === 7) {
         let formatEndpoint = item.lastdata;
         formatEndpoint = formatEndpoint.split('/')[1];
         endpoint = formatEndpoint.split(',')[0];
       }
-      if ( !object[endpoint] ) {
+      if (!object[endpoint] && endpoint.length !== destiny.length) {
          object[endpoint]=1;
-      } else {
+      } else if (endpoint.length !== destiny.length) {
          object[endpoint]++;
       }
       return object; 
     },{});
-
+    // Josiel
     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
       if (acc < cur) acc = cur + 1;
       return acc <= 6 ? 7 : acc;
