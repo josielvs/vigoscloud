@@ -28,7 +28,8 @@ const Charts = () => {
 
     const reduceEndipoints = callsDb.reduce((acc, cur) => {
       const endpoint = cur.dst;
-      if (endpoint.length < 5 && acc[cur.dst] && cur.disposition === 'ANSWERED' && cur.typecall === 'Efetuada') {
+      const checkClid = cur.clid;
+      if (endpoint.length < 5 && acc[cur.dst] && cur.disposition === 'ANSWERED' && cur.typecall === 'Efetuada' && endpoint.length !== checkClid.length) {
         acc[cur.dst] += 1;
       } else if (!acc[cur.dst] && endpoint.length < 5) {
         acc[cur.dst] = 1;
@@ -45,14 +46,15 @@ const Charts = () => {
     }).reduce((object, item) => {
       if (item.billsec > 0) {
         let endpoint = item.dst;
+        const sourceCall = item.src;
         if (endpoint.length === 7) {
           let formatEndpoint = item.lastdata;
           formatEndpoint = formatEndpoint.split('/')[1];
           endpoint = formatEndpoint.split(',')[0];
         }
-        if ( !object[endpoint] ) {
-          object[endpoint]=1;
-        } else {
+        if (!object[endpoint] && endpoint.length !== sourceCall.length) {
+          object[endpoint] = 1;
+        } else if (endpoint.length !== sourceCall.length) {
           object[endpoint]++;
         }
       }
