@@ -2,6 +2,7 @@ import React from 'react';
 
 import '../../libs/bulma.min.css';
 
+// Josiel
 const LoadingModule = () => {
   return (
     <div className="field column is-three-fifths is-offset-one-fifth">

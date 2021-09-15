@@ -36,7 +36,7 @@ const Charts = () => {
       }
       return acc;
     }, {});
-
+    // Josiel
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.dst;
       if(isPhoneInternal.length < 5 && Number(isPhoneInternal)) {

@@ -59,7 +59,7 @@ const Charts = () => {
       }
       return object; 
     },{});
-
+    // Josiel
     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
       if (acc < cur) acc = cur + 1;
       return acc <= 6 ? 7 : acc;
