@@ -40,9 +40,9 @@ const ReportList = () => {
 
   const callDestinationConvert = (call) => {
     let numberOfDestination = call.dstchannel;
-    numberOfDestination = numberOfDestination.split('/')[1];
-    numberOfDestination = numberOfDestination.split('-')[0];
-    numberOfDestination.includes('@') ? numberOfDestination.split('@')[0] : numberOfDestination;
+    numberOfDestination = numberOfDestination.includes('-') ? numberOfDestination.split('/')[1] : numberOfDestination;
+    numberOfDestination = numberOfDestination.includes('-') ? numberOfDestination.split('-')[0] : numberOfDestination;
+    numberOfDestination = numberOfDestination.includes('@') ? numberOfDestination.split('@')[0] : numberOfDestination;
     return numberOfDestination;
   };
 
@@ -121,7 +121,7 @@ const ReportList = () => {
                   </tr>
               </thead>
               {
-               callsDb.filter(call => call.callprotocol).map((call, index) => {
+               callsDb.filter(call => call.callprotocol && call.src.length > 2).map((call, index) => {
                   const newFormatDateFull = convertDateAndTime(call);
 
                   const callDuration = secConvert(call.duration);

@@ -22,12 +22,37 @@ function Reports() {
     
     if (!callsApiResult) callsApiResult = [];
 
+    const addKeyProtocolNumber = (objectArray, properties) => {
+      return objectArray.reduce((acc, obj) => {
+        let key = obj[properties];
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+      }, {});
+    };
+  
+    const mergeAllCallsAnsweredAndNot = () => {
+      const callsObjKeyProtocol = addKeyProtocolNumber(callsApiResult, 'callprotocol');
+  
+      const result = Object.values(callsObjKeyProtocol).reduce((acc, call) => {
+        const key = call.callprotocol;
+        const checkAnweredCall = call.find((call) => call.disposition === 'ANSWERED');
+        return checkAnweredCall ? acc.concat(checkAnweredCall) : acc.concat(call);
+      }, [])
+
+      return result;
+    };
+
     const addPropStatusCall = addStatusCalls(callsApiResult);
     const formatClidCallsUnit = formatClidCalls(addPropStatusCall);
     
     if (callsApiResult || !Error) setLoading(false);
+
+    const checkAttendsCalls = mergeAllCallsAnsweredAndNot(formatClidCallsUnit);
     
-    return setCallsDb(formatClidCallsUnit);
+    return setCallsDb(checkAttendsCalls);
   }, [dayDb, setCallsDb]);
 
   const validateUserLogged = async () => {
