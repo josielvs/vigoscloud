@@ -9,11 +9,11 @@ const {
 } = process.env
 
 export const clickToCall = async (data) => {
-  const { token } = await accessLocalStorage.getUserLocalStorage();
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
 
   try {
     const response = await axios
-      .post(`${REACT_APP_HOST}/api/calls/click`, data, { headers: { Authorization: token } });
+      .post(`${ipRequest}api/calls/click`, data, { headers: { Authorization: token } });
     return response;
   } catch (error) {
     console.log(error);
@@ -21,11 +21,11 @@ export const clickToCall = async (data) => {
 }
 
 export const cancelClickToCall = async (data) => {
-  const { token } = await accessLocalStorage.getUserLocalStorage();
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
 
   try {
     const response = await axios
-      .post(`${REACT_APP_HOST}/api/calls/cancel-click`, data, { headers: { Authorization: token } });
+      .post(`${ipRequest}api/calls/cancel-click`, data, { headers: { Authorization: token } });
     return response;
   } catch (error) {
     console.log(error);
@@ -33,11 +33,11 @@ export const cancelClickToCall = async (data) => {
 }
 
 export const trasferCall = async (data) => {
-  const { token } = await accessLocalStorage.getUserLocalStorage();
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
 
   try {
     const response = await axios
-      .post(`${REACT_APP_HOST}/api/calls/transfer`, data, { headers: { Authorization: token } });
+      .post(`${ipRequest}api/calls/transfer`, data, { headers: { Authorization: token } });
     return response;
   } catch (error) {
     console.log(error);
@@ -45,11 +45,11 @@ export const trasferCall = async (data) => {
 }
 
 export const cancelTrasferCall = async (data) => {
-  const { token } = await accessLocalStorage.getUserLocalStorage();
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
 
   try {
     const response = await axios
-      .post(`(REACT_APP_HOST}/api/calls/cancel-transfer`, data, { headers: { Authorization: token } });
+      .post(`${ipRequest}api/calls/cancel-transfer`, data, { headers: { Authorization: token } });
     return response;
   } catch (error) {
     console.log(error);
@@ -58,15 +58,15 @@ export const cancelTrasferCall = async (data) => {
 
 
 export const enterToCall = async (id) => {
+  const { ipRequest } = await accessLocalStorage.getUserLocalStorage();
   try {
     const response = await axios
-      .post(`${REACT_APP_HOST}/ari/channels?api_key=vigospbx:vigosinterface&channelId/snoop`);
+      .post(`${ipRequest}/ari/channels?api_key=vigospbx:vigosinterface&${id}/snoop`);
     return response;
   } catch (error) {
     console.log(error);
   }
 }
-
 
 export const requestToken = async (userData, ip) => {
   try {
@@ -80,7 +80,7 @@ export const requestToken = async (userData, ip) => {
 export const registerUser = async (userData) => {
   try {
     const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
-    const response = await axios.post(`${iprequest}api/login/register`, userData);
+    const response = await axios.post(`${ipRequest}api/login/register`, userData);
     return response;
   } catch (error) {
     return error.response.status;

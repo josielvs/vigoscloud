@@ -1,6 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-// import './libs/bulma.min.css';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import Provider from './context/Provider';
 import Login from './pages/Login';

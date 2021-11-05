@@ -1,8 +1,12 @@
 exports.clickController = (dataCall) => {
   return async (req, res, next) => {
-    const { name, dest, exten } = req.body;
-    const call = await dataCall.click({ name, dest, exten })
-    res.status(200).json({ message: 'Chamada realizada com sucesso!'});
+    try {
+      const { name, dest, exten } = req.body;
+      const call = await dataCall.click({ name, dest, exten });
+      res.status(200).json({ message: 'Chamada realizada com sucesso!'});
+    } catch (error) {
+      res.status(400).json({ message: 'Não foi possível realizar a chamada!'});
+    }
   }
 };
 

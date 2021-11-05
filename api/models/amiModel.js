@@ -4,14 +4,11 @@ const clickToCall = (connection, data) => {
   const { name, dest, exten } = data;
   try {
     connection.connect('connect', () => {
-console.log('Data_Name: ', name);
-console.log('Data_Dest: ', dest);
-console.log('Data_Ext: ', exten);
       connection.send({
         'Action': 'Originate',
         'Channel': `PJSIP/${exten}`,
         'Exten': dest,
-        'Context': 'from-system',
+        'Context': 'ddd-celular',
         'Priority': 1,
         'CallerID': name,
         'Async': 'yes',
