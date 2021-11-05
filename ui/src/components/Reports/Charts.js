@@ -26,7 +26,7 @@ const Charts = () => {
       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
     });
     const actualDate = new Date();
-    dateFormated ? dateFormated : dateFormated = `${actualDate.getDate()}/${actualDate.getMonth()+1}/${actualDate.getFullYear()}`;
+    dateFormated = dateFormated ? dateFormated : dateFormated = `${actualDate.getDate()}/${actualDate.getMonth()+1}/${actualDate.getFullYear()}`;
 
     const reduceEndipoints = callsDb.reduce((acc, cur) => {
       const endpoint = cur.dst;
@@ -37,7 +37,7 @@ const Charts = () => {
       }
       return acc;
     }, {});
-    // Josiel
+    
     const endpointList = callsDb.filter(element => {
       const isPhoneInternal = element.dst;
       if(isPhoneInternal && isPhoneInternal.length < 5 && isPhoneInternal.length > 2 && Number(isPhoneInternal)) {

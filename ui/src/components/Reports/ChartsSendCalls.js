@@ -27,7 +27,7 @@ const Charts = () => {
       dateFormated = `${dateFormated[2]}/${dateFormated[1]}/${dateFormated[0]}`;
     });
     const actualDate = new Date();
-    dateFormated ? dateFormated : dateFormated = `${actualDate.getDate()}/${actualDate.getMonth()+1}/${actualDate.getFullYear()}`;
+    dateFormated = dateFormated ? dateFormated : dateFormated = `${actualDate.getDate()}/${actualDate.getMonth()+1}/${actualDate.getFullYear()}`;
 
     const reduceEndipoints = callsDb.reduce((acc, cur) => {
       const endpoint = cur.src;
@@ -61,7 +61,7 @@ const Charts = () => {
       }
       return object; 
     },{});
-    // Josiel
+
     const axisYSet = Object.values(endpointList).reduce((acc, cur) => {
       if (acc < cur) acc = cur + 1;
       return acc <= 6 ? 7 : acc;

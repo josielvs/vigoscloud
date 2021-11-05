@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import PbxContext from '../../context/PbxContext';
-import { accessLocalStorage } from '../../services';
 
 const Burger = () => {
   const getItensStateGlobal = useContext(PbxContext);
