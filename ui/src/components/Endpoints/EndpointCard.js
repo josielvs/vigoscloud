@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import PbxContext from '../../context/PbxContext';
-import {  accessLocalStorage, clickToCall, cancelClickToCall, trasferCall, cancelTrasferCall } from '../../services';
+import {  accessLocalStorage, clickToCall, cancelClickToCall, trasferCall, cancelTrasferCall, clickToSpy } from '../../services';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPhoneAlt, faShare, faStopCircle, faPhoneSlash } from '@fortawesome/free-solid-svg-icons';
@@ -43,7 +43,6 @@ const EndpointCard = (props) => {
 
   const handleClick = async (dest, name) => {
     if (!name) name = dest;
-    console.log('EndpointCard: ', dest, name);
     const { user } = await accessLocalStorage.getUserLocalStorage();
     const myEndpoint = { 
       name,
@@ -51,7 +50,7 @@ const EndpointCard = (props) => {
       "exten": user.endpoint,
     }
     const result = await clickToCall(myEndpoint);
-    // if (result.status === 200) setButtonClick2Call(true);
+    if (result.status === 200) setButtonClick2Call(true);
   };
 
   const handleClickStop = async () => {
@@ -78,13 +77,21 @@ const EndpointCard = (props) => {
   };
 
   const handleTransferStop = async (dest) => {
-    
     const myEndpoint = {
       channel: channelTransferOn,
       dest,
     }
     const result = await cancelTrasferCall(myEndpoint);
     if (result.status === 200) setButtonTransferCall(false);
+  };
+
+  const handleClickSpy = async (dest) => {
+    const { user } = await accessLocalStorage.getUserLocalStorage();
+    const data = {
+      dest,
+      "exten": user.endpoint,
+    };
+    return await clickToSpy(data);
   };
 
   return (
@@ -106,7 +113,7 @@ const EndpointCard = (props) => {
           <Link to="#" onClick={ () => handleClickStop() } hidden={!buttonClick2Call}><FontAwesomeIcon icon={faPhoneSlash} style={{ color: 'red' }} fixedWidth className="icon mx-1"/></Link>
           <Link to="#" onClick={ () => handleTransfer(resource) } hidden={buttonTransferCall}><FontAwesomeIcon icon={faShare} fixedWidth className="icon mx-1"/></Link>
           <Link to="#" onClick={ () => handleTransferStop(resource) } hidden={!buttonTransferCall}><FontAwesomeIcon icon={faStopCircle} style={{ color: 'red' }} fixedWidth className="icon mx-1"/></Link>
-          {/* <Link to="#"><FontAwesomeIcon icon={faEye} fixedWidth className="icon mx-1"/></Link> */}
+          <Link to="#" onClick={ () => handleClickSpy(resource) }><FontAwesomeIcon icon={faEye} fixedWidth className="icon mx-1"/></Link>
         </div>
       </div>
     </div>

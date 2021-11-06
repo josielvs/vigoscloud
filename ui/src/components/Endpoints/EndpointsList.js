@@ -17,9 +17,9 @@ const EndpointsList = () => {
   }
 
   const fnTeste = () => {
-    const getElements = document.getElementById(ipEndpoints.endpoint);
+    return document.getElementById(ipEndpoints.endpoint);
     // if (ipEndpoints.endpoint === endpoint.resource && endpoint.state === 'offline')console.log(ipEndpoints); // playSoundState(down);
-    // console.log(getElements); // playSoundState(down); 
+    // console.log(getElements); // playSoundState(down);
   };
   
   useEffect(() => {
