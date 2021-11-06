@@ -56,12 +56,12 @@ export const cancelTrasferCall = async (data) => {
   }
 }
 
+export const clickToSpy = async (data) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
 
-export const enterToCall = async (id) => {
-  const { ipRequest } = await accessLocalStorage.getUserLocalStorage();
   try {
     const response = await axios
-      .post(`${ipRequest}/ari/channels?api_key=vigospbx:vigosinterface&${id}/snoop`);
+      .post(`${ipRequest}api/calls/spy`, data, { headers: { Authorization: token } });
     return response;
   } catch (error) {
     console.log(error);
@@ -150,5 +150,3 @@ export const fetchCallOnDay = async (id) => {
     console.log(error);
   }
 };
-
-// export default { fetchCallOnDay, fetchRecCall, fetchCallsAnalistas, fetchCallsDataBase, fetchEndpoints, enterToCall, clickToCall, trasferCall, requestToken, registerUser }
