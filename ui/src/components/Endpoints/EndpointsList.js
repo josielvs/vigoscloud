@@ -18,8 +18,6 @@ const EndpointsList = () => {
 
   const fnTeste = () => {
     return document.getElementById(ipEndpoints.endpoint);
-    // if (ipEndpoints.endpoint === endpoint.resource && endpoint.state === 'offline')console.log(ipEndpoints); // playSoundState(down);
-    // console.log(getElements); // playSoundState(down);
   };
   
   useEffect(() => {
@@ -41,7 +39,6 @@ const EndpointsList = () => {
               }).map((endpoint) => {
                 if(ipEndpoints.endpoint === endpoint.resource) {
                   const classNamed = endpoint.state === 'online' ? 'has-background-success' : 'has-background-primary-light';
-		  // if (ipEndpoints.endpoint === endpoint.resource && endpoint.state === 'offline')console.log(ipEndpoints); // playSoundState(down);
                   endpoint = {
                     technology: endpoint.technology,
                     resource: endpoint.resource,
@@ -68,7 +65,6 @@ const EndpointsList = () => {
             }).map((endpoint) => {
               if(ipEndpoints.endpoint === endpoint.resource) {
                 const classNamed = endpoint.state === 'online' ? 'has-background-success' : 'has-background-primary-light';
-                // if (ipEndpoints.endpoint === endpoint.resource && endpoint.state === 'offline')console.log(ipEndpoints); // playSoundState(down);
                 endpoint = {
                   technology: endpoint.technology,
                   resource: endpoint.resource,

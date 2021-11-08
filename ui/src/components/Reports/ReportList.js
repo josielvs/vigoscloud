@@ -61,7 +61,7 @@ const ReportList = () => {
     const addCallsOfProtocol = addKeyProtocolNumber(allCalls, 'callprotocol');
     return addCallsOfProtocol;
   };
-  console.log(checkCallResponsedOrNot(callsDb));
+  // console.log(checkCallResponsedOrNot(callsDb));
 
   const csvGenerate = () => {
     let csv = 'Data e Hora, Ligação De, Ligação Para, Status da Ligação, Tipo, Total da Ligação, Tempo Em Linha, Protocolo\n';
