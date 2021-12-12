@@ -96,7 +96,7 @@ const EndpointCard = (props) => {
 
   return (
     <div
-      className={ `column is-narrow has-text-centered ${myClass} ${fontColorChanged} mx-1` }
+      className={ `column is-narrow has-text-centered ${myClass} ${fontColorChanged} mx-1 my-1` }
     >
       <div
         className={ `column is-narrow px-3` }
