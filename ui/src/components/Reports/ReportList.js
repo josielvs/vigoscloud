@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReportTable from './ReportTable';
 import NoDataLoad from './NoDataLoad';
 import PbxContext from '../../context/PbxContext'
+import { accessLocalStorage } from '../../services';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
 
 const ReportList = () => {
   const getItensStateGlobal = useContext(PbxContext);
+  const [userDbLocal, setUserDbLocal] = useState({});
   const { callsDb } = getItensStateGlobal;
 
   const convertDateAndTime = (call) => {
@@ -84,6 +86,17 @@ const ReportList = () => {
     hiddenElement.download = 'Relatorio.csv';
     hiddenElement.click();
   };
+  
+  const getUserDataLocal = async () => {
+    const dataUser = await accessLocalStorage.getUserLocalStorage(); 
+    const { user } = dataUser;
+    setUserDbLocal(user);
+    return;
+  };
+
+  useEffect(() => {
+    getUserDataLocal();
+  }, []);
 
   return callsDb && callsDb === [] ? { NoDataLoad } : (
     <div className="report-page">
@@ -133,8 +146,10 @@ const ReportList = () => {
                   call['dateBrFull'] = newFormatDateFull;
                   call['callDuration'] = callDuration;
                   call['callBillsec'] = callBillsec;
+		  call['userType'] = userDbLocal.role;
+		  console.log(call);
 
-                  return <ReportTable key={ index } call={ call } />
+                  return call !== 'menu' && Number(call.dest) > 8 ? <ReportTable key={ index } call={ call } /> : null;
                 })
               }
           </table>
