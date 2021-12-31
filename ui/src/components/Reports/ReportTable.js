@@ -10,8 +10,8 @@ class ReportTable extends React.Component {
     const { dateBrFull, src, dst, callBillsec, callDuration, typecall, statuscall, callprotocol, callprotocolUrl, userType } = call;
     let url = window.location.href;
     url = url.split('/')[2];
-    const pathFull = `http://${url}/api/download/file/${callprotocol}`;
-    userType !== 'admin' ? showRecs = { icon: faBan, path: '#', target: '_' } : showRecs = { icon: faPlay, path: pathFull, target: '_blank' }
+    // const pathFull = `http://${url}/api/download/file/${callprotocol}`;
+    // userType !== 'admin' ? showRecs = { icon: faBan, path: '#', target: '_' } : showRecs = { icon: faPlay, path: pathFull, target: '_blank' }
     return (
       <tbody>
         <tr>
@@ -23,7 +23,8 @@ class ReportTable extends React.Component {
           <td>{callDuration}</td>
           <td>{callBillsec}</td>
           <td>{callprotocol}</td>
-	  <td><Link to={{ pathname: showRecs.path }} target={showRecs.target}><FontAwesomeIcon icon={showRecs.icon} fixedWidth /></Link></td>
+	        <td><Link to={{ pathname: `http://${url}/api/download/file/${callprotocol}` }} target="_blank"><FontAwesomeIcon icon={faPlay} fixedWidth /></Link></td>
+          {/* <td><Link to={{ pathname: showRecs.path }} target={showRecs.target}><FontAwesomeIcon icon={showRecs.icon} fixedWidth /></Link></td> */}
         </tr>
       </tbody>
     )
