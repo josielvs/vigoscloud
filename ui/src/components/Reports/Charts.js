@@ -87,7 +87,7 @@ const Charts = () => {
   
   const { datasets } = chartItems;
   return (
-    <div className="column is-half">
+    <div className="column is-one-third">
       <h2 className="has-text-left is-size-5">Chamadas Recebidas</h2>
       <Bar
         data={ { labels, datasets } }

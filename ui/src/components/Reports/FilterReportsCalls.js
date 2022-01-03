@@ -94,14 +94,14 @@ const FilterReportsCalls = () => {
       </div>
       <form>
         <div className="columns mx-2">
-          <div className="field column mx-0">
+          <div className="column is-2 is-offset-4 field">
             <label className="label">Data Inicial
               <div className="control">
               <input className="input" type="date" onChange={(e) => setStartDate(e.target.value)} />
             </div>
             </label>
           </div>
-          <div className="field column mx-0">
+          <div className="field column is-2">
             <label className="label">Data Final
               <div className="control">
               <input className="input" type="date" onChange={(e) => setEndDate(e.target.value)}
@@ -109,20 +109,6 @@ const FilterReportsCalls = () => {
             </div>
             </label>
           </div>
-          {/* <div className="column mx-0 mt-1 is-one-quarter">
-            <div className="field column mt-2">
-                <div className="control">
-                  <button className="button is-info is-fullwidth" type="button" onClick={ () => readCallsOnDate() }>
-                    <span className="icon">
-                      <FontAwesomeIcon icon={faSearch} fixedWidth />
-                    </span>
-                    <span>
-                      FILTRAR POR DATA
-                    </span>
-                  </button>
-                </div>
-            </div>
-          </div> */}
         </div>
         <div className="columns mx-2">
           <div className="column is-4 mx-0">
@@ -198,13 +184,13 @@ const FilterReportsCalls = () => {
               </div>
             </label>
           </div>
-          {/* <div className="column mx-0">
+          <div className="column mx-0">
             <label className="label">Espera (em segundos)
               <div className="control">
-                <input className="input" type="number" placeholder="Ex.: 60" onChange={ (e) => setWaitLocal(e.target.value) } />
+                <input className="input" type="number" placeholder="Ex.: 60" />
               </div>
             </label>
-          </div> */}
+          </div>
         </div>
         <div className="columns mx-2">
           <div className="column is-one-fifth mx-1">

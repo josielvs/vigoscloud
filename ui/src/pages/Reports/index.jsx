@@ -88,20 +88,15 @@ function Reports() {
           <div className="columns mx-2">
             <Charts />
             <ChartsSendCalls />
+            <ChartCallsStatusPie />
           </div>
           <hr className="m-0 p-0"/>
-          <div className="columns mx-2 my-2">
+          <div className="columns mx-2">
             <ChartBySector />
+            <ChartCallsStatusByTime />
             <ChartCallsStatusGlobal />
           </div>
           <hr className="m-0 p-0"/>
-          <div className="columns mx-2 my-2">
-            <ChartCallsStatusByTime />
-            <ChartCallsStatusPie />
-          </div>
-
-          <hr />
-          {/* <FilterReports /> */}
           <FilterReportsCalls />
           <ReportList />
           </>
