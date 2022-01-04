@@ -111,12 +111,12 @@ const FilterReportsCalls = () => {
           </div>
         </div>
         <div className="columns mx-2">
-          <div className="column is-4 mx-0">
+          <div className="column">
             <label className="label">Tipo
               <div className="control">
-                <div className="select column is-full pl-0">
-                  <select className="column is-full" value={ typeCallsLocal } onChange={ (e) => setTypeCallsLocal(e.target.value) }>
-                    <option className="column" value="">Selecione</option>
+                <div className="select">
+                  <select className="select" value={ typeCallsLocal } onChange={ (e) => setTypeCallsLocal(e.target.value) }>
+                    <option value="">Selecione</option>
                     <option value="Efetuada">Efetuada</option>
                     <option value="Recebida">Recebida</option>
                   </select>
@@ -124,11 +124,11 @@ const FilterReportsCalls = () => {
               </div>
             </label>
           </div>
-          <div className="column is-4 mx-0">
+          <div className="column">
             <label className="label">Status
               <div className="control">
-                <div className="select column is-full pl-0">
-                  <select className="select column is-full" value={ statusCallLocal } onChange={(e) => setStatusCallLocal(e.target.value)}>
+                <div className="select pl-0">
+                  <select className="select" value={ statusCallLocal } onChange={(e) => setStatusCallLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     <option value="ANSWERED">Atendida</option>
                     <option value="NO ANSWER">Não Atendida</option>
@@ -137,11 +137,11 @@ const FilterReportsCalls = () => {
               </div>
             </label>
           </div>
-          <div className="column is-4 mx-0">
+          <div className="column">
             <label className="label">Setor
               <div className="control">
-                <div className="select column is-full pl-0">
-                  <select className="select column is-full" value={ sectorLocal } onChange={(e) => setSectorLocal(e.target.value)}>
+                <div className="select pl-0">
+                  <select className="select" value={ sectorLocal } onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
                       callsDb
@@ -154,29 +154,42 @@ const FilterReportsCalls = () => {
               </div>
             </label>
           </div>
-        </div>
-        <div className="columns mx-2">
-          <div className="field column mx-0">
+          <div className="column">
+            <label className="label">Ramal
+              <div className="control">
+                <div className="select">
+                  <select className="select" value={ statusCallLocal } onChange={(e) => setStatusCallLocal(e.target.value)}>
+                    <option value="">Selecione</option>
+                    <option value="7000">7000</option>
+                    <option value="7001">7001</option>
+                  </select>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div className="field column">
             <label className="label">Protocolo
               <div className="control">
                 <input className="input" type="text" placeholder="Digite do prot." onChange={ (e) => setProtocolLocal(e.target.value) } />
               </div>
             </label>
           </div>
-          <div className="field column mx-0">
+          <div className="field column">
             <label className="label">Código de Área
               <div className="control">
                 <input className="input" type="text" placeholder="Digite o DDD" onChange={ (e) => setAreaCodeLocal(e.target.value) } disabled />
               </div>
             </label>
           </div>
-          <div className="field column mx-0">
+          <div className="field column">
             <label className="label">Telefone
               <div className="control">
                 <input className="input" type="text" placeholder="Apenas números" onChange={ (e) => setPhoneNumberLocal(e.target.value) } />
               </div>
             </label>
           </div>
+        </div>
+        <div className="columns mx-2">
           <div className="column mx-0">
             <label className="label is-flex-wrap-nowrap">Duração (em segundos)
               <div className="control">
@@ -192,7 +205,7 @@ const FilterReportsCalls = () => {
             </label>
           </div>
         </div>
-        <div className="columns mx-2">
+        {/* <div className="columns mx-2">
           <div className="column is-one-fifth mx-1">
             <label className="label">
               <input className="mr-1" type="checkbox"  onChange={ (e) => filterByEndpoints() }/>
@@ -210,7 +223,7 @@ const FilterReportsCalls = () => {
               </div>
             </label>
           </div>
-        </div>
+        </div> */}
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
                 <div className="control">
