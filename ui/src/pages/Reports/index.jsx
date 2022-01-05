@@ -9,6 +9,8 @@ import ChartBySector from '../../components/Reports/ChartBySector';
 import ChartCallsStatusGlobal from '../../components/Reports/ChartCallsStatusGlobal';
 import ChartCallsStatusByTime from '../../components/Reports/ChartCallsStatusByTime';
 import ChartCallsStatusPie from '../../components/Reports/ChartCallsStatusPie';
+import TableReceivedCalls from '../../components/Reports/TableReceivedCalls';
+import TableSentCalls from '../../components/Reports/TableSentCalls';
 // import ChartCallsStatusBySectorAndTime from '../../components/Reports/ChartCallsStatusBySectorAndTime';
 import FilterReportsCalls from '../../components/Reports/FilterReportsCalls';
 import Loading from '../../components/Loading/LoadingModule';
@@ -95,6 +97,11 @@ function Reports() {
             <ChartBySector />
             <ChartCallsStatusByTime />
             <ChartCallsStatusGlobal />
+          </div>
+          <hr className="m-0 p-0"/>
+          <div className="columns mx-2">
+              <TableReceivedCalls />
+              <TableSentCalls />
           </div>
           <hr className="m-0 p-0"/>
           <FilterReportsCalls />

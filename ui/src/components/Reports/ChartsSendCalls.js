@@ -10,7 +10,7 @@ const Charts = () => {
     datasets: [
       {
         label: '',
-        backgroundColor: 'rgba(30,144,255)',
+        backgroundColor: 'rgba(0, 153, 0)', // 'rgba(30,144,255)',
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 1,
         data: [0],
