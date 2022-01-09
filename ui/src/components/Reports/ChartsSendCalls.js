@@ -10,7 +10,7 @@ const Charts = () => {
     datasets: [
       {
         label: '',
-        backgroundColor: 'rgba(30,144,255)',
+        backgroundColor: 'rgba(0, 153, 0)', // 'rgba(30,144,255)',
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 1,
         data: [0],
@@ -88,7 +88,7 @@ const Charts = () => {
   const { datasets } = chartItems;
   return (
     // <div className="chart-calls-atended">
-    <div className="column is-half">
+    <div className="column column is-4 is-offset-0">
       <h2 className="has-text-left is-size-5">Chamadas Realizadas</h2>
         <Bar
           data={ {labels, datasets } }

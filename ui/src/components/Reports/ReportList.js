@@ -146,10 +146,8 @@ const ReportList = () => {
                   call['dateBrFull'] = newFormatDateFull;
                   call['callDuration'] = callDuration;
                   call['callBillsec'] = callBillsec;
-		  call['userType'] = userDbLocal.role;
-		  console.log(call);
 
-                  return call !== 'menu' && Number(call.dest) > 8 ? <ReportTable key={ index } call={ call } /> : null;
+                  return <ReportTable key={ index } call={ call } />;
                 })
               }
           </table>
