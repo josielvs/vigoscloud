@@ -7,21 +7,13 @@ const TableReceivedCalls = () =>  {
       <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
           <tr className='has-background-info'>
-            <th className='has-text-primary-light is-spaced is-justify-content-center' colspan="2">Contatos Realizados</th>
+            <th className='has-text-primary-light is-spaced is-justify-content-center' colspan="2">Contatos Recebidos</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Ligações Atendidas de Contatos</td>
             <th>8427</th>
-          </tr>
-          <tr>
-            <td>Duração Total</td>
-            <th>14:52:50</th>
-          </tr>
-          <tr>
-            <td>Tempo Médio</td>
-            <th>00:13:17</th>
           </tr>
           <tr>
             <td>Total Contatos Atendidos</td>
@@ -36,12 +28,20 @@ const TableReceivedCalls = () =>  {
             <th>121</th>
           </tr>
           <tr>
-            <td>Tempo Médio na Fila (Atendidos)</td>
-            <th>00:00:09</th>
-          </tr>
-          <tr>
             <td>Chamadas de Transbordo</td>
             <th>1</th>
+          </tr>
+          <tr>
+            <td>Duração Total</td>
+            <th>14:52:50</th>
+          </tr>
+          <tr>
+            <td>Tempo Médio</td>
+            <th>00:13:17</th>
+          </tr>
+          <tr>
+            <td>Tempo Médio na Fila (Atendidos)</td>
+            <th>00:00:09</th>
           </tr>
         </tbody>
       </table>

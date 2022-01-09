@@ -7,7 +7,7 @@ const TableSentCalls = () =>  {
       <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
           <tr className='has-background-success'>
-            <th className='has-text-primary-light is-spaced is-justify-content-center' colspan="2">Contatos Recebidos</th>
+            <th className='has-text-primary-light is-spaced is-justify-content-center' colspan="2">Contatos Realizados</th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +34,10 @@ const TableSentCalls = () =>  {
           <tr>
             <td>Total Contatos Ocupados</td>
             <th>99</th>
+          </tr>
+          <tr>
+            <td>Total Contatos com Falha</td>
+            <th>5</th>
           </tr>
         </tbody>
       </table>
