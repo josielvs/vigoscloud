@@ -1,3 +1,5 @@
+const { dbCallsServices } = require('../services');
+
 exports.readAllController = (callsDb) => {
   return async (req, res, next) => {
     const { day } = req.body;
@@ -32,9 +34,18 @@ exports.readByAreaCodeController = (callsDb) => {
 
 exports.readAllQueriesReportController = (callsDb) => {
   return async (req, res, next) => {
-    const { dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol } = req.body;
+    let { dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol } = req.body;
     try {
-      const calls = await callsDb.readAllQueriesReport(dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol);
+      const checked = dbCallsServices.verifyAllData([
+        {'checkedDateInit': dateStart },
+        {'checkedDateFinal': dateStop},
+        {'checkedSector': sector},
+        {'checkedGetEndpoint': getEndpoint},
+        {'checkedTelNumber': telNumber},
+        {'checkedGetProtocol': getProtocol}
+      ]);
+      const checkedResult = checked;
+      const calls = await callsDb.readAllQueriesReport(...checkedResult);
       res.status(200).json(calls);
     } catch (error) {
       next(error);
