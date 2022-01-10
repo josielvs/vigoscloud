@@ -41,7 +41,7 @@ AFTER DELETE ON cdr
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---- Function GET CALLS TO REPORT TABLE RECEIVED ---
+--- 1- Function GET CALLS TO REPORT TABLE RECEIVED ---
 CREATE OR REPLACE FUNCTION get_data_of_report_calls_received(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -142,7 +142,7 @@ SELECT * FROM  "get_data_of_report_calls_received"('2022-01-05 00:00:00', '2022-
 SELECT * FROM  "get_data_of_report_calls_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061503397');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---- Function GET CALLS TO REPORT TABLE SENT ---
+--- 2- Function GET CALLS TO REPORT TABLE SENT ---
 CREATE OR REPLACE FUNCTION get_data_of_report_calls_sent(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -227,7 +227,7 @@ SELECT * FROM  "get_data_of_report_calls_sent"('2022-01-05 00:00:00', '2022-01-3
 SELECT * FROM  "get_data_of_report_calls_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061503397');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Get Endpoints as Volume Calls Received--
+-- 3- Function Get Endpoints as Volume Calls Received--
 CREATE OR REPLACE FUNCTION get_endpoints_volume_received_calls(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -259,7 +259,7 @@ CREATE OR REPLACE FUNCTION get_endpoints_volume_received_calls(
 DROP FUNCTION get_endpoints_volume_received_calls(dateInitial timestamp, dateEnd timestamp);
 SELECT * FROM  "get_endpoints_volume_received_calls"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Get Endpoints as Volume Calls Sent --
+-- 4- Function Get Endpoints as Volume Calls Sent --
 CREATE OR REPLACE FUNCTION get_endpoints_volume_sent_calls(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -291,7 +291,7 @@ DROP FUNCTION get_endpoints_volume_sent_calls(dateInitial timestamp, dateEnd tim
 SELECT * FROM  "get_endpoints_volume_sent_calls"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Get Volume Calls Sent Internal and External --
+-- 5- Function Get Volume Calls Sent Internal and External --
 CREATE OR REPLACE FUNCTION get_volume_sent_calls_external_and_external(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -338,7 +338,7 @@ DROP FUNCTION get_volume_sent_calls_external_and_external(
 SELECT * FROM  "get_volume_sent_calls_external_and_external"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Get Volume Calls Received and Answered By Sector --
+-- 6- Function Get Volume Calls Received and Answered By Sector --
 CREATE OR REPLACE FUNCTION get_volume_call_received_by_sector(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -378,7 +378,7 @@ DROP FUNCTION get_volume_call_received_by_sector(
 SELECT * FROM  "get_volume_call_received_by_sector"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Get Volume Calls Received and Not Answered By Sector --
+-- 7- Function Get Volume Calls Received and Not Answered By Sector --
 CREATE OR REPLACE FUNCTION get_volume_call_received_not_answer_by_sector(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -419,7 +419,7 @@ DROP FUNCTION get_volume_call_received_not_answer_by_sector(
 SELECT * FROM  "get_volume_call_received_not_answer_by_sector"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Get Volume Calls Received By Hour --
+-- 8- Function Get Volume Calls Received By Hour --
 CREATE OR REPLACE FUNCTION get_volume_call_received_answered_by_hour(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -460,7 +460,7 @@ DROP FUNCTION get_volume_call_received_answered_by_hour(
 );
 SELECT * FROM  "get_volume_call_received_answered_by_hour"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061548186');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Get Volume Calls Received By Hour --
+-- 9- Function Get Volume Calls Received By Hour --
 CREATE OR REPLACE FUNCTION get_volume_call_received_no_answer_by_hour(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -482,7 +482,15 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_no_answer_by_hour(
           EXTRACT(HOUR FROM calldate) AS hours_calls, 0 AS answered, COUNT(DISTINCT(uniqueid)) AS no_answer 
         FROM cdr AS a
           WHERE (calldate BETWEEN dateInitial AND dateEnd)
-          AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr WHERE (calldate BETWEEN dateInitial AND dateEnd) AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida')
+          AND a.uniqueid NOT IN (
+            SELECT uniqueid FROM cdr
+            WHERE (calldate BETWEEN dateInitial AND dateEnd)
+            AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+          )
           AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
           AND lastdata LIKE '%' || recSector || '%'
           AND dstchannel LIKE '%' || endpoint || '%'
@@ -500,14 +508,203 @@ DROP FUNCTION get_volume_call_received_no_answer_by_hour(
   telNumber character varying(30),
   protocol character varying(30)
 );
-SELECT * FROM  "get_volume_call_received_no_answer_by_hour"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061548186');
+SELECT * FROM  "get_volume_call_received_no_answer_by_hour"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 10- Function Get Volume Calls Received Global --
+CREATE OR REPLACE FUNCTION get_volume_call_received_answered_and_no_answer_global(
+  dateInitial timestamp,
+  dateEnd timestamp,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "answered" bigint,
+    "no_answer" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    BEGIN
+      return QUERY
+      SELECT
+        (SELECT
+          COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN dateInitial AND dateEnd)
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+        AND lastdata LIKE '%' || recSector || '%'
+        AND dstchannel LIKE '%' || endpoint || '%'
+        AND src LIKE '%' || telNumber || '%'
+        AND callprotocol LIKE '%' || protocol || '%') AS answered,
+        (SELECT
+          COUNT(DISTINCT(uniqueid))
+        FROM cdr AS a
+          WHERE (calldate BETWEEN dateInitial AND dateEnd)
+          AND a.uniqueid NOT IN (
+            SELECT uniqueid FROM cdr
+            WHERE (calldate BETWEEN dateInitial
+            AND dateEnd) AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+          )
+          AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%') AS no_answer;
+    END;
+  $$;
+
+DROP FUNCTION get_volume_call_received_answered_and_no_answer_global(
+  dateInitial timestamp,
+  dateEnd timestamp,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+);
+SELECT * FROM  "get_volume_call_received_answered_and_no_answer_global"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 11- Function Get Rows All Calls --
+CREATE OR REPLACE FUNCTION get_all_calls_rows(
+  dateInitial timestamp,
+  dateEnd timestamp,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30),
+  limitGet integer,
+  offsetGet integer
+)
+  RETURNS TABLE (
+    -- "hours_calls" double precision,
+    -- "answered" integer,
+    -- "no_answer" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    BEGIN
+      return QUERY
+        SELECT * FROM cdr
+          WHERE (calldate BETWEEN dateInitial AND dateEnd)
+          AND lastdata LIKE '%'
+          AND dstchannel LIKE '%'
+          AND src LIKE '%'
+          AND callprotocol LIKE '%'
+        ORDER BY calldate DESC, sequence ASC
+        LIMIT limitGet OFFSET offsetGet;
+    END;
+  $$;
+
+DROP FUNCTION get_volume_call_received_no_answer_by_hour(
+  dateInitial timestamp,
+  dateEnd timestamp,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- WORKING --
+CREATE OR REPLACE FUNCTION public.get_itens_report
+( 
+  ref1 refcursor,
+  ref2 refcursor,
+  ref3 refcursor,
+  ref4 refcursor,
+  ref5 refcursor,
+  ref6 refcursor,
+  ref7 refcursor,
+  ref8 refcursor,
+  ref9 refcursor,
+  ref10 refcursor,
+  dateInitial timestamp,
+  dateEnd timestamp,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+RETURNS SETOF refcursor 
+LANGUAGE 'plpgsql'
+COST 100
+VOLATILE PARALLEL UNSAFE
+ROWS 2000
 
+AS $BODY$
+DECLARE
+            
+BEGIN
+  OPEN ref1 FOR SELECT * FROM  "get_endpoints_volume_received_calls"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref1;
 
+  OPEN ref2 FOR SELECT * FROM  "get_endpoints_volume_sent_calls"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref2;
 
-SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-06 00:00:00' AND '2022-01-30 23:59:59') AND lastapp = 'Queue' AND callprotocol LIKE '%202201061548186%';
+  OPEN ref3 FOR SELECT * FROM  "get_volume_sent_calls_external_and_external"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref3;
+
+  OPEN ref4 FOR SELECT * FROM  "get_volume_call_received_by_sector"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref4;
+
+  OPEN ref5 FOR SELECT * FROM  "get_volume_call_received_not_answer_by_sector"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref5;
+
+  OPEN ref6 FOR SELECT * FROM  "get_volume_call_received_answered_by_hour"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref6;
+
+  OPEN ref7 FOR SELECT * FROM  "get_volume_call_received_no_answer_by_hour"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref7;
+
+  OPEN ref8 FOR SELECT * FROM  "get_volume_call_received_answered_and_no_answer_global"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref8;
+
+  OPEN ref9 FOR SELECT * FROM  "get_data_of_report_calls_received"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref9;
+
+  OPEN ref10 FOR SELECT * FROM  "get_data_of_report_calls_sent"(dateInitial, dateEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref10;
+END;
+$BODY$;
+
+DROP FUNCTION get_itens_report( 
+  ref1 refcursor,
+  ref2 refcursor,
+  ref3 refcursor,
+  ref4 refcursor,
+  ref5 refcursor,
+  ref6 refcursor,
+  ref7 refcursor,
+  ref8 refcursor,
+  ref9 refcursor,
+  ref10 refcursor,
+  dateInitial timestamp,
+  dateEnd timestamp,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+);
+
+BEGIN;
+    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', '2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
+    FETCH ALL IN "Ref1";
+    FETCH ALL IN "Ref2";
+    FETCH ALL IN "Ref3";
+    FETCH ALL IN "Ref4";
+    FETCH ALL IN "Ref5";
+    FETCH ALL IN "Ref6";
+    FETCH ALL IN "Ref7";
+    FETCH ALL IN "Ref8";
+    FETCH ALL IN "Ref9";
+    FETCH ALL IN "Ref10";
+COMMIT;
+
 
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
