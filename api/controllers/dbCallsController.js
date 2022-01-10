@@ -29,3 +29,15 @@ exports.readByAreaCodeController = (callsDb) => {
     res.status(200).json(call);
   }
 }
+
+exports.readAllQueriesReportController = (callsDb) => {
+  return async (req, res, next) => {
+    const { dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol } = req.body;
+    try {
+      const calls = await callsDb.readAllQueriesReport(dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol);
+      res.status(200).json(calls);
+    } catch (error) {
+      next(error);
+    }
+  }
+}

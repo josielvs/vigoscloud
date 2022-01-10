@@ -21,6 +21,9 @@ dbCallRoute.post('/protocol', authMiddleware, readByProtocolRoute);
 const readByAreaCodeRoute = dbCallsController.readByAreaCodeController(callsDb);
 dbCallRoute.post('/code', authMiddleware, readByAreaCodeRoute);
 
+const readAllQueriesReportRoute = dbCallsController.readAllQueriesReportController(callsDb);
+dbCallRoute.post('/report', authMiddleware, readAllQueriesReportRoute);
+
 const downloadAudioCall = dbCallRoute.get('/file/:id', (req, res) => {
     const id = req.params.id;
     res.download(path.join(__dirname, `../recs/${id}.wav`), (err)=>{
