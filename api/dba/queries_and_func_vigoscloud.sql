@@ -339,6 +339,7 @@ SELECT * FROM  "get_volume_sent_calls_external_and_external"('2022-01-05 00:00:0
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 6- Function Get Volume Calls Received and Answered By Sector --
+-- SUBSTRING(lastdata, 0, CHAR_LENGTH(lastdata) - 9)
 CREATE OR REPLACE FUNCTION get_volume_call_received_by_sector(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -348,14 +349,14 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_by_sector(
   protocol character varying(30)
 )
   RETURNS TABLE (
-    "sectors" text,
+    "sectors" character varying(80),
     "answered" bigint
   )
   LANGUAGE plpgsql AS
   $$
     BEGIN
       return QUERY
-      SELECT SUBSTRING(lastdata, 0, CHAR_LENGTH(lastdata) - 9) AS sectors, COUNT(*) as answered FROM cdr
+      SELECT lastdata AS sectors, COUNT(*) as answered FROM cdr
       WHERE (calldate BETWEEN dateInitial AND dateEnd)
       AND typecall = 'Recebida' AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
       AND lastdata LIKE '%' || recSector || '%'
@@ -379,6 +380,7 @@ SELECT * FROM  "get_volume_call_received_by_sector"('2022-01-05 00:00:00', '2022
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 7- Function Get Volume Calls Received and Not Answered By Sector --
+-- SUBSTRING(lastdata, 0, CHAR_LENGTH(lastdata) - 9)
 CREATE OR REPLACE FUNCTION get_volume_call_received_not_answer_by_sector(
   dateInitial timestamp,
   dateEnd timestamp,
@@ -388,14 +390,14 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_not_answer_by_sector(
   protocol character varying(30)
 )
   RETURNS TABLE (
-    "sectors" text,
+    "sectors" character varying(80),
     "no_answer" bigint
   )
   LANGUAGE plpgsql AS
   $$
     BEGIN
       return QUERY
-      SELECT SUBSTRING(lastdata, 0, CHAR_LENGTH(lastdata) - 9) AS sectors_not_atennd, COUNT(*) AS no_answer FROM cdr AS a
+      SELECT lastdata AS sectors_not_atennd, COUNT(*) AS no_answer FROM cdr AS a
         WHERE (calldate BETWEEN dateInitial AND dateEnd)
         AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr WHERE (calldate BETWEEN dateInitial AND dateEnd) AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida')
         AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida' AND lastapp = 'Queue'
@@ -458,7 +460,7 @@ DROP FUNCTION get_volume_call_received_answered_by_hour(
   telNumber character varying(30),
   protocol character varying(30)
 );
-SELECT * FROM  "get_volume_call_received_answered_by_hour"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061548186');
+SELECT * FROM  "get_volume_call_received_answered_by_hour"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 9- Function Get Volume Calls Received By Hour --
 CREATE OR REPLACE FUNCTION get_volume_call_received_no_answer_by_hour(
