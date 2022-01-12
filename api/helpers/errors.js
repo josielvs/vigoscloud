@@ -3,7 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 const invalidData = {
   isError: true,
   status: StatusCodes.BAD_REQUEST,
-  message: 'Invalid data request',
+  message: 'Dados da requisicao invalidos',
 };
 
 const userAlredyExists = {
@@ -15,11 +15,18 @@ const userAlredyExists = {
 const invalidToken = {
   isError: true,
   status: StatusCodes.UNAUTHORIZED,
-  message: 'User unauthorized',
+  message: 'Usuario nao autorizado',
+};
+
+const sqlDataInvalid = {
+  isError: true,
+  status: StatusCodes.BAD_REQUEST,
+  message: 'Voce nao deveria estar tentando fazer isso! Um e-mail foi reportado!',
 };
 
 module.exports = {
   invalidData,
   userAlredyExists,
   invalidToken,
+  sqlDataInvalid,
 };
