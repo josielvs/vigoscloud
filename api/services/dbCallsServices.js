@@ -40,6 +40,24 @@ const verifyAllData = (data) => {
         acc.push(elementValue);
         break;
 
+      case 'checkedDateFinal':
+        verifyCaracterSegurity(elementValue);
+        verifyDatesExists(elementValue);
+        acc.push(elementValue);
+        break;
+
+      case 'checkedHourInit':
+        verifyCaracterSegurity(elementValue);
+        // verifyItemsNumber(elementValue);
+        acc.push(elementValue);
+        break;
+
+      case 'checkedHourFinal':
+        verifyCaracterSegurity(elementValue);
+        // verifyItemsNumber(elementValue);
+        acc.push(elementValue);
+        break;
+
       case 'checkedSector':
         verifyCaracterSegurity(elementValue);
         verifySector(elementValue);

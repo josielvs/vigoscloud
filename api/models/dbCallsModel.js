@@ -18,10 +18,10 @@ const readByAreaCode = async (connection, code) => {
   return result;
 };
 
-const readAllQueriesReport = async (connection, dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol) => {
+const readAllQueriesReport = async (connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol) => {
   const result = await connection.query(`
     BEGIN;
-    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', '${dateStart} 00:00:00', '${dateStop} 23:59:59', '${sector}', '${getEndpoint}', '${telNumber}', '${getProtocol}');
+    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', '${dateStart}', '${dateStop}', '${hourStart}', '${hourStop}', '${sector}', '${getEndpoint}', '${telNumber}', '${getProtocol}');
     FETCH ALL IN "Ref1";
       FETCH ALL IN "Ref2";
       FETCH ALL IN "Ref3";
@@ -66,8 +66,8 @@ const factory = function (connection) {
     readByAreaCode: (code) => {
       return readByAreaCode(connection, code);
     },
-    readAllQueriesReport: (dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol) => {
-      return readAllQueriesReport(connection, dateStart, dateStop, sector, getEndpoint, telNumber, getProtocol);
+    readAllQueriesReport: (dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol) => {
+      return readAllQueriesReport(connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol);
     }
   }
 };
