@@ -7,9 +7,9 @@ function Provider({ children }) {
   const [user, setUser] = useState('');
   const [endpoints, setEndpoints] = useState([]);
   const [ipEndpoints, setIpEndpoints] = useState({});
-  const [path, setPath] = useState('');
-  const [storageDataReport, setStorageDataReport] = useState({});
+  const [callsDb, setCallsDb] = useState([]);
   const [dataDbImutate, setDataDbImutate] = useState([]);
+  const [path, setPath] = useState('');
   const [realTimeCall, setRealTimeCall] = useState({
     numberConnected: '',
     endpointName: '',
@@ -38,12 +38,6 @@ function Provider({ children }) {
     return calls.map((call) => Object.assign(call, { clid : call.clid.split('<')[1].replace(/>/g, '') }));
   };
 
-  const verifySort = (a, b) => {
-    if(a > b) return 1;
-    if (a < b) return -1;
-    return 0;
-  };
-
   const contextValues = {
     user,
     setUser,
@@ -53,21 +47,23 @@ function Provider({ children }) {
     setEndpoints,
     ipEndpoints,
     setIpEndpoints,
+    callsDb,
+    setCallsDb,
     realTimeCall,
     setRealTimeCall,
     callsAnalist,
     setCallsAnalist,
+    callsOfDay,
+    setCallsOfDay,
+    dayDb,
+    setDayDb,
     channelInState,
     setChannelInState,
     clickToCallChannel,
     setClickToCallChannel,
     toggleIsHidden,
     addStatusCalls,
-    callsOfDay,
-    setCallsOfDay,
-    storageDataReport,
-    setStorageDataReport,
-    verifySort,
+    formatClidCalls,
   };
   
   return (

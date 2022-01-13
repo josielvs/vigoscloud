@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import PbxContext from '../../context/PbxContext';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ChartCallsStatusPie = () => {
+  const getItensStateGlobal = useContext(PbxContext);
+  const { storageDataReport } = getItensStateGlobal;
+
+  // volumeCallsInternalsAndExternals
+  const { volumeCallsInternalsAndExternals } = storageDataReport;
+  console.log(volumeCallsInternalsAndExternals);
+  const labelsReceived = Object.keys(volumeCallsInternalsAndExternals);
+  const dataValues = Object.values(volumeCallsInternalsAndExternals);
+
   const options = {
     responsive: true,
     plugins: {
@@ -19,10 +29,10 @@ const ChartCallsStatusPie = () => {
   };
 
   const data = {
-    labels: ['Internas', 'Externas'],
+    labels: labelsReceived,
     datasets: [
       {
-        data: [12, 19],
+        data: dataValues,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -38,7 +48,7 @@ const ChartCallsStatusPie = () => {
 
   return (
     <div className="column is-2 is-offset-1">
-      <h2 className="has-text-left is-size-5">Tipos de Ligações Realizadas</h2>
+      <h2 className="has-text-left is-size-5">Ligações Realizadas</h2>
       <Doughnut className='py-1' options={options} data={data} />
     </div>
   )

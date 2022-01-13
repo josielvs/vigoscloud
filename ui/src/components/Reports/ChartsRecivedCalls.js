@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
@@ -11,22 +11,9 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-const ChartsSent = () => {
+const ChartsReceived = () => {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport, verifySort } = getItensStateGlobal;
-
-  const { volumeEndpointsSentAnswered, volumeEndpointsSentNoAnswer } = storageDataReport;
-
-  const callsSentsAnswered = volumeEndpointsSentAnswered.reduce((obj, item) => ((obj[item.endpoints] = item.sent_answered), obj),{});
-  const callsSentsNotAnswer = volumeEndpointsSentNoAnswer.reduce((obj, item) => ((obj[item.endpoints] = item.sent_no_answer), obj),{});
- 
-  const valueLabelsAtendidas = [callsSentsAnswered];
-  const valueLabelsNaoAtendidas = [callsSentsNotAnswer];
-
-  const labelsAnswered = Object.keys(callsSentsAnswered);
-  const labelNoAnswer = Object.keys(callsSentsNotAnswer);
-  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);;
-  const labels = [...new Set(labelsVerify)];
 
   ChartJS.register(
     CategoryScale,
@@ -36,6 +23,19 @@ const ChartsSent = () => {
     Tooltip,
     Legend
   );
+
+  const { volumeEndpointsReceivedAnswered, volumeEndpointsReceivedNotAnswer } = storageDataReport;
+
+  const callsRecevedsAnswered = volumeEndpointsReceivedAnswered.reduce((obj, item) => ((obj[item.endpoints] = item.received_answered), obj),{});
+  const callsRecevedsNotAnswer = volumeEndpointsReceivedNotAnswer.reduce((obj, item) => ((obj[item.endpoints] = item.received_no_aswer), obj),{});
+ 
+  const valueLabelsAtendidas = [callsRecevedsAnswered];
+  const valueLabelsNaoAtendidas = [callsRecevedsNotAnswer];
+
+  const labelsAnswered = Object.keys(callsRecevedsAnswered);
+  const labelNoAnswer = Object.keys(callsRecevedsNotAnswer);
+  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);
+  const labels = [...new Set(labelsVerify)];
 
   const options = {
     responsive: true,
@@ -67,11 +67,11 @@ const ChartsSent = () => {
   };
   
   return (
-    <div className="column column is-4 is-offset-0">
+    <div className="column is-one-third">
       <h2 className="has-text-left is-size-5">Status das Chamadas por Ramal</h2>
         <Bar options={options} data={data} />
     </div>
   );
 }
 
-export default ChartsSent;
+export default ChartsReceived;
