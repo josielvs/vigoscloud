@@ -150,3 +150,15 @@ export const fetchCallOnDay = async (id) => {
     console.log(error);
   }
 };
+
+export const fetchDataReport = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/db/report`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

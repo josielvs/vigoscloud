@@ -21,7 +21,7 @@ const readByAreaCode = async (connection, code) => {
 const readAllQueriesReport = async (connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol) => {
   const result = await connection.query(`
     BEGIN;
-    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', '${dateStart}', '${dateStop}', '${hourStart}', '${hourStop}', '${sector}', '${getEndpoint}', '${telNumber}', '${getProtocol}');
+    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '${dateStart}', '${dateStop}', '${hourStart}', '${hourStop}', '${sector}', '${getEndpoint}', '${telNumber}', '${getProtocol}');
     FETCH ALL IN "Ref1";
       FETCH ALL IN "Ref2";
       FETCH ALL IN "Ref3";
@@ -32,20 +32,24 @@ const readAllQueriesReport = async (connection, dateStart, dateStop, hourStart, 
       FETCH ALL IN "Ref8";
       FETCH ALL IN "Ref9";
       FETCH ALL IN "Ref10";
+      FETCH ALL IN "Ref11";
+      FETCH ALL IN "Ref12";
     COMMIT;
   `);
 
   const returnPersonalized = {
-    volumeEndpointsReceived: result[2].rows,
-    volumeEndpointsSent: result[3].rows,
-    volumeCallsInternalsAndExternals: result[4].rows[0],
-    volumeSectorsReceivedAnswered: result[5].rows,
-    volumeSectorsReceivedNotAnswer: result[6].rows,
-    volumeHourReceivedAnswered: result[7].rows,
-    volumeHourReceivedNoAnswer: result[8].rows,
-    globalAnsweredAndNotAnswer: result[9].rows[0],
-    globalReportToTableReceived: result[10].rows[0],
-    globalReportToTableSent: result[11].rows[0]
+    volumeEndpointsReceivedAnswered: result[2].rows,
+    volumeEndpointsReceivedNotAnswer: result[3].rows,
+    volumeEndpointsSentAnswered: result[4].rows,
+    volumeEndpointsSentNoAnswer: result[5].rows,
+    volumeCallsInternalsAndExternals: result[6].rows[0],
+    volumeSectorsReceivedAnswered: result[7].rows,
+    volumeSectorsReceivedNotAnswer: result[8].rows,
+    volumeHourReceivedAnswered: result[9].rows,
+    volumeHourReceivedNoAnswer: result[10].rows,
+    globalAnsweredAndNotAnswer: result[11].rows[0],
+    globalReportToTableReceived: result[12].rows[0],
+    globalReportToTableSent: result[13].rows[0]
   }
   
   return returnPersonalized;
