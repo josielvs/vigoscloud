@@ -400,7 +400,7 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_by_sector(
   protocol character varying(30)
 )
   RETURNS TABLE (
-    "sectors" character varying(80),
+    "sectors" text,
     "answered" bigint
   )
   LANGUAGE plpgsql AS
@@ -411,7 +411,7 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_by_sector(
       
     BEGIN
       return QUERY
-      SELECT lastdata AS sectors, COUNT(*) as answered FROM cdr
+      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(*) as answered FROM cdr
       WHERE (calldate BETWEEN data_inicial AND data_final)
       AND typecall = 'Recebida' AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
       AND lastdata LIKE '%' || recSector || '%'
@@ -424,13 +424,15 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_by_sector(
   $$;
 
 DROP FUNCTION get_volume_call_received_by_sector(
-  dateInitial timestamp,
-  dateEnd timestamp,
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
   recSector character varying(30),
   endpoint character varying(30),
   telNumber character varying(30),
   protocol character varying(30)
-  );
+);
 
 SELECT * FROM  "get_volume_call_received_by_sector"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
 
@@ -448,7 +450,7 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_not_answer_by_sector(
   protocol character varying(30)
 )
   RETURNS TABLE (
-    "sectors" character varying(80),
+    "sectors" text,
     "no_answer" bigint
   )
   LANGUAGE plpgsql AS
@@ -459,7 +461,7 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_not_answer_by_sector(
       
     BEGIN
       return QUERY
-      SELECT lastdata AS sectors_not_atennd, COUNT(*) AS no_answer FROM cdr AS a
+      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors_not_atennd, COUNT(*) AS no_answer FROM cdr AS a
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr WHERE (calldate BETWEEN data_inicial AND data_final) AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida')
         AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida' AND lastapp = 'Queue'
@@ -473,8 +475,10 @@ CREATE OR REPLACE FUNCTION get_volume_call_received_not_answer_by_sector(
   $$;
 
 DROP FUNCTION get_volume_call_received_not_answer_by_sector(
-  dateInitial timestamp,
-  dateEnd timestamp,
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
   recSector character varying(30),
   endpoint character varying(30),
   telNumber character varying(30),
@@ -671,12 +675,14 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
 )
   RETURNS TABLE (
     data timestamptz,
-    origem_full character varying(80),
-    origem character varying(80),
+    origem_primaria character varying(80),
+    origem_segundaria character varying(80),
     destino_primario character varying(80),
-    destino_secundario character varying(80),
+    destino_secundario text,
+    setor text,
+    aguardando_atendimento bigint,
     duracao bigint,
-    status character varying(80),
+    status text,
     sequencia integer,
     tipo character varying(80),
     protocolo character varying(150),
@@ -692,12 +698,33 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
       return QUERY
       SELECT
         calldate AS data,
-        clid AS origem_full,
-        src AS origem,
+        clid AS origem_primaria,
+        src AS origem_segundaria,
         dst AS destino_primario,
-        dstchannel AS destino_secundario,
+        REPLACE(
+          SUBSTRING(
+            dstchannel, POSITION('/' in dstchannel) + 1,
+              POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+            )
+          , '-', ''
+        )
+        AS destino_secundario,
+        CASE 
+          WHEN typecall='Recebida' THEN
+            SUBSTRING(lastdata, 0, POSITION(',' in lastdata))
+          WHEN typecall='Efetuada' THEN
+            dst
+          ELSE ''
+        END
+        AS setor,
+        billsec AS aguardando_atendimento,
         duration AS duracao,
-        disposition AS status,
+        CASE 
+          WHEN disposition='NO ANSWER' THEN 'Não Atendida'
+          WHEN disposition='ANSWERED' THEN 'Atendida'
+          ELSE ''
+        END
+        AS status,
         sequence AS sequencia,
         typecall AS tipo,
         callprotocol AS protocolo,
@@ -729,7 +756,7 @@ DROP FUNCTION get_all_calls_rows(
   offsetGet integer
 );
 
-SELECT * FROM get_all_calls_rows('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '', 'ANSWERED', '30', '0');
+SELECT * FROM get_all_calls_rows('2022-01-12', '2022-01-12', '00:00:00', '23:59:59', '', '', '', '', '', '30', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 12- Function Get All Data Report --
@@ -868,7 +895,7 @@ SELECT
   -- callprotocol AS protocolo,
   -- fromtypecall AS tipo_saida,
   -- hangupcause AS encerramento
-  *
+  lastdata
   FROM cdr
   WHERE (calldate BETWEEN '2022-01-05 00:00:00' AND '2022-01-30 23:59:59')
   AND lastdata LIKE '%'
@@ -878,6 +905,23 @@ SELECT
 ORDER BY calldate DESC, sequence ASC
 LIMIT 30 OFFSET 0;
 
+SELECT  
+  lastdata, dstchannel
+FROM cdr LIMIT 50 OFFSET 30;
+
+SELECT
+CASE 
+  WHEN typecall='Recebida' THEN
+    SUBSTRING(lastdata, 0, POSITION(',' in lastdata))
+  WHEN typecall='Efetuada' THEN
+    dst
+  ELSE ''
+END
+FROM cdr LIMIT 50 OFFSET 50;
+
+SUBSTRING(dstchannel, )
+        REPLACE(dstchannel, 'PJSIP/', '')
+        POSITION('-' in dstchannel)
 
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
