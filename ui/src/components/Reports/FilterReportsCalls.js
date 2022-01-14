@@ -44,18 +44,18 @@ const FilterReportsCalls = () => {
   
   const addFiltersOnCalls = async () => {
     if (!startDate || !endDate) return getStatusNotification(true);
-    // const localFetchDataReport = await fetchDataReport(
-    //   {
-    //     dateStart: startDate,
-    //     dateStop: endDate,
-    //     hourStart: `${startHour}:00:00`,
-    //     hourStop: `${endHour}:59:59`,
-    //     sector: sectorLocal,
-    //     getEndpoint: endpointLocal,
-    //     telNumber: phoneNumberLocal,
-    //     getProtocol: protocolLocal,
-    //   });
-    //   setStorageDataReport(localFetchDataReport);
+    const localFetchDataReport = await fetchDataReport(
+      {
+        dateStart: startDate,
+        dateStop: endDate,
+        hourStart: `${startHour}:00:00`,
+        hourStop: `${endHour}:59:59`,
+        sector: sectorLocal,
+        getEndpoint: endpointLocal,
+        telNumber: phoneNumberLocal,
+        getProtocol: protocolLocal,
+      });
+      setStorageDataReport(localFetchDataReport);
       return;
   };
 
