@@ -46,9 +46,6 @@ function Reports() {
     const localFetchEndpoints = await fetchEndpoints();
     setEndpoints(localFetchEndpoints);
 
-    // const getSectorsInDb = await fetchSectors();
-    // setSectorsDb(getSectorsInDb);
-
     if (localFetchDataReport || !Error) setLoading(false);
   };
 
@@ -80,7 +77,7 @@ function Reports() {
               <TableSentCalls />
           </div>
           <hr className="m-0 p-0"/>
-          {/* <FilterReportsCalls /> */}
+          <FilterReportsCalls />
           {/* <ReportList /> */}
           </>
       }
