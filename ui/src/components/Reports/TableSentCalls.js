@@ -21,7 +21,7 @@ const TableSentCalls = () =>  {
       <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
           <tr className='has-background-success'>
-            <th className='has-text-primary-light is-spaced is-justify-content-center' colSpan="2">Contatos Realizados</th>
+            <th className='has-text-primary-light is-spaced has-text-centered' colSpan="2">Contatos Realizados</th>
           </tr>
         </thead>
         <tbody>

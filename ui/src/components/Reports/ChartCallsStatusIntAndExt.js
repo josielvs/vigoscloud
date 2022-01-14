@@ -47,7 +47,7 @@ const ChartCallsStatusPie = () => {
 
   return (
     <div className="column is-2 is-offset-1">
-      <h2 className="has-text-left is-size-5">Ligações Realizadas</h2>
+      <h2 className="has-text-centered is-size-5">Ligações Realizadas</h2>
       <Doughnut className='py-1' options={options} data={data} />
     </div>
   )

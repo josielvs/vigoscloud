@@ -11,6 +11,7 @@ const FilterReportsCalls = () => {
   const getItensStateGlobal = useContext(PbxContext);
   const { endpoints, storageDataReport, sectorsDb, setStorageDataReport } = getItensStateGlobal;
 
+  const [notification, setNotification] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [startHour, setStartHour] = useState(0);
@@ -22,31 +23,39 @@ const FilterReportsCalls = () => {
   const [protocolLocal, setProtocolLocal] = useState('');
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [typeCallsLocal, setTypeCallsLocal] = useState('');
+  const [clicked, setClicked] = useState(false);
 
   const fetchSectorsFunction = async () => { 
     const getSectorsInDb = await fetchSectors();
     const sectorsList = Object.values(getSectorsInDb);
-    setSectorsDB(sectorsList);
     return sectorsList;
   };
 
   const rangeHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
+  const getStatusNotification = (status) => {
+    console.log(notification, status);
+    if (notification === status) return;
+    const notificationDiv = document.querySelector('#notification').classList;
+    notificationDiv.toggle('is-hidden');
+    setNotification(status);
+    return;
+  };
   
   const addFiltersOnCalls = async () => {
-    console.log(sectorLocal);
-    console.log(endpointLocal);
-    const localFetchDataReport = await fetchDataReport(
-      {
-        dateStart: startDate,
-        dateStop: endDate,
-        hourStart: `${startHour}:00:00`,
-        hourStop: `${endHour}:59:59`,
-        sector: sectorLocal,
-        getEndpoint: endpointLocal,
-        telNumber: phoneNumberLocal,
-        getProtocol: protocolLocal,
-      });
-      setStorageDataReport(localFetchDataReport);
+    if (!startDate || !endDate) return getStatusNotification(true);
+    // const localFetchDataReport = await fetchDataReport(
+    //   {
+    //     dateStart: startDate,
+    //     dateStop: endDate,
+    //     hourStart: `${startHour}:00:00`,
+    //     hourStop: `${endHour}:59:59`,
+    //     sector: sectorLocal,
+    //     getEndpoint: endpointLocal,
+    //     telNumber: phoneNumberLocal,
+    //     getProtocol: protocolLocal,
+    //   });
+    //   setStorageDataReport(localFetchDataReport);
       return;
   };
 
@@ -79,6 +88,12 @@ const FilterReportsCalls = () => {
               />
             </div>
             </label>
+          </div>
+        </div>
+        <div className="columns mx-2 is-hidden" id='notification'>        
+          <div className="column is-4 is-offset-4 notification is-danger has-text-centered" >
+            <button className="delete" onClick={ () => getStatusNotification(false) }></button>
+            Campos Data Inicial e Data Final, são obrigatórios!
           </div>
         </div>
         <div className="columns mx-2">
