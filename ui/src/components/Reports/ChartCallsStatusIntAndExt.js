@@ -33,12 +33,12 @@ const ChartCallsStatusPie = () => {
       {
         data: dataValues,
         backgroundColor: [
-          'rgba(75,192,192, 0.5)',
-          'rgba(0, 204, 68, 0.5)',
+          'rgba(0, 179, 60, 0.7)',
+          'rgba(117, 163, 163, 0.5)',
         ],
         borderColor: [
-          'rgba(75,192,192, 1)',
-          'rgba(0, 204, 68, 1)',
+          'rgba(0, 179, 60, 0.7)',
+          'rgba(117, 163, 163, 1)',
         ],
         borderWidth: 1,
       },

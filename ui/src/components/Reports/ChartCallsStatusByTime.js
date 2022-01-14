@@ -58,7 +58,7 @@ const ChartCallsStatusByTime = () => {
         data: labels.map((label) => valueLabelsAtendidas[0][label]),
         fill: true,
         backgroundColor: "rgba(53, 162, 235,0.2)",
-        borderColor: "rgba(53, 162, 235,0.7)"
+        borderColor: "rgba(30, 144, 255, 0.7)"
       },
       {
         label: 'Não Atendidas',

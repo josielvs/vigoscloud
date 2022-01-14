@@ -58,7 +58,7 @@ const ChartBySector = () => {
       {
         label: 'Atendidas',
         data: labels.map((label) => valueLabelsAtendidas[0][label]),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: 'rgba(30, 144, 255, 0.7)',
       },
       {
         label: 'Não Atendidas',
