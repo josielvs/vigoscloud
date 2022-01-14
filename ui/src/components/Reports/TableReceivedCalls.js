@@ -27,7 +27,7 @@ const TableReceivedCalls = () =>  {
         </thead>
         <tbody>
           <tr>
-            <td>Ligações Atendidas de Contatos</td>
+            <td>Total Contatos</td>
             <th>{ amount_calls }</th>
           </tr>
           <tr>
