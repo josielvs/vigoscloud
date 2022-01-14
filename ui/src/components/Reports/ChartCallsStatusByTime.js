@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +12,21 @@ import {
 import { Line } from 'react-chartjs-2';
 
 const ChartCallsStatusByTime = () => {
+  const getItensStateGlobal = useContext(PbxContext);
+  const { storageDataReport, verifySort } = getItensStateGlobal;
+
+  const { volumeHourReceivedAnswered, volumeHourReceivedNoAnswer } = storageDataReport;
+  
+  const callsSentsAnswered = volumeHourReceivedAnswered.reduce((obj, item) => ((obj[Number(item.hours_calls)] = item.answered), obj),{});
+  const callsSentsNotAnswer = volumeHourReceivedNoAnswer.reduce((obj, item) => ((obj[Number(item.hours_calls)] = item.no_answer), obj),{});
+  
+  const valueLabelsAtendidas = [callsSentsAnswered];
+  const valueLabelsNaoAtendidas = [callsSentsNotAnswer];
+  
+  const labelsAnswered = Object.keys(callsSentsAnswered);
+  const labelNoAnswer = Object.keys(callsSentsNotAnswer);
+  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort((a, b) => a - b);
+  const labels = [...new Set(labelsVerify)];
 
   ChartJS.register(
     CategoryScale,
@@ -34,10 +50,6 @@ const ChartCallsStatusByTime = () => {
     },
   };
 
-  const valueLabelsAtendidas = [{ '8': 23, '9': 34, '10': 76, '11': 21, '12': 11, '13': 4, '14': 7, '15': 45, '16': 3, '17': 23, '18': 17 }];
-  const valueLabelsNaoAtendidas = [{ '8': 5, '9': 6, '10': 7, '11': 1, '12': 2, '13': 0, '14': 0, '15': 7, '16': 1, '17': 4, '18': 2 }];
-  const labels = ['8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'];
-  
   const data = {
     labels,
     datasets: [
@@ -45,14 +57,14 @@ const ChartCallsStatusByTime = () => {
         label: 'Atendidas',
         data: labels.map((label) => valueLabelsAtendidas[0][label]),
         fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
+        backgroundColor: "rgba(53, 162, 235,0.2)",
+        borderColor: "rgba(53, 162, 235,0.7)"
       },
       {
         label: 'Não Atendidas',
         data: labels.map((label) => valueLabelsNaoAtendidas[0][label]),
         fill: false,
-        borderColor: "#742774"
+        borderColor: "rgba(255, 99, 132, 0.7)"
       }
     ]
   };

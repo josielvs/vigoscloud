@@ -9,9 +9,8 @@ const ChartCallsStatusPie = () => {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport } = getItensStateGlobal;
 
-  // volumeCallsInternalsAndExternals
   const { volumeCallsInternalsAndExternals } = storageDataReport;
-  console.log(volumeCallsInternalsAndExternals);
+
   const labelsReceived = Object.keys(volumeCallsInternalsAndExternals);
   const dataValues = Object.values(volumeCallsInternalsAndExternals);
 
@@ -34,12 +33,12 @@ const ChartCallsStatusPie = () => {
       {
         data: dataValues,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
+          'rgba(75,192,192, 0.5)',
+          'rgba(0, 204, 68, 0.5)',
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
+          'rgba(75,192,192, 1)',
+          'rgba(0, 204, 68, 1)',
         ],
         borderWidth: 1,
       },

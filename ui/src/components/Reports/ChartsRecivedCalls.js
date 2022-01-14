@@ -56,7 +56,8 @@ const ChartsReceived = () => {
       {
         label: 'Atendidas',
         data: labels.map((label) => valueLabelsAtendidas[0][label]),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: 'rgba(30, 144, 255, 0.8)',
+        borderColor: 'rgb(30, 144, 255, 0)',
       },
       {
         label: 'Não Atendidas',
@@ -68,7 +69,7 @@ const ChartsReceived = () => {
   
   return (
     <div className="column is-one-third">
-      <h2 className="has-text-left is-size-5">Status das Chamadas por Ramal</h2>
+      <h2 className="has-text-left is-size-5">Chamadas Recebidas por Ramal</h2>
         <Bar options={options} data={data} />
     </div>
   );

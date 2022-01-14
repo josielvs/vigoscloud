@@ -56,7 +56,8 @@ const ChartsSent = () => {
       {
         label: 'Atendidas',
         data: labels.map((label) => valueLabelsAtendidas[0][label]),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: 'rgba(187, 255, 0, 0.5)',
+        borderColor: 'rgb(102, 255, 0, 0.5)',
       },
       {
         label: 'Não Atendidas',
@@ -68,7 +69,7 @@ const ChartsSent = () => {
   
   return (
     <div className="column column is-4 is-offset-0">
-      <h2 className="has-text-left is-size-5">Status das Chamadas por Ramal</h2>
+      <h2 className="has-text-left is-size-5">Chamadas Realizadas por Ramal</h2>
         <Bar options={options} data={data} />
     </div>
   );
