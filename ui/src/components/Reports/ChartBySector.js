@@ -26,9 +26,7 @@ const ChartBySector = () => {
   const labelsAnswered = Object.keys(callsSentsAnswered);
   const labelNoAnswer = Object.keys(callsSentsNotAnswer);
   const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);;
-  const labels = [...new Set(labelsVerify)];
-
-  console.log(volumeSectorsReceivedNotAnswer);
+  const labels = [...new Set(labelsVerify)].filter((sector) => sector !== 'porteiros');
   
   ChartJS.register(
     CategoryScale,

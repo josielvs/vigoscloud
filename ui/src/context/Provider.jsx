@@ -9,7 +9,6 @@ function Provider({ children }) {
   const [ipEndpoints, setIpEndpoints] = useState({});
   const [path, setPath] = useState('');
   const [storageDataReport, setStorageDataReport] = useState({});
-  const [dataDbImutate, setDataDbImutate] = useState([]);
   const [realTimeCall, setRealTimeCall] = useState({
     numberConnected: '',
     endpointName: '',
