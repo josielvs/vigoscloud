@@ -69,7 +69,7 @@ const ChartsReceived = () => {
   
   return (
     <div className="column is-one-third">
-      <h2 className="has-text-left is-size-5">Chamadas Recebidas por Ramal</h2>
+      <h2 className="has-text-centered is-size-5">Chamadas Recebidas por Ramal</h2>
         <Bar options={options} data={data} />
     </div>
   );

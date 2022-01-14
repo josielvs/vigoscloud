@@ -22,7 +22,7 @@ const TableReceivedCalls = () =>  {
       <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
           <tr className='has-background-info'>
-            <th className='has-text-primary-light is-spaced is-justify-content-center' colSpan="2">Contatos Recebidos</th>
+            <th className='has-text-primary-light is-spaced has-text-centered' colSpan="2">Contatos Recebidos</th>
           </tr>
         </thead>
         <tbody>

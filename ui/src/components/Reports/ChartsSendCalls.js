@@ -69,7 +69,7 @@ const ChartsSent = () => {
   
   return (
     <div className="column column is-4 is-offset-0">
-      <h2 className="has-text-left is-size-5">Chamadas Realizadas por Ramal</h2>
+      <h2 className="has-text-centered is-size-5">Chamadas Realizadas por Ramal</h2>
         <Bar options={options} data={data} />
     </div>
   );

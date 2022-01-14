@@ -58,7 +58,7 @@ const ChartBySector = () => {
 
   return (
     <div className="column">
-      <h2 className="has-text-left is-size-5">Status das Chamadas Global</h2>
+      <h2 className="has-text-centered is-size-5">Status das Chamadas Global</h2>
         <Bar options={options} data={data} />
     </div>
   );
