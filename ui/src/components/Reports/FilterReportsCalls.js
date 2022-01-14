@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { fetchSectors } from '../../services/api';
+import { fetchSectors, fetchDataReport } from '../../services/api';
 
 import PbxContext from '../../context/PbxContext'
 import '../../libs/bulma.min.css';
@@ -9,14 +9,18 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints, storageDataReport, sectorsDb } = getItensStateGlobal;
+  const { endpoints, storageDataReport, sectorsDb, setStorageDataReport } = getItensStateGlobal;
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [startHour, setStartHour] = useState(0);
+  const [endHour, setEndHour] = useState(23);
   const [sectorDB, setSectorsDB] = useState([]);
   const [sectorLocal, setSectorLocal] = useState('');
+  const [endpointLocal, setEndpointLocal] = useState('');
   const [statusCallLocal, setStatusCallLocal] = useState('');
   const [protocolLocal, setProtocolLocal] = useState('');
+  const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [typeCallsLocal, setTypeCallsLocal] = useState('');
 
   const fetchSectorsFunction = async () => { 
@@ -25,9 +29,25 @@ const FilterReportsCalls = () => {
     setSectorsDB(sectorsList);
     return sectorsList;
   };
+
+  const rangeHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
   
-  const fetchIntemsToFilter = async () => {
-    
+  const addFiltersOnCalls = async () => {
+    console.log(sectorLocal);
+    console.log(endpointLocal);
+    const localFetchDataReport = await fetchDataReport(
+      {
+        dateStart: startDate,
+        dateStop: endDate,
+        hourStart: `${startHour}:00:00`,
+        hourStop: `${endHour}:59:59`,
+        sector: sectorLocal,
+        getEndpoint: endpointLocal,
+        telNumber: phoneNumberLocal,
+        getProtocol: protocolLocal,
+      });
+      setStorageDataReport(localFetchDataReport);
+      return;
   };
 
   useEffect(() => {
@@ -92,7 +112,7 @@ const FilterReportsCalls = () => {
             <label className="label">Setor
               <div className="control">
                 <div className="select pl-0">
-                  <select className="select" value={ sectorLocal } onChange={(e) => setSectorLocal(e.target.value)}>
+                  <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
                       sectorDB.map((sector, index) => <option key={ index } value={ sector.sectors }>{ sector.sectors }</option>)
@@ -106,10 +126,38 @@ const FilterReportsCalls = () => {
             <label className="label">Ramal
               <div className="control">
                 <div className="select">
-                  <select className="select" value={ statusCallLocal } onChange={(e) => setStatusCallLocal(e.target.value)}>
+                  <select className="select" onChange={(e) => setEndpointLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
                       endpoints.filter((endpoint) => endpoint.resource.length < 5).map((endpoint, index) => <option key={ index } value={ endpoint.resource }>{ endpoint.resource }</option>)
+                    }
+                  </select>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div className="column">
+            <label className="label">Hora Inicial
+              <div className="control">
+                <div className="select">
+                  <select className="select" onChange={(e) => setStartHour(e.target.value)}>
+                    <option value="">Selecione</option>
+                    { 
+                      rangeHours.map((hour, index) => <option key={ index } value={ hour }>{ hour }</option>)
+                    }
+                  </select>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div className="column">
+            <label className="label">Hora Final
+              <div className="control">
+                <div className="select">
+                  <select className="select" onChange={(e) => setEndHour(e.target.value)}>
+                    <option value="">Selecione</option>
+                    { 
+                      rangeHours.map((hour, index) => <option key={ index } value={ hour }>{ hour }</option>)
                     }
                   </select>
                 </div>
