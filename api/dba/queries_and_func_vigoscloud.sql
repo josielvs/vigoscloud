@@ -770,12 +770,14 @@ CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND a.uniqueid NOT IN (
             SELECT uniqueid FROM cdr
-            WHERE (calldate BETWEEN dateInitial
-            AND dateEnd) AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
-          AND lastdata LIKE '%' || recSector || '%'
-          AND dstchannel LIKE '%' || endpoint || '%'
-          AND src LIKE '%' || telNumber || '%'
-          AND callprotocol LIKE '%' || protocol || '%'
+            WHERE (calldate BETWEEN data_inicial AND data_final)
+            AND disposition LIKE 'ANSWERED' 
+            AND typecall = 'Recebida'
+            AND dstchannel <> ''
+            AND lastdata LIKE '%' || recSector || '%'
+            AND dstchannel LIKE '%' || endpoint || '%'
+            AND src LIKE '%' || telNumber || '%'
+            AND callprotocol LIKE '%' || protocol || '%'
           )
           AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
           AND lastdata LIKE '%' || recSector || '%'

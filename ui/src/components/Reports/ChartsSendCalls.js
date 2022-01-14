@@ -56,8 +56,8 @@ const ChartsSent = () => {
       {
         label: 'Atendidas',
         data: labels.map((label) => valueLabelsAtendidas[0][label]),
-        backgroundColor: 'rgba(187, 255, 0, 0.5)',
-        borderColor: 'rgb(102, 255, 0, 0.5)',
+        backgroundColor: 'rgba(0, 179, 60, 0.7)',
+        borderColor: 'rgb(0, 179, 60, 0.5))',
       },
       {
         label: 'Não Atendidas',

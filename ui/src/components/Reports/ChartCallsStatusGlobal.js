@@ -50,7 +50,7 @@ const ChartBySector = () => {
       {
         label: '',
         data: labels.map((label) => valueLabelsAtendidas[0][label]),
-        backgroundColor: ['rgba(53, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+        backgroundColor: ['rgba(30, 144, 255, 0.7)', 'rgba(255, 99, 132, 0.5)'],
       },
     ],
   };
