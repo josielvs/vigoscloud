@@ -1032,22 +1032,31 @@ COMMIT;
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 15- Function Get List Sector --
+-- SUBSTRING(lastdata, 0, CHAR_LENGTH(lastdata) - 9)
+CREATE OR REPLACE FUNCTION get_sectors()
+  RETURNS TABLE (
+    "sectors" text
+  )
+  LANGUAGE plpgsql AS
+  $$
+    BEGIN
+      return QUERY
+      SELECT DISTINCT(SUBSTRING(lastdata, 0, POSITION(',' in lastdata))) AS sectors FROM cdr
+      WHERE disposition LIKE 'ANSWERED' AND typecall = 'Recebida' AND lastapp = 'Queue';
+    END;
+  $$;
+
+DROP FUNCTION get_sectors();
+
+SELECT * FROM  "get_sectors"();
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- WORKING --
 
 SELECT * FROM cdr AS a
   WHERE (calldate BETWEEN '2022-01-14 00:00:00' AND '2022-01-14 23:59:59')
-  AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
-  AND a.uniqueid NOT IN (
-    SELECT uniqueid FROM cdr
-    WHERE (calldate BETWEEN '2022-01-14 00:00:00' AND '2022-01-14 23:59:59')
-    AND disposition LIKE 'ANSWERED' 
-    AND typecall = 'Recebida'
-    AND lastdata LIKE '%'
-    AND dstchannel LIKE '%'
-    AND src LIKE '%'
-    AND callprotocol LIKE '%'
-  )
-  AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida' AND lastapp = 'Queue'
+  AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida' AND lastapp = 'Queue'
   AND lastdata LIKE '%'
   AND dstchannel LIKE '%'
   AND src LIKE '%'

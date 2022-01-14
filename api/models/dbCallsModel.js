@@ -18,6 +18,12 @@ const readByAreaCode = async (connection, code) => {
   return result;
 };
 
+
+const readAllSectors = async (connection) => {
+  const result = await connection.query(`SELECT * FROM "get_sectors"()`);
+  return result.rows;
+};
+
 const readAllQueriesReport = async (connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol) => {
   const result = await connection.query(`
     BEGIN;
@@ -72,7 +78,10 @@ const factory = function (connection) {
     },
     readAllQueriesReport: (dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol) => {
       return readAllQueriesReport(connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol);
-    }
+    },
+    readAllSectors: () => {
+      return readAllSectors(connection);
+    },
   }
 };
 module.exports = { factory }; 

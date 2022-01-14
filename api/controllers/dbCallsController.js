@@ -32,6 +32,13 @@ exports.readByAreaCodeController = (callsDb) => {
   }
 }
 
+exports.readAllSectorsController = (callsDb) => {
+  return async (req, res, next) => {
+    const sectors = await callsDb.readAllSectors();
+    res.status(200).json(sectors);
+  }
+}
+
 exports.readAllQueriesReportController = (callsDb) => {
   return async (req, res, next) => {
     let { dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol } = req.body;

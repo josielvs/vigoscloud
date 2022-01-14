@@ -25,7 +25,7 @@ const ChartsSent = () => {
 
   const labelsAnswered = Object.keys(callsSentsAnswered);
   const labelNoAnswer = Object.keys(callsSentsNotAnswer);
-  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);;
+  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort).filter((keylabel) => keylabel.length < 5);
   const labels = [...new Set(labelsVerify)];
 
   ChartJS.register(
