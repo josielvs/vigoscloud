@@ -72,8 +72,24 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
       return query
       SELECT
         COUNT(DISTINCT(uniqueid)) AS amount_calls,
-        TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS total_time_calls,
-        TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS average_time_calls,
+         (SELECT TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
+          FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS total_time_calls,
+        (SELECT TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
+          FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS average_time_calls,
         (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
@@ -573,9 +589,19 @@ CREATE OR REPLACE FUNCTION get_vol_sec_no_ans(
       
     BEGIN
       return QUERY
-      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors_not_atennd, COUNT(*) AS no_answer FROM cdr AS a
+      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors_not_atennd, COUNT(DISTINCT(uniqueid)) AS no_answer FROM cdr AS a
         WHERE (calldate BETWEEN data_inicial AND data_final)
-        AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr WHERE (calldate BETWEEN data_inicial AND data_final) AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida')
+        AND a.uniqueid NOT IN (
+          SELECT uniqueid FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' 
+          AND typecall = 'Recebida'
+          AND dstchannel <> ''
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        )
         AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida' AND lastapp = 'Queue'
         AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
@@ -771,7 +797,7 @@ DROP FUNCTION get_vol_rec_answered_and_no_answer_global(
 SELECT * FROM  "get_vol_rec_answered_and_no_answer_global"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- 11- Function Get Rows All Calls --
+-- 13- Function Get Rows All Calls --
 CREATE OR REPLACE FUNCTION get_all_calls_rows(
   dateInitial date,
   dateEnd date,
@@ -871,7 +897,7 @@ DROP FUNCTION get_all_calls_rows(
 SELECT * FROM get_all_calls_rows('2022-01-12', '2022-01-12', '00:00:00', '23:59:59', '', '', '', '', '', '30', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- 13- Function Get All Data Report --
+-- 14- Function Get All Data Report --
 CREATE OR REPLACE FUNCTION get_itens_report( 
   ref1 refcursor,
   ref2 refcursor,
@@ -1006,26 +1032,25 @@ COMMIT;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- WORKING --
 
-SELECT
-REPLACE(
-  SUBSTRING(
-    dstchannel, POSITION('/' in dstchannel) + 1,
-      POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
-    )
-  , '-', ''
-) AS endpoints
-SELECT
-  (SELECT
-    COUNT(DISTINCT(uniqueid)) FROM cdr
-    WHERE disposition LIKE 'ANSWERED' AND typecall = 'Recebida') AS answered,
-  (SELECT
-    COUNT(DISTINCT(uniqueid))
-  FROM cdr AS a
-    WHERE a.uniqueid NOT IN (
-      SELECT uniqueid FROM cdr
-      WHERE disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
-    )
-    AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida') AS no_answer;
+SELECT * FROM cdr AS a
+  WHERE (calldate BETWEEN '2022-01-14 00:00:00' AND '2022-01-14 23:59:59')
+  AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
+  AND a.uniqueid NOT IN (
+    SELECT uniqueid FROM cdr
+    WHERE (calldate BETWEEN '2022-01-14 00:00:00' AND '2022-01-14 23:59:59')
+    AND disposition LIKE 'ANSWERED' 
+    AND typecall = 'Recebida'
+    AND lastdata LIKE '%'
+    AND dstchannel LIKE '%'
+    AND src LIKE '%'
+    AND callprotocol LIKE '%'
+  )
+  AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida' AND lastapp = 'Queue'
+  AND lastdata LIKE '%'
+  AND dstchannel LIKE '%'
+  AND src LIKE '%'
+  AND callprotocol LIKE '%';
+
 
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd

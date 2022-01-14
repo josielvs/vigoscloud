@@ -67,9 +67,9 @@ function Reports() {
           </div>
           <hr className="m-0 p-0"/>
           <div className="columns mx-2">
+            <ChartCallsStatusGlobal />
             <ChartBySector />
             <ChartCallsStatusByTime />
-            <ChartCallsStatusGlobal />
           </div>
           <hr className="m-0 p-0"/>
           <div className="columns mx-2">

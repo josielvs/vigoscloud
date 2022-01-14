@@ -27,6 +27,8 @@ const ChartBySector = () => {
   const labelNoAnswer = Object.keys(callsSentsNotAnswer);
   const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);;
   const labels = [...new Set(labelsVerify)];
+
+  console.log(volumeSectorsReceivedNotAnswer);
   
   ChartJS.register(
     CategoryScale,
