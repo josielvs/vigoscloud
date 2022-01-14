@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,7 +12,22 @@ import {
 import { Bar } from 'react-chartjs-2';
 
 const ChartBySector = () => {
+  const getItensStateGlobal = useContext(PbxContext);
+  const { storageDataReport, verifySort } = getItensStateGlobal;
 
+  const { volumeSectorsReceivedAnswered, volumeSectorsReceivedNotAnswer } = storageDataReport;
+  
+  const callsSentsAnswered = volumeSectorsReceivedAnswered.reduce((obj, item) => ((obj[item.sectors] = item.answered), obj),{});
+  const callsSentsNotAnswer = volumeSectorsReceivedNotAnswer.reduce((obj, item) => ((obj[item.sectors] = item.no_answer), obj),{});
+  
+  const valueLabelsAtendidas = [callsSentsAnswered];
+  const valueLabelsNaoAtendidas = [callsSentsNotAnswer];
+  
+  const labelsAnswered = Object.keys(callsSentsAnswered);
+  const labelNoAnswer = Object.keys(callsSentsNotAnswer);
+  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);;
+  const labels = [...new Set(labelsVerify)];
+  
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -34,10 +50,6 @@ const ChartBySector = () => {
     },
   };
 
-  const valueLabelsAtendidas = [{ 'Comercial': 89, 'Financeiro': 200, 'Suporte': 150, 'Pós Vendas': 300, 'RH': 112, 'Compras': 380 }];
-  const valueLabelsNaoAtendidas = [{ 'Comercial': 30, 'Financeiro': 12, 'Suporte': 20, 'Pós Vendas': 80, 'RH': 60, 'Compras': 90 }];
-  const labels = ['Comercial', 'Financeiro', 'Suporte', 'Pós Vendas', 'RH', 'Compras'];
-  
   const data = {
     labels,
     datasets: [

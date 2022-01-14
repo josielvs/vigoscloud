@@ -28,10 +28,12 @@ function Reports() {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     if (!dataUser) return history.push('/');
 
+    var today = new Date();
+    const todayFull = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     const localFetchDataReport = await fetchDataReport(
       {
-        dateStart: '2021-12-01',
-        dateStop: '2022-01-30',
+        dateStart: todayFull,
+        dateStop: todayFull,
         hourStart: '00:00:00',
         hourStop: '23:59:59',
         sector: '',
@@ -63,7 +65,7 @@ function Reports() {
             <ChartsSendCalls />
             <ChartCallsStatusIntAndExt />
           </div>
-          {/* <hr className="m-0 p-0"/>
+          <hr className="m-0 p-0"/>
           <div className="columns mx-2">
             <ChartBySector />
             <ChartCallsStatusByTime />
@@ -75,7 +77,7 @@ function Reports() {
               <TableSentCalls />
           </div>
           <hr className="m-0 p-0"/>
-          <FilterReportsCalls />
+          {/* <FilterReportsCalls />
           <ReportList /> */}
           </>
       }

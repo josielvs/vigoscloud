@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +12,12 @@ import {
 import { Bar } from 'react-chartjs-2';
 
 const ChartBySector = () => {
+  const getItensStateGlobal = useContext(PbxContext);
+  const { storageDataReport } = getItensStateGlobal;
+
+  const { globalAnsweredAndNotAnswer } = storageDataReport;
+
+  const valueReceived = Object.values(globalAnsweredAndNotAnswer);
 
   ChartJS.register(
     CategoryScale,
@@ -34,7 +41,7 @@ const ChartBySector = () => {
     },
   };
 
-  const valueLabelsAtendidas = [{ 'Atendidas': 1103, 'Não Atendidas': 230 }];
+  const valueLabelsAtendidas = [{ 'Atendidas': valueReceived[0], 'Não Atendidas': valueReceived[1] }];
   const labels = ['Atendidas', 'Não Atendidas'];
   
   const data = {
