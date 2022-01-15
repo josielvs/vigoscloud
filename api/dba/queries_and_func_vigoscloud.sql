@@ -829,7 +829,8 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
     protocolo character varying(150),
     tipo_saida character varying(80),
     id text,
-    encerramento character varying(50)
+    encerramento character varying(50),
+    full_count bigint
   )
   LANGUAGE plpgsql AS
   $$
@@ -872,7 +873,8 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         callprotocol AS protocolo,
         fromtypecall AS tipo_saida,
         REPLACE(uniqueid, 'VigosPBX-', '') AS id,
-        hangupcause AS encerramento
+        hangupcause AS encerramento,
+        count(*) OVER() AS full_count
       FROM cdr 
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND lastdata LIKE '%' || recSector || '%'
@@ -900,7 +902,7 @@ DROP FUNCTION get_all_calls_rows(
   offsetGet integer
 );
 
-SELECT * FROM get_all_calls_rows('2022-01-01', '2022-01-12', '00:00:00', '23:59:59', '', '', '', '', '', '', '30', '0');
+SELECT * FROM get_all_calls_rows('2022-01-15', '2022-01-15', '00:00:00', '23:59:59', '', '', '', '', '', '', '15', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 14- Function Get All Data Report --
@@ -1066,6 +1068,13 @@ SELECT * FROM cdr AS a
   AND src LIKE '%'
   AND callprotocol LIKE '%';
 
+
+SELECT *, count(*) OVER() AS full_count
+FROM   cdr
+WHERE (calldate BETWEEN '2022-01-15 00:00:00' AND '2022-01-15 23:59:59')
+ORDER BY uniqueid DESC, sequence ASC, calldate DESC
+OFFSET 0
+LIMIT  15
 
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd

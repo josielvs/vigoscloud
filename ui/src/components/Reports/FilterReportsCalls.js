@@ -9,7 +9,7 @@ import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints, storageDataReport, sectorsDb, setStorageDataReport, setStorageDataReportList } = getItensStateGlobal;
+  const { endpoints, storageDataReport, sectorsDb, setStorageDataReport, setStorageDataReportToList } = getItensStateGlobal;
 
   const [notification, setNotification] = useState(false);
   const [startDate, setStartDate] = useState('');
@@ -30,7 +30,7 @@ const FilterReportsCalls = () => {
     return sectorsList;
   };
 
-  const rangeHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+  const rangeHours = Array.from({ length: 24 }).map((_, index) => index);
 
   const getStatusNotification = (status) => {
     if (notification === status) return;
@@ -50,8 +50,7 @@ const FilterReportsCalls = () => {
 
 
   const getListCallsRows = async () => {
-    const localFetchDataReportList = await fetchDataReportList(
-      {
+    const localFetchDataReportList = {
         dateStart: startDate,
         dateStop: endDate,
         hourStart: `${startHour}:00:00`,
@@ -64,8 +63,8 @@ const FilterReportsCalls = () => {
         typeRecOrEfet: typeCallsLocal,
         limit: 30,
         offset: 0,
-      }); 
-    setStorageDataReportList(localFetchDataReportList);
+      }; 
+    setStorageDataReportToList(localFetchDataReportList);
     return;
   };
   
