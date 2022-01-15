@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
@@ -15,6 +15,9 @@ const ChartsReceived = () => {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport, verifySort } = getItensStateGlobal;
 
+  const [options, setOptions] = useState({});
+  const [data, setData] = useState({});
+
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -24,48 +27,57 @@ const ChartsReceived = () => {
     Legend
   );
 
-  const { volumeEndpointsReceivedAnswered, volumeEndpointsReceivedNotAnswer } = storageDataReport;
+  const testeFunction = useCallback(() => {
+    const { volumeEndpointsReceivedAnswered, volumeEndpointsReceivedNotAnswer } = storageDataReport;
 
-  const callsRecevedsAnswered = volumeEndpointsReceivedAnswered.reduce((obj, item) => ((obj[item.endpoints] = item.received_answered), obj),{});
-  const callsRecevedsNotAnswer = volumeEndpointsReceivedNotAnswer.reduce((obj, item) => ((obj[item.endpoints] = item.received_no_aswer), obj),{});
- 
-  const valueLabelsAtendidas = [callsRecevedsAnswered];
-  const valueLabelsNaoAtendidas = [callsRecevedsNotAnswer];
+    const callsRecevedsAnswered = volumeEndpointsReceivedAnswered.reduce((obj, item) => ((obj[item.endpoints] = item.received_answered), obj),{});
+    const callsRecevedsNotAnswer = volumeEndpointsReceivedNotAnswer.reduce((obj, item) => ((obj[item.endpoints] = item.received_no_aswer), obj),{});
+  
+    const valueLabelsAnswered = [callsRecevedsAnswered];
+    const valueLabelsNoAnswer = [callsRecevedsNotAnswer];
 
-  const labelsAnswered = Object.keys(callsRecevedsAnswered);
-  const labelNoAnswer = Object.keys(callsRecevedsNotAnswer);
-  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort).filter((keylabel) => keylabel.length === 4);
-  const labels = [...new Set(labelsVerify)];
+    const labelsAnswered = Object.keys(callsRecevedsAnswered);
+    const labelNoAnswer = Object.keys(callsRecevedsNotAnswer);
+    const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort).filter((keylabel) => keylabel.length === 4);
+    const labels = [...new Set(labelsVerify)];
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          // text: 'Chart.js Bar Chart',
+        },
       },
-      title: {
-        display: true,
-        // text: 'Chart.js Bar Chart',
-      },
-    },
-  };
+    };
+    setOptions(options);
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Atendidas',
-        data: labels.map((label) => valueLabelsAtendidas[0][label]),
-        backgroundColor: 'rgba(30, 144, 255, 0.8)',
-        borderColor: 'rgb(30, 144, 255, 0, 0.8)',
-      },
-      {
-        label: 'Não Atendidas',
-        data: labels.map((label) => valueLabelsNaoAtendidas[0][label]),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-    ],
-  };
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Atendidas',
+          data: labels.map((label) => valueLabelsAnswered[0][label]),
+          backgroundColor: 'rgba(30, 144, 255, 0.8)',
+          borderColor: 'rgb(30, 144, 255, 0, 0.8)',
+        },
+        {
+          label: 'Não Atendidas',
+          data: labels.map((label) => valueLabelsNoAnswer[0][label]),
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        },
+      ],
+    };
+    setData(data);
+  }, [storageDataReport]);
+  console.log('CHART REPORT RE-RENDER');
+
+  useEffect(() => {
+    testeFunction();
+  }, [])
   
   return (
     <div className="column is-one-third">
