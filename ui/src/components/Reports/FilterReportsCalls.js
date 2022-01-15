@@ -5,7 +5,7 @@ import PbxContext from '../../context/PbxContext'
 import '../../libs/bulma.min.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = () => {
   const getItensStateGlobal = useContext(PbxContext);
@@ -243,10 +243,10 @@ const FilterReportsCalls = () => {
                 <div className="control">
                   <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => addFiltersOnReport() }>
                     <span className="icon">
-                      <FontAwesomeIcon icon={faSearch} fixedWidth />
+                      <FontAwesomeIcon icon={faFilter} fixedWidth />
                     </span>
                     <span>
-                      BUSCAR
+                      FILTRAR
                     </span>
                   </button>
                 </div>

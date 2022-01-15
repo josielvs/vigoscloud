@@ -24,7 +24,7 @@ function Reports() {
 
   const history = useHistory();
 
-  const validateUserLogged = async () => {
+  const validateUserLogged = useCallback(async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     if (!dataUser) return history.push('/');
 
@@ -59,13 +59,14 @@ function Reports() {
         offset: 0,
       }); 
     setStorageDataReportList(localFetchDataReportList);
-    console.log(localFetchDataReportList);
 
     const localFetchEndpoints = await fetchEndpoints();
     setEndpoints(localFetchEndpoints);
 
     if (localFetchDataReport || !Error) setLoading(false);
-  };
+  }, []);
+
+  console.log('INDEX REPORT RE-RENDER');
 
   useEffect(() => {
     validateUserLogged()
