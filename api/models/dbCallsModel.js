@@ -18,9 +18,28 @@ const readByAreaCode = async (connection, code) => {
   return result;
 };
 
-
 const readAllSectors = async (connection) => {
   const result = await connection.query(`SELECT * FROM "get_sectors"()`);
+  return result.rows;
+};
+
+const readAllRows = async (connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol, statusCall, typeRecOrEfet, limitGet, offsetGet) => {
+  const result = await connection.query(`
+    SELECT * FROM
+      "get_all_calls_rows"(
+        '${dateStart}',
+        '${dateStop}',
+        '${hourStart}',
+        '${hourStop}',
+        '${sector}',
+        '${getEndpoint}',
+        '${telNumber}',
+        '${getProtocol}',
+        '${statusCall}',
+        '${typeRecOrEfet}',
+        '${limitGet}',
+        '${offsetGet}'
+      )`);
   return result.rows;
 };
 
@@ -81,6 +100,9 @@ const factory = function (connection) {
     },
     readAllSectors: () => {
       return readAllSectors(connection);
+    },
+    readAllRows: (dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol, statusCall, typeRecOrEfet, limitGet, offsetGet) => {
+      return readAllRows(connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol, statusCall, typeRecOrEfet, limitGet, offsetGet);
     },
   }
 };

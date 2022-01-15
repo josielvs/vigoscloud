@@ -41,7 +41,7 @@ exports.readAllSectorsController = (callsDb) => {
 
 exports.readAllQueriesReportController = (callsDb) => {
   return async (req, res, next) => {
-    let { dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol } = req.body;
+    const { dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol } = req.body;
     try {
       const checked = dbCallsServices.verifyAllData([
         {'checkedDateInit': dateStart },
@@ -55,6 +55,20 @@ exports.readAllQueriesReportController = (callsDb) => {
       ]);
       const checkedResult = checked;
       const calls = await callsDb.readAllQueriesReport(...checkedResult);
+      res.status(200).json(calls);
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
+exports.readAllRowsController = (callsDb) => {
+  return async (req, res, next) => {
+    // const { dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol, statusCall, typeRecOrEfet, limitGet, offsetGet } = req.body;
+    const { body } = req;
+    const dataReceived = Object.values(body);
+    try {
+      const calls = await callsDb.readAllRows(...dataReceived);
       res.status(200).json(calls);
     } catch (error) {
       next(error);
