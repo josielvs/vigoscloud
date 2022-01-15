@@ -810,6 +810,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
   telNumber character varying(30),
   protocol character varying(30),
   statusCall character varying(30),
+  typeRecOrEfet character varying(30),
   limitGet integer,
   offsetGet integer
 )
@@ -827,6 +828,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
     tipo character varying(80),
     protocolo character varying(150),
     tipo_saida character varying(80),
+    id text,
     encerramento character varying(50)
   )
   LANGUAGE plpgsql AS
@@ -857,7 +859,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
           ELSE ''
         END
         AS setor,
-        billsec AS aguardando_atendimento,
+        duration - billsec AS aguardando_atendimento,
         duration AS duracao,
         CASE 
           WHEN disposition='NO ANSWER' THEN 'Não Atendida'
@@ -869,6 +871,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         typecall AS tipo,
         callprotocol AS protocolo,
         fromtypecall AS tipo_saida,
+        REPLACE(uniqueid, 'VigosPBX-', '') AS id,
         hangupcause AS encerramento
       FROM cdr 
         WHERE (calldate BETWEEN data_inicial AND data_final)
@@ -877,7 +880,8 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         AND src LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%'
         AND disposition LIKE '%' || statusCall || '%'
-      ORDER BY data DESC, sequencia ASC
+        AND typecall LIKE '%' || typeRecOrEfet || '%'
+      ORDER BY id DESC, sequencia ASC, data DESC
       LIMIT limitGet OFFSET offsetGet;
     END;
   $$;
@@ -896,7 +900,7 @@ DROP FUNCTION get_all_calls_rows(
   offsetGet integer
 );
 
-SELECT * FROM get_all_calls_rows('2022-01-12', '2022-01-12', '00:00:00', '23:59:59', '', '', '', '', '', '30', '0');
+SELECT * FROM get_all_calls_rows('2022-01-01', '2022-01-12', '00:00:00', '23:59:59', '', '', '', '', '', '', '30', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 14- Function Get All Data Report --

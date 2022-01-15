@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
-import { fetchEndpoints, accessLocalStorage, fetchDataReport } from '../../services';
+import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList } from '../../services';
 import ChartsRecivedCalls from '../../components/Reports/ChartsRecivedCalls';
 import ReportList from '../../components/Reports/ReportList';
 import ChartsSendCalls from '../../components/Reports/ChartsSendCalls';
@@ -20,7 +20,7 @@ import '../../libs/bulma.min.css';
 function Reports() {
   const [loading, setLoading] = useState(true);
   const getItensStateGlobal = useContext(PbxContext);
-  const { setStorageDataReport, setEndpoints } = getItensStateGlobal;
+  const { setStorageDataReport, setEndpoints, setStorageDataReportList } = getItensStateGlobal;
 
   const history = useHistory();
 
@@ -42,6 +42,24 @@ function Reports() {
         getProtocol: '',
       });
     setStorageDataReport(localFetchDataReport);
+
+    const localFetchDataReportList = await fetchDataReportList(
+      {
+        dateStart: todayFull,
+        dateStop: todayFull,
+        hourStart: '00:00:00',
+        hourStop: '23:59:59',
+        sector: '',
+        getEndpoint: '',
+        telNumber: '',
+        getProtocol: '',
+        statusCall: '',
+        typeRecOrEfet: '',
+        limit: 30,
+        offset: 0,
+      }); 
+    setStorageDataReportList(localFetchDataReportList);
+    console.log(localFetchDataReportList);
 
     const localFetchEndpoints = await fetchEndpoints();
     setEndpoints(localFetchEndpoints);

@@ -25,7 +25,10 @@ const readAllQueriesReportRoute = dbCallsController.readAllQueriesReportControll
 dbCallRoute.post('/report', authMiddleware, readAllQueriesReportRoute);
 
 const readAllSectorsRoute = dbCallsController.readAllSectorsController(callsDb);
-dbCallRoute.get('/sector', authMiddleware, readAllSectorsRoute);
+dbCallRoute.get('/report/sector', authMiddleware, readAllSectorsRoute);
+
+const readAllRowsRoute = dbCallsController.readAllRowsController(callsDb);
+dbCallRoute.post('/report/list', authMiddleware, readAllRowsRoute);
 
 const downloadAudioCall = dbCallRoute.get('/file/:id', (req, res) => {
     const id = req.params.id;

@@ -17,6 +17,7 @@ import {
   fetchCallOnDay,
   fetchDataReport,
   fetchSectors,
+  fetchDataReportList,
 } from './api';
 
 export {
@@ -38,4 +39,5 @@ export {
   clickToSpy,
   fetchDataReport,
   fetchSectors,
+  fetchDataReportList,
  } 

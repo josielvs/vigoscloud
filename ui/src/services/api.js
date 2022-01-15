@@ -168,7 +168,19 @@ export const fetchSectors = async () => {
   
   try {
     const response = await axios
-      .get(`${ipRequest}api/db/sector`, { headers: { Authorization: token } });
+      .get(`${ipRequest}api/db/report/sector`, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const fetchDataReportList = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/db/report/list`, dataRequest, { headers: { Authorization: token } });
     return response.data;
   } catch (error) {
     return error;
