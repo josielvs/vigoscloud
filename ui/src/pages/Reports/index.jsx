@@ -20,11 +20,11 @@ import '../../libs/bulma.min.css';
 function Reports() {
   const [loading, setLoading] = useState(true);
   const getItensStateGlobal = useContext(PbxContext);
-  const { setStorageDataReport, setEndpoints, setStorageDataReportList } = getItensStateGlobal;
+  const { setStorageDataReport, setEndpoints, setStorageDataReportToList } = getItensStateGlobal;
 
   const history = useHistory();
 
-  const validateUserLogged = useCallback(async () => {
+  const validateUserLogged = async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     if (!dataUser) return history.push('/');
 
@@ -43,7 +43,7 @@ function Reports() {
       });
     setStorageDataReport(localFetchDataReport);
 
-    const localFetchDataReportList = await fetchDataReportList(
+    const localFetchDataReportList =
       {
         dateStart: todayFull,
         dateStop: todayFull,
@@ -55,16 +55,16 @@ function Reports() {
         getProtocol: '',
         statusCall: '',
         typeRecOrEfet: '',
-        limit: 30,
+        limit: 5000,
         offset: 0,
-      }); 
-    setStorageDataReportList(localFetchDataReportList);
+      }; 
+    setStorageDataReportToList(localFetchDataReportList);
 
     const localFetchEndpoints = await fetchEndpoints();
     setEndpoints(localFetchEndpoints);
 
     if (localFetchDataReport || !Error) setLoading(false);
-  }, []);
+  };
 
   console.log('INDEX REPORT RE-RENDER');
 
@@ -97,7 +97,7 @@ function Reports() {
           </div>
           <hr className="m-0 p-0"/>
           <FilterReportsCalls />
-          {/* <ReportList /> */}
+          <ReportList />
           </>
       }
     </div>
