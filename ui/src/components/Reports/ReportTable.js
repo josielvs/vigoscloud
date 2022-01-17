@@ -28,14 +28,14 @@ class ReportTable extends React.Component {
           <td>{origem_primaria}</td>
           <td>{origem_segundaria}</td>
           {/* <td>{destino_primario}</td> */}
-          <td>{destino_secundario}</td>
           <td>{setor}</td>
+          <td>{destino_secundario}</td>
           <td>{status}</td>
           <td>{aguardando_atendimento}</td>
           <td>{duracao}</td>
-          <td>{tipo }</td>
-          <td>{id}</td>
-          <td>{sequencia}</td>
+          <td>{tipo}</td>
+          {/* <td>{id}</td>
+          <td>{sequencia}</td> */}
 	        <td><Link to={{ pathname: `http://${url}/api/download/file/${protocolo}` }} target="_blank"><FontAwesomeIcon icon={faPlay} fixedWidth /></Link></td>
         </tr>
       </tbody>
