@@ -11,16 +11,21 @@ import ChartCallsStatusByTime from '../../components/Reports/ChartCallsStatusByT
 import ChartCallsStatusIntAndExt from '../../components/Reports/ChartCallsStatusIntAndExt';
 import TableReceivedCalls from '../../components/Reports/TableReceivedCalls';
 import TableSentCalls from '../../components/Reports/TableSentCalls';
-// import ChartCallsStatusBySectorAndTime from '../../components/Reports/ChartCallsStatusBySectorAndTime';
 import FilterReportsCalls from '../../components/Reports/FilterReportsCalls';
+import Pagination from '../../components/Reports/Pagination';
 import Loading from '../../components/Loading/LoadingModule';
 
 import '../../libs/bulma.min.css';
 
 function Reports() {
-  const [loading, setLoading] = useState(true);
   const getItensStateGlobal = useContext(PbxContext);
-  const { setStorageDataReport, setEndpoints, setStorageDataReportToList } = getItensStateGlobal;
+  const { setStorageDataReport, setEndpoints, setStorageDataReportList } = getItensStateGlobal;
+  
+  const [loading, setLoading] = useState(true);
+
+  const [callsReceived, setCallsReceived] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [callsPerPage, setCallsPerPage] = useState(25);
 
   const history = useHistory();
 
@@ -30,6 +35,7 @@ function Reports() {
 
     var today = new Date();
     const todayFull = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
     const localFetchDataReport = await fetchDataReport(
       {
         dateStart: todayFull,
@@ -43,8 +49,7 @@ function Reports() {
       });
     setStorageDataReport(localFetchDataReport);
 
-    const localFetchDataReportList =
-      {
+    const localFetchDataReportList = await fetchDataReportList({
         dateStart: todayFull,
         dateStop: todayFull,
         hourStart: '00:00:00',
@@ -57,8 +62,8 @@ function Reports() {
         typeRecOrEfet: '',
         limit: 5000,
         offset: 0,
-      }; 
-    setStorageDataReportToList(localFetchDataReportList);
+      });
+      setCallsReceived(localFetchDataReportList);
 
     const localFetchEndpoints = await fetchEndpoints();
     setEndpoints(localFetchEndpoints);
@@ -66,11 +71,17 @@ function Reports() {
     if (localFetchDataReport || !Error) setLoading(false);
   };
 
-  console.log('INDEX REPORT RE-RENDER');
+  const indexOfLastCall = currentPage * callsPerPage;
+  const indexofFirstCall = indexOfLastCall - callsPerPage;
+  const currentCalls = callsReceived.slice(indexofFirstCall, indexOfLastCall);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const getAllDataDb = (list) => {
+    setCallsReceived(list);
+  };
 
   useEffect(() => {
     validateUserLogged()
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -96,8 +107,9 @@ function Reports() {
               <TableSentCalls />
           </div>
           <hr className="m-0 p-0"/>
-          <FilterReportsCalls />
-          <ReportList />
+          <FilterReportsCalls getAllDataDb={getAllDataDb} />
+          <ReportList callsList={currentCalls} />
+          <Pagination callsPerPage={callsPerPage} totalCalls={callsReceived.length} paginate={paginate} currentPage={currentPage}/>
           </>
       }
     </div>

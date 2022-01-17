@@ -7,9 +7,9 @@ import '../../libs/bulma.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-const FilterReportsCalls = () => {
+const FilterReportsCalls = ({ getAllDataDb }) => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints, storageDataReport, sectorsDb, setStorageDataReport, setStorageDataReportToList } = getItensStateGlobal;
+  const { endpoints, storageDataReport, sectorsDb, setStorageDataReport, setStorageDataReportList } = getItensStateGlobal;
 
   const [notification, setNotification] = useState(false);
   const [startDate, setStartDate] = useState('');
@@ -47,10 +47,36 @@ const FilterReportsCalls = () => {
     setNotification(status);
     return;
   };
-
+  // const testeqqq = async () => {
+  //   const meutestr = await getAllDataDb({
+  //     dateStart: startDate,
+  //     dateStop: endDate,
+  //     hourStart: `${startHour}:00:00`,
+  //     hourStop: `${endHour}:59:59`,
+  //     sector: sectorLocal,
+  //     getEndpoint: endpointLocal,
+  //     telNumber: phoneNumberLocal,
+  //     getProtocol: protocolLocal,
+  //   }, {
+  //     dateStart: startDate,
+  //     dateStop: endDate,
+  //     hourStart: `${startHour}:00:00`,
+  //     hourStop: `${endHour}:59:59`,
+  //     sector: sectorLocal,
+  //     getEndpoint: endpointLocal,
+  //     telNumber: phoneNumberLocal,
+  //     getProtocol: protocolLocal,
+  //     statusCall: statusCallLocal,
+  //     typeRecOrEfet: typeCallsLocal,
+  //     limit: 30,
+  //     offset: 0,
+  //   });
+  //   console.log(meutestr)
+  //   return meutestr;
+  // }
 
   const getListCallsRows = async () => {
-    const localFetchDataReportList = {
+    const localFetchDataReportList = await fetchDataReportList({
         dateStart: startDate,
         dateStop: endDate,
         hourStart: `${startHour}:00:00`,
@@ -63,8 +89,9 @@ const FilterReportsCalls = () => {
         typeRecOrEfet: typeCallsLocal,
         limit: 30,
         offset: 0,
-      }; 
-    setStorageDataReportToList(localFetchDataReportList);
+      }); 
+    // setStorageDataReportList(localFetchDataReportList);
+    getAllDataDb(localFetchDataReportList)
     return;
   };
   
@@ -241,6 +268,7 @@ const FilterReportsCalls = () => {
             <div className="field column is-one-quarter">
                 <div className="control">
                   <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => addFiltersOnReport() }>
+                  {/* <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => testeqqq() }> */}
                     <span className="icon">
                       <FontAwesomeIcon icon={faFilter} fixedWidth />
                     </span>

@@ -9,7 +9,7 @@ function Provider({ children }) {
   const [ipEndpoints, setIpEndpoints] = useState({});
   const [path, setPath] = useState('');
   const [storageDataReport, setStorageDataReport] = useState({});
-  const [storageDataReportToList, setStorageDataReportToList] = useState([]);
+  const [storageDataReportList, setStorageDataReportList] = useState([]);
   const [realTimeCall, setRealTimeCall] = useState({
     numberConnected: '',
     endpointName: '',
@@ -28,14 +28,6 @@ function Provider({ children }) {
     const showMenu = document.querySelector(id);
     showMenu.classList.toggle('is-active');
     showMenu.classList.toggle('is-hidden');
-  };
-
-  const addStatusCalls = (calls) => {
-    return calls.map((call) => Number(call.billsec) !== 0 ? Object.assign(call, { statuscall : 'Atendida' }) : Object.assign(call, { statuscall : 'Não Atendida' }));
-  };
-
-  const formatClidCalls = (calls) => {
-    return calls.map((call) => Object.assign(call, { clid : call.clid.split('<')[1].replace(/>/g, '') }));
   };
 
   const verifySort = (a, b) => {
@@ -62,14 +54,13 @@ function Provider({ children }) {
     clickToCallChannel,
     setClickToCallChannel,
     toggleIsHidden,
-    addStatusCalls,
     callsOfDay,
     setCallsOfDay,
     storageDataReport,
     setStorageDataReport,
     verifySort,
-    storageDataReportToList,
-    setStorageDataReportToList
+    storageDataReportList,
+    setStorageDataReportList
   };
   
   return (
