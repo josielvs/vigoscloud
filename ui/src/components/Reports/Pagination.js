@@ -5,11 +5,11 @@ import Loading from '../../img/loading.gif';
 import '../../libs/bulma.min.css';
 
 const Pagination = ({ callsPerPage, totalCalls, paginate, currentPage }) => {
-  const pageNumbers = Array.from({ length: Math.ceil(totalCalls / callsPerPage) }).map((_, index) => index).filter((number) => number <= 20);
+  const pageNumbers = Array.from({ length: Math.ceil(totalCalls / callsPerPage) }).map((_, index) => index).filter((number) => number <= 19);
 
   return (
     <div className='columns is-centered'>
-      <div className='column is-half'>
+      <div className='column is-full'>
         <nav className="pagination is-small is-centered" role="navigation" aria-label="pagination">
           {/* <Link to='#' className="pagination-previous" onClick={() => paginate(currentPage + 1)}> Anterior </Link>
           <Link to='#' className="pagination-next" onClick={() => paginate(currentPage + 1)}> Próxima </Link> */}
