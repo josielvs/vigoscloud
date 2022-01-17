@@ -36,14 +36,14 @@ const ReportList = ({ callsList }) => {
                 <th scope="col">Origem</th>
                 <th scope="col">Origem Secundaria</th>
                 {/* <th scope="col">Destino</th> */}
-                <th scope="col">Destino</th>
                 <th scope="col">Setor</th>
+                <th scope="col">Destino</th>
                 <th scope="col">Status</th>
                 <th scope="col">Tempo Espera</th>
                 <th scope="col">Total da Ligação</th>
                 <th scope="col">Tipo</th>
-                <th scope="col">Id</th>
-                <th scope="col">Sequencia</th>
+                {/* <th scope="col">Id</th>
+                <th scope="col">Sequencia</th> */}
                 <th scope="col">Gravação</th>
                 </tr>
             </thead>

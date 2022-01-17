@@ -1,44 +1,3 @@
-ALTER TABLE cdr ADD COLUMN fromtypecall character varying(50) DEFAULT ''::character varying NOT NULL;
--- ******************************************************************************************************************************************************************** --
--- FUNCTIONS INACTIVES IN DB --
-CREATE OR REPLACE FUNCTION remove_row_duplicate_on_insert()     
-RETURNS trigger
-AS $$
-    BEGIN
-        -- DELETE FROM cdr WHERE uniqueid=NEW.uniqueid AND disposition='ANSWERED' AND lastapp <> 'BackGround' AND lastapp <> 'Playback' AND disposition LIKE 'NO ANSWER';
-        DELETE FROM cdr WHERE uniqueid=NEW.uniqueid AND NEW.disposition = 'ANSWERED' AND NEW.dstchannel <> '' AND disposition LIKE 'NO ANSWER' AND typecall='Recebida';
-        DELETE FROM cdr WHERE linkedid=NEW.linkedid AND duration = 0 AND billsec = 0;
-        return NEW;
-    END;
-$$ LANGUAGE plpgsql;
-
--- CREATE TRIGGER
-DROP TRIGGER IF EXISTS execute_remove_row_duplicate_on_inserts ON cdr
-CREATE TRIGGER execute_remove_row_duplicate_on_inserts
-AFTER INSERT ON cdr
-    FOR EACH ROW EXECUTE PROCEDURE remove_row_duplicate_on_insert();
-
--- FUNCTION INSERT CDR BACKUP
-CREATE OR REPLACE FUNCTION add_row_deleted_from_cdr()     
-RETURNS trigger
-AS $$
-    BEGIN
-        INSERT INTO cdr_old
-          (calldate, clid, src, dst, dcontext, channel, dstchannel, lastapp, lastdata, duration, billsec, disposition, amaflags, accountcode, uniqueid, userfield, peeraccount, linkedid, sequence, typecall, callprotocol, hangupcause, fromtypecall)
-          VALUES
-          (OLD.calldate, OLD.clid, OLD.src, OLD.dst, OLD.dcontext, OLD.channel, OLD.dstchannel, OLD.lastapp, OLD.lastdata, OLD.duration, OLD.billsec, OLD.disposition, OLD.amaflags, OLD.accountcode, OLD.uniqueid, OLD.userfield, OLD.peeraccount, OLD.linkedid, OLD.sequence, OLD.typecall, OLD.callprotocol, OLD.hangupcause, OLD.fromtypecall);
-
-        return OLD;
-    END;
-$$ LANGUAGE plpgsql;
-
--- CREATE TRIGGER
-DROP TRIGGER IF EXISTS execute_radd_row_deleted_from_cdr ON cdr
-CREATE TRIGGER execute_radd_row_deleted_from_cdr
-AFTER DELETE ON cdr
-    FOR EACH ROW EXECUTE PROCEDURE add_row_deleted_from_cdr();
--- ******************************************************************************************************************************************************************** --
-
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --- 1- Function GET CALLS TO REPORT TABLE RECEIVED ---
@@ -551,9 +510,9 @@ CREATE OR REPLACE FUNCTION get_vol_sec_rec(
       
     BEGIN
       return QUERY
-      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
+      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(*) as answered FROM cdr
       WHERE (calldate BETWEEN data_inicial AND data_final)
-      AND lastapp = 'Queue' AND disposition = 'ANSWERED'
+      AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
       AND lastdata LIKE '%' || recSector || '%'
       AND dstchannel LIKE '%' || endpoint || '%'
       AND src LIKE '%' || telNumber || '%'
@@ -607,6 +566,7 @@ CREATE OR REPLACE FUNCTION get_vol_sec_no_ans(
           SELECT DISTINCT(uniqueid) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND disposition LIKE 'ANSWERED'
+          AND dstchannel <> ''
           AND lastdata LIKE '%' || recSector || '%'
           AND dstchannel LIKE '%' || endpoint || '%'
           AND src LIKE '%' || telNumber || '%'
@@ -742,7 +702,7 @@ DROP FUNCTION get_vol_rec_no_answ_by_hour(
 SELECT * FROM  "get_vol_rec_no_answ_by_hour"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- 12- Function Get Volume Calls Received Global Sectors --
+-- 12- Function Get Volume Calls Received Global --
 CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
   dateInitial date,
   dateEnd date,
@@ -769,7 +729,7 @@ CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
         (SELECT
           COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
         AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
         AND src LIKE '%' || telNumber || '%'
@@ -779,16 +739,17 @@ CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
         FROM cdr AS a
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND a.uniqueid NOT IN (
-            SELECT DISTINCT(uniqueid) FROM cdr
+            SELECT uniqueid FROM cdr
             WHERE (calldate BETWEEN data_inicial AND data_final)
-            AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
+            AND disposition LIKE 'ANSWERED' 
+            AND typecall = 'Recebida'
             AND dstchannel <> ''
             AND lastdata LIKE '%' || recSector || '%'
             AND dstchannel LIKE '%' || endpoint || '%'
             AND src LIKE '%' || telNumber || '%'
             AND callprotocol LIKE '%' || protocol || '%'
           )
-          AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue'
+          AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
           AND lastdata LIKE '%' || recSector || '%'
           AND dstchannel LIKE '%' || endpoint || '%'
           AND src LIKE '%' || telNumber || '%'
@@ -1044,38 +1005,3 @@ CREATE OR REPLACE FUNCTION get_sectors()
 DROP FUNCTION get_sectors();
 
 SELECT * FROM  "get_sectors"();
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- WORKING --
-
-SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
--- SELECT lastdata AS sectors, COUNT(*) as answered FROM cdr
-WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
--- AND typecall = 'Recebida' AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
-AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
-AND lastdata LIKE '%'
-AND dstchannel LIKE '%'
-AND src LIKE '%'
-AND callprotocol LIKE '%'
-GROUP BY sectors
-ORDER BY sectors;
-
-SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
-LIMIT 50;
-
--- ** Filtros ** --
--- Data: calldate ===> dateInitial, dateEnd
--- Tipo: 'typecall' ===> 
--- Setor: Apenas Recebidas --> lastdata ===> recSector
--- Ramal:
---      Recebida: '%dstchannel%'
---      Efetuada: 'src'
--- Telefone:
---      Recebida: '%src'
---      Efetuada: '%dst'
--- Protocolo: 'callprotocol'
--- Código de Area ---> Não Usar
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
