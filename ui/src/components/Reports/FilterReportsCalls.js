@@ -87,7 +87,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
         getProtocol: protocolLocal,
         statusCall: statusCallLocal,
         typeRecOrEfet: typeCallsLocal,
-        limit: 30,
+        limit: 3000,
         offset: 0,
       }); 
     // setStorageDataReportList(localFetchDataReportList);
