@@ -93,19 +93,22 @@ function Reports() {
           <div className="columns mx-2">
             <ChartsRecivedCalls />
             <ChartsSendCalls />
-            <ChartCallsStatusIntAndExt />
           </div>
           <hr className="m-0 p-0"/>
           <div className="columns mx-2">
             <ChartCallsStatusGlobal />
             <ChartBySector />
-            <ChartCallsStatusByTime />
           </div>
           <hr className="m-0 p-0"/>
+          <div className="columns mx-2">
+            <ChartCallsStatusByTime />
+            <ChartCallsStatusIntAndExt />
+          </div>
           <div className="columns mx-2">
               <TableReceivedCalls />
               <TableSentCalls />
           </div>
+          <hr className="m-0 p-0"/>
           <hr className="m-0 p-0"/>
           <FilterReportsCalls getAllDataDb={getAllDataDb} />
           <ReportList callsList={currentCalls} />

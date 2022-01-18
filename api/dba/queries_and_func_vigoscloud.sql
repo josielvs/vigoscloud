@@ -101,7 +101,7 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
         (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr AS a
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND a.uniqueid
-          NOT IN (SELECT uniqueid FROM cdr
+          NOT IN (SELECT DISTINCT(uniqueid) FROM cdr
             WHERE (calldate BETWEEN data_inicial AND data_final)
             AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
             AND lastdata LIKE '%' || recSector || '%'
@@ -123,7 +123,7 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
           AND src LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
         ) AS busy_calls,
-        (SELECT TO_CHAR((AVG(duration - billsec) || ' second')::interval, 'HH24:MI:SS') FROM cdr
+        (SELECT TO_CHAR((AVG(billsec) || ' second')::interval, 'HH24:MI:SS') FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
           AND lastdata LIKE '%' || recSector || '%'
@@ -548,7 +548,6 @@ CREATE OR REPLACE FUNCTION get_vol_sec_rec(
     DECLARE
       data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
       data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
-      
     BEGIN
       return QUERY
       SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
@@ -574,7 +573,7 @@ DROP FUNCTION get_vol_sec_rec(
   protocol character varying(30)
 );
 
-SELECT * FROM  "get_vol_sec_rec"('2022-01-01', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_sec_rec"('2022-01-17', '2022-01-17', '00:00:00', '23:59:59', '', '', '', '');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 9- Function Get Volume Calls Received and Not Answered By Sector --
@@ -612,7 +611,7 @@ CREATE OR REPLACE FUNCTION get_vol_sec_no_ans(
           AND src LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
         )
-        AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue'
+        AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue' AND typecall = 'Recebida'
         AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
         AND src LIKE '%' || telNumber || '%'
@@ -782,7 +781,6 @@ CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
             SELECT DISTINCT(uniqueid) FROM cdr
             WHERE (calldate BETWEEN data_inicial AND data_final)
             AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
-            AND dstchannel <> ''
             AND lastdata LIKE '%' || recSector || '%'
             AND dstchannel LIKE '%' || endpoint || '%'
             AND src LIKE '%' || telNumber || '%'
@@ -884,7 +882,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         REPLACE(uniqueid, 'VigosPBX-', '') AS id,
         hangupcause AS encerramento,
         count(*) OVER() AS full_count
-      FROM cdr 
+      FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
@@ -1062,6 +1060,16 @@ ORDER BY sectors;
 
 SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
 LIMIT 50;
+
+SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
+AND lastapp = 'Queue' AND disposition = 'ANSWERED'
+LIMIT 50;
+
+SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
+WHERE (calldate BETWEEN '2022-01-17 00:00:00' AND '2022-01-17 23:59:59')
+AND lastapp = 'Queue' AND disposition = 'ANSWERED'
+GROUP BY sectors
+ORDER BY sectors;
 
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
