@@ -510,9 +510,10 @@ CREATE OR REPLACE FUNCTION get_vol_sec_rec(
       
     BEGIN
       return QUERY
-      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(*) as answered FROM cdr
+      SELECT UPPER(SUBSTRING(lastdata, 0, POSITION(',' in lastdata))) AS sectors, COUNT(uniqueid) as answered FROM cdr
       WHERE (calldate BETWEEN data_inicial AND data_final)
-      AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
+      AND lastapp = 'Queue'
+      AND disposition = 'ANSWERED'
       AND lastdata LIKE '%' || recSector || '%'
       AND dstchannel LIKE '%' || endpoint || '%'
       AND src LIKE '%' || telNumber || '%'
@@ -560,13 +561,12 @@ CREATE OR REPLACE FUNCTION get_vol_sec_no_ans(
       
     BEGIN
       return QUERY
-      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors_not_atennd, COUNT(DISTINCT(uniqueid)) AS no_answer FROM cdr AS a
+      SELECT UPPER(SUBSTRING(lastdata, 0, POSITION(',' in lastdata))) AS sectors_not_atennd, COUNT(DISTINCT(uniqueid)) AS no_answer FROM cdr AS a
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND a.uniqueid NOT IN (
           SELECT DISTINCT(uniqueid) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND disposition LIKE 'ANSWERED'
-          AND dstchannel <> ''
+          AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
           AND lastdata LIKE '%' || recSector || '%'
           AND dstchannel LIKE '%' || endpoint || '%'
           AND src LIKE '%' || telNumber || '%'
@@ -721,35 +721,31 @@ CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
   $$
     DECLARE
       data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
-      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
-      
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);     
     BEGIN
       return QUERY
       SELECT
         (SELECT
           COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
         AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
         AND src LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%') AS answered,
         (SELECT
           COUNT(DISTINCT(uniqueid))
-        FROM cdr AS a
+          FROM cdr AS a
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND a.uniqueid NOT IN (
-            SELECT uniqueid FROM cdr
+            SELECT DISTINCT(uniqueid) FROM cdr
             WHERE (calldate BETWEEN data_inicial AND data_final)
-            AND disposition LIKE 'ANSWERED' 
-            AND typecall = 'Recebida'
-            AND dstchannel <> ''
+            AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
             AND lastdata LIKE '%' || recSector || '%'
             AND dstchannel LIKE '%' || endpoint || '%'
             AND src LIKE '%' || telNumber || '%'
-            AND callprotocol LIKE '%' || protocol || '%'
-          )
-          AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
+            AND callprotocol LIKE '%' || protocol || '%')
+          AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue'
           AND lastdata LIKE '%' || recSector || '%'
           AND dstchannel LIKE '%' || endpoint || '%'
           AND src LIKE '%' || telNumber || '%'
@@ -1005,3 +1001,28 @@ CREATE OR REPLACE FUNCTION get_sectors()
 DROP FUNCTION get_sectors();
 
 SELECT * FROM  "get_sectors"();
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+dcontext
+
+-- SELECT dcontext, COUNT(dcontext) FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
+-- AND lastapp = 'Queue' AND disposition = 'ANSWERED'
+-- SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
+SELECT dcontext, COUNT(dcontext) FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
+AND dcontext = 'transfer' AND char_length(src) > 4
+GROUP BY dcontext
+LIMIT 2000;
+
+SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-17' AND '2022-01-17')
+AND dcontext = 'transfer' AND char_length(src) > 4
+LIMIT 2000;
+
+ ddd-fixo | 24767
+ transfer |   571
+ ura      | 14863
+ VIVOO    |   114
+
+
+UPDATE cdr SET typecall = 'Recebida' WHERE dcontext = 'ura';

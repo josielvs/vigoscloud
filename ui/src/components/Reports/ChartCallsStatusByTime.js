@@ -71,7 +71,7 @@ const ChartCallsStatusByTime = () => {
 
 
   return (
-    <div className="column">
+    <div className="column is-half">
       <h2 className="has-text-centered is-size-5">Status das Chamadas por Hora</h2>
         <Line options={options} data={data} />
     </div>

@@ -68,7 +68,7 @@ const ChartBySector = () => {
 
 
   return (
-    <div className="column is-one-third">
+    <div className="column is-half">
       <h2 className="has-text-centered is-size-5">Status das Chamadas por Setor</h2>
         <Bar options={options} data={data} />
     </div>
