@@ -105,8 +105,8 @@ function Reports() {
             <ChartCallsStatusIntAndExt />
           </div>
           <div className="columns mx-2">
-              <TableReceivedCalls />
-              <TableSentCalls />
+            <TableReceivedCalls />
+            <TableSentCalls />
           </div>
           <hr className="m-0 p-0"/>
           <hr className="m-0 p-0"/>

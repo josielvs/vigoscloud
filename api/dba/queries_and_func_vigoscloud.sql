@@ -201,7 +201,7 @@ CREATE OR REPLACE FUNCTION get_data_report_sent(
         TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS average_time_calls,
         (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND typecall = 'Efetuada' AND dstchannel <> '' AND disposition LIKE 'ANSWERED'
+          AND typecall = 'Efetuada' AND disposition LIKE 'ANSWERED' AND lastdata LIKE '%@%'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
@@ -211,11 +211,11 @@ CREATE OR REPLACE FUNCTION get_data_report_sent(
           AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr 
             WHERE (calldate BETWEEN data_inicial AND data_final)
             AND disposition LIKE 'ANSWERED'
-            AND typecall = 'Efetuada' AND dstchannel <> ''
+            AND typecall = 'Efetuada' AND lastdata LIKE '%@%'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%')
-          AND disposition LIKE 'NO ANSWER' AND typecall = 'Efetuada'
+          AND disposition LIKE 'NO ANSWER' AND typecall = 'Efetuada' AND lastdata LIKE '%@%'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
@@ -224,20 +224,21 @@ CREATE OR REPLACE FUNCTION get_data_report_sent(
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND  disposition LIKE 'BUSY'
           AND typecall = 'Efetuada'
+           AND lastdata LIKE '%@%'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
         ) AS busy_calls,
         (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND  disposition LIKE 'FAILED' AND typecall = 'Efetuada'
+          AND  disposition LIKE 'FAILED' AND typecall = 'Efetuada' AND lastdata LIKE '%@%'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
         ) AS failed_calls
       FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
-        AND typecall = 'Efetuada' AND dstchannel <> ''
+        AND typecall = 'Efetuada' AND lastdata LIKE '%@%'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%';

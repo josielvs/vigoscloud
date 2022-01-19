@@ -9,16 +9,16 @@ import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = ({ getAllDataDb }) => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints, storageDataReport, sectorsDb, setStorageDataReport, setStorageDataReportList } = getItensStateGlobal;
+  const { endpoints } = getItensStateGlobal;
 
   const [notification, setNotification] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [startHour, setStartHour] = useState(0);
   const [endHour, setEndHour] = useState(23);
-  const [sectorDB, setSectorsDB] = useState([]);
   const [sectorLocal, setSectorLocal] = useState('');
   const [endpointLocal, setEndpointLocal] = useState('');
+  const [sectorDbLocal, setSectorDbLocal] = useState([]);
   const [statusCallLocal, setStatusCallLocal] = useState('');
   const [protocolLocal, setProtocolLocal] = useState('');
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
@@ -27,6 +27,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
   const fetchSectorsFunction = async () => { 
     const getSectorsInDb = await fetchSectors();
     const sectorsList = Object.values(getSectorsInDb);
+    setSectorDbLocal(sectorsList);
     return sectorsList;
   };
 
@@ -184,7 +185,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
                   <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      sectorDB.map((sector, index) => <option key={ index } value={ sector.sectors }>{ sector.sectors }</option>)
+                      sectorDbLocal.map((sector, index) => <option key={ index } value={ sector.sectors }>{ sector.sectors }</option>)
                     }
                   </select>
                 </div>
