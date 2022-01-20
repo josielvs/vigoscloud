@@ -9,7 +9,7 @@ import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = ({ getAllDataDb }) => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints } = getItensStateGlobal;
+  const { endpoints, setStorageDataReport } = getItensStateGlobal;
 
   const [notification, setNotification] = useState(false);
   const [startDate, setStartDate] = useState('');
@@ -48,33 +48,6 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
     setNotification(status);
     return;
   };
-  // const testeqqq = async () => {
-  //   const meutestr = await getAllDataDb({
-  //     dateStart: startDate,
-  //     dateStop: endDate,
-  //     hourStart: `${startHour}:00:00`,
-  //     hourStop: `${endHour}:59:59`,
-  //     sector: sectorLocal,
-  //     getEndpoint: endpointLocal,
-  //     telNumber: phoneNumberLocal,
-  //     getProtocol: protocolLocal,
-  //   }, {
-  //     dateStart: startDate,
-  //     dateStop: endDate,
-  //     hourStart: `${startHour}:00:00`,
-  //     hourStop: `${endHour}:59:59`,
-  //     sector: sectorLocal,
-  //     getEndpoint: endpointLocal,
-  //     telNumber: phoneNumberLocal,
-  //     getProtocol: protocolLocal,
-  //     statusCall: statusCallLocal,
-  //     typeRecOrEfet: typeCallsLocal,
-  //     limit: 30,
-  //     offset: 0,
-  //   });
-  //   console.log(meutestr)
-  //   return meutestr;
-  // }
 
   const getListCallsRows = async () => {
     const localFetchDataReportList = await fetchDataReportList({
@@ -90,8 +63,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
         typeRecOrEfet: typeCallsLocal,
         limit: 3000,
         offset: 0,
-      }); 
-    // setStorageDataReportList(localFetchDataReportList);
+      });
     getAllDataDb(localFetchDataReportList)
     return;
   };
