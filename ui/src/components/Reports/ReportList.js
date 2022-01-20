@@ -35,9 +35,9 @@ const ReportList = ({ callsList }) => {
                 <th scope="col">Data</th>
                 <th scope="col">Origem</th>
                 <th scope="col">Origem Secundaria</th>
-                {/* <th scope="col">Destino</th> */}
                 <th scope="col">Setor</th>
                 <th scope="col">Destino</th>
+                <th scope="col">Destino Secundario</th>
                 <th scope="col">Status</th>
                 <th scope="col">Tempo Espera</th>
                 <th scope="col">Total da Ligação</th>

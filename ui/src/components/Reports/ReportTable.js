@@ -20,9 +20,6 @@ const ReportTable = ({ call, role }) => {
   const minute = date.getMinutes();
   const second = date.getSeconds();
 
-  // const checkUserToIcon = role !== 'user' ? faPlay : faBan;
-  // const checkUserToLink = role !== 'user' ? `http://${url}/api/download/file/${protocolo}` : '#';
-
   const adminTd = <Link to={{ pathname: `http://${url}/api/download/file/${protocolo}` }} target="_blank"><FontAwesomeIcon icon={faPlay} fixedWidth /></Link>;
   const userTd = <FontAwesomeIcon icon={faBan} fixedWidth />;
 
@@ -35,9 +32,9 @@ const ReportTable = ({ call, role }) => {
         <td>{`${dateBr} ${time}`}</td>
         <td>{origem_primaria}</td>
         <td>{origem_segundaria}</td>
-        {/* <td>{destino_primario}</td> */}
         <td>{setor}</td>
         <td>{destino_secundario}</td>
+        <td>{destino_primario}</td>
         <td>{status}</td>
         <td>{aguardando_atendimento}</td>
         <td>{duracao}</td>
