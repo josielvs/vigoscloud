@@ -12,12 +12,12 @@ const ReportList = ({ callsList }) => {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport, storageDataReportList } = getItensStateGlobal;
 
-  const [userDbLocal, setUserDbLocal] = useState({});
+  const [userRoleLocal, setUserRoleLocal] = useState('');
 
   const getUserDataLocal = async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage(); 
     const { user } = dataUser;
-    setUserDbLocal(user);
+    setUserRoleLocal(user.role);
     return;
   };
 
@@ -31,7 +31,7 @@ const ReportList = ({ callsList }) => {
       <div className="table-container is-flex-wrap-wrap">
         <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
             <thead>
-                <tr className='is-size-7'>
+                <tr className='is-size-7 has-text-centered '>
                 <th scope="col">Data</th>
                 <th scope="col">Origem</th>
                 <th scope="col">Origem Secundaria</th>
@@ -48,7 +48,7 @@ const ReportList = ({ callsList }) => {
                 </tr>
             </thead>
             {
-              callsList .map((call, index) => <ReportTable key={ index } call={ call } />)
+              callsList .map((call, index) => <ReportTable key={ index } call={ call } role={ userRoleLocal } />)
             }
         </table>
       </div>
