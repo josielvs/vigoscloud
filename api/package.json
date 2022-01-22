@@ -23,7 +23,8 @@
     "jsonwebtoken": "8.5.1",
     "node-os-utils": "^1.3.2",
     "pg": "^8.5.1",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "ws": "^8.4.2"
   },
   "devDependencies": {
     "eslint-config-trybe-backend": "1.0.1",
