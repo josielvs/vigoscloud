@@ -852,13 +852,13 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         clid AS origem_primaria,
         src AS origem_segundaria,
         dst AS destino_primario,
-        REPLACE(
+        REPLACE(dstchannel, '@ddd', REPLACE(
           SUBSTRING(
             dstchannel, POSITION('/' in dstchannel) + 1,
               POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
             )
           , '-', ''
-        )
+        ), '')
         AS destino_secundario,
         CASE 
           WHEN typecall='Recebida' THEN
@@ -885,13 +885,14 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         count(*) OVER() AS full_count
       FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
+        AND lastapp <> '' AND lastapp <> 'Hangup'
         AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
         AND src LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%'
         AND disposition LIKE '%' || statusCall || '%'
         AND typecall LIKE '%' || typeRecOrEfet || '%'
-      ORDER BY id DESC, sequencia ASC, data DESC
+      ORDER BY calldate DESC, id DESC
       LIMIT limitGet OFFSET offsetGet;
     END;
   $$;
@@ -1059,12 +1060,41 @@ AND callprotocol LIKE '%'
 GROUP BY sectors
 ORDER BY sectors;
 
-SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
-LIMIT 50;
+SELECT
+REPLACE(
+          SUBSTRING(
+            dstchannel, POSITION('/' in dstchannel) + 1,
+              POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+            )
+          , '-', ''
+        ) AS destino_secundario
+FROM cdr WHERE (calldate BETWEEN '2022-01-20 00:00:00' AND '2022-01-20 23:59:59')
+LIMIT 30;
 
-SELECT * FROM cdr WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
-AND lastapp = 'Queue' AND disposition = 'ANSWERED'
-LIMIT 50;
+SELECT
+  dstchannel
+FROM cdr WHERE (calldate BETWEEN '2022-01-20 00:00:00' AND '2022-01-20 23:59:59')
+LIMIT 30;
+
+SELECT
+  CASE
+    WHEN typecall = 'Efetuada' THEN dst
+    WHEN typecall = 'Recebida' THEN REPLACE(
+      SUBSTRING(
+        dstchannel, POSITION('/' in dstchannel) + 1,
+          POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+        )
+      , '-', '')
+    ELSE
+      SUBSTRING(
+        lastdata, 0,
+          POSITION(',' in lastdata)
+        )
+  END
+FROM cdr WHERE (calldate BETWEEN '2022-01-20 00:00:00' AND '2022-01-20 23:59:59')
+AND lastapp <> '' AND lastapp <> 'Hangup'
+ORDER BY calldate DESC, uniqueid DESC
+LIMIT 40 OFFSET 0;
 
 SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
 WHERE (calldate BETWEEN '2022-01-17 00:00:00' AND '2022-01-17 23:59:59')

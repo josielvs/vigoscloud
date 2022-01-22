@@ -9,7 +9,7 @@ import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = ({ getAllDataDb }) => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints, setStorageDataReport } = getItensStateGlobal;
+  const { endpoints, setStorageDataReport, verifySort } = getItensStateGlobal;
 
   const [notification, setNotification] = useState(false);
   const [startDate, setStartDate] = useState('');
@@ -157,7 +157,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
                   <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      sectorDbLocal.map((sector, index) => <option key={ index } value={ sector.sectors }>{ sector.sectors }</option>)
+                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector.sectors }>{ sector.sectors }</option>)
                     }
                   </select>
                 </div>
@@ -171,7 +171,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
                   <select className="select" onChange={(e) => setEndpointLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      endpoints.filter((endpoint) => endpoint.resource.length < 5).map((endpoint, index) => <option key={ index } value={ endpoint.resource }>{ endpoint.resource }</option>)
+                      endpoints.sort((a, b) => a - b).filter((endpoint) => endpoint.resource.length < 5).map((endpoint, index) => <option key={ index } value={ endpoint.resource }>{ endpoint.resource }</option>)
                     }
                   </select>
                 </div>
@@ -221,22 +221,6 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
             </label>
           </div>
         </div>
-        <div className="columns mx-2">
-          {/* <div className="column mx-0">
-            <label className="label is-flex-wrap-nowrap">Duração (em segundos)
-              <div className="control">
-                <input className="input" type="number" placeholder="Ex.: 60" onChange={ (e) => setDurationLocal(e.target.value) } />
-              </div>
-            </label>
-          </div>
-          <div className="column mx-0">
-            <label className="label">Espera (em segundos)
-              <div className="control">
-                <input className="input" type="number" placeholder="Ex.: 60" />
-              </div>
-            </label>
-          </div> */}
-        </div>
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
                 <div className="control">
@@ -255,7 +239,6 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
       </form>
     </div>
   );
-
-  };
+};
 
 export default FilterReportsCalls;
