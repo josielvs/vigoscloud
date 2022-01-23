@@ -10,7 +10,7 @@ import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
 
 const ReportList = ({ callsList }) => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { storageDataReport, storageDataReportList } = getItensStateGlobal;
+  const { storageDataReport } = getItensStateGlobal;
 
   const [userRoleLocal, setUserRoleLocal] = useState('');
 
