@@ -1,4 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import { fetchSectors, fetchDataReport, fetchDataReportList } from '../../services/api';
 
 import PbxContext from '../../context/PbxContext';
@@ -257,6 +259,11 @@ const FilterReportsCalls = ({ getAllDataDb, page }) => {
       </form>
     </div>
   );
+};
+
+FilterReportsCalls.propTypes = {
+  getAllDataDb: PropTypes.func,
+  page: PropTypes.func,
 };
 
 export default FilterReportsCalls;
