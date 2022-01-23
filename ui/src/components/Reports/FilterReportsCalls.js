@@ -181,7 +181,7 @@ const FilterReportsCalls = ({ getAllDataDb, page }) => {
                   <select className="select" onChange={(e) => setEndpointLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      endpoints.filter((endpoint) => endpoint.resource.length < 5).sort((a, b) => a.resource - b.resource).map((endpoint, index) => <option key={ index } value={ endpoint.resource }>{ endpoint.resource }</option>)
+                      endpoints.filter((endpoint) => endpoint.resource.length < 5 &&  endpoint.resource >= 1000).sort((a, b) => a.resource - b.resource).map((endpoint, index) => <option key={ index } value={ endpoint.resource }>{ endpoint.resource }</option>)
                     }
                   </select>
                 </div>
