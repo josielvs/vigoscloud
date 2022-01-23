@@ -24,7 +24,7 @@ const ReportList = ({ callsList }) => {
 
   useEffect(() => {
     getUserDataLocal();
-  }, []);
+  }, [storageDataReport]);
 
   return storageDataReport && storageDataReport === [] ? { NoDataLoad } : (
     <div className='mt-5 pt-5 my-3'>
@@ -37,7 +37,7 @@ const ReportList = ({ callsList }) => {
                 <th scope="col">Origem Secundaria</th>
                 <th scope="col">Setor</th>
                 <th scope="col">Destino</th>
-                {/* <th scope="col">Destino Secundario</th> */}
+                <th scope="col">Destino Secundario</th>
                 <th scope="col">Status</th>
                 <th scope="col">Tempo Espera</th>
                 <th scope="col">Total da Ligação</th>
@@ -48,7 +48,7 @@ const ReportList = ({ callsList }) => {
                 </tr>
             </thead>
             {
-              callsList .map((call, index) => <ReportTable key={ index } call={ call } role={ userRoleLocal } />)
+              callsList.map((call, index) => <ReportTable key={ index } call={ call } role={ userRoleLocal } />)
             }
         </table>
       </div>

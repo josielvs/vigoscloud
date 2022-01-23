@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Loading from '../../img/loading.gif';
-
-import '../../libs/bulma.min.css';
 
 const Pagination = ({ callsPerPage, totalCalls, paginate, currentPage }) => {
+
   const pageNumbers = Array.from({ length: Math.ceil(totalCalls / callsPerPage) }).map((_, index) => index).filter((number) => number <= 19);
 
   return (

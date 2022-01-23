@@ -852,13 +852,13 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         clid AS origem_primaria,
         src AS origem_segundaria,
         dst AS destino_primario,
-        REPLACE(dstchannel, '@ddd', REPLACE(
+        REPLACE(
           SUBSTRING(
             dstchannel, POSITION('/' in dstchannel) + 1,
               POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
             )
           , '-', ''
-        ), '')
+        )
         AS destino_secundario,
         CASE 
           WHEN typecall='Recebida' THEN
@@ -886,7 +886,13 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
       FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND lastapp <> '' AND lastapp <> 'Hangup'
-        AND lastdata LIKE '%' || recSector || '%'
+        AND
+          CASE 
+            WHEN recSector='' THEN
+              lastdata LIKE '%'
+            ELSE lastdata LIKE recSector || '%'
+          END
+        -- AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
         AND src LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%'
@@ -911,7 +917,7 @@ DROP FUNCTION get_all_calls_rows(
   offsetGet integer
 );
 
-SELECT * FROM get_all_calls_rows('2021-12-15', '2022-01-15', '00:00:00', '23:59:59', '', '', '', '', '', '', '15', '0');
+SELECT * FROM get_all_calls_rows('2021-12-15', '2022-01-15', '00:00:00', '23:59:59', 'boutique', '', '', '', '', '', '50', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 14- Function Get All Data Report --

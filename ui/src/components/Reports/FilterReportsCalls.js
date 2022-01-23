@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { fetchSectors, fetchDataReport, fetchDataReportList } from '../../services/api';
 
-import PbxContext from '../../context/PbxContext'
+import PbxContext from '../../context/PbxContext';
 import '../../libs/bulma.min.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-const FilterReportsCalls = ({ getAllDataDb }) => {
+const FilterReportsCalls = ({ getAllDataDb, page }) => {
   const getItensStateGlobal = useContext(PbxContext);
   const { endpoints, setStorageDataReport, verifySort } = getItensStateGlobal;
 
@@ -50,21 +50,22 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
   };
 
   const getListCallsRows = async () => {
-    const localFetchDataReportList = await fetchDataReportList({
-        dateStart: startDate,
-        dateStop: endDate,
-        hourStart: `${startHour}:00:00`,
-        hourStop: `${endHour}:59:59`,
-        sector: sectorLocal,
-        getEndpoint: endpointLocal,
-        telNumber: phoneNumberLocal,
-        getProtocol: protocolLocal,
-        statusCall: statusCallLocal,
-        typeRecOrEfet: typeCallsLocal,
-        limit: 3000,
-        offset: 0,
-      });
-    getAllDataDb(localFetchDataReportList)
+    const objOfFilter = {
+      dateStart: startDate,
+      dateStop: endDate,
+      hourStart: `${startHour}:00:00`,
+      hourStop: `${endHour}:59:59`,
+      sector: sectorLocal,
+      getEndpoint: endpointLocal,
+      telNumber: phoneNumberLocal,
+      getProtocol: protocolLocal,
+      statusCall: statusCallLocal,
+      typeRecOrEfet: typeCallsLocal,
+      limit: 3000,
+      offset: 0,
+    }
+    const localFetchDataReportList = await fetchDataReportList(objOfFilter);
+    getAllDataDb(localFetchDataReportList);
     return;
   };
   
@@ -83,6 +84,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
       });
     setStorageDataReport(localFetchDataReport);
     getListCallsRows();
+    page(1);
     return;
   };
 
@@ -99,7 +101,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
           </div>
         </div>
       </div>
-      <form>
+      <form onSubmit={ (e) =>  e.preventDefault() }>
         <div className="columns mx-2">
           <div className="column is-2 is-offset-4 field">
             <label className="label">Data Inicial *
@@ -209,14 +211,22 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
           <div className="field column">
             <label className="label">Protocolo
               <div className="control">
-                <input className="input" type="text" placeholder="Digite do prot." onChange={ (e) => setProtocolLocal(e.target.value) } />
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Digite do prot."
+                  onChange={ (e) => setProtocolLocal(e.target.value) }
+                />
               </div>
             </label>
           </div>
           <div className="field column">
             <label className="label">Telefone
               <div className="control">
-                <input className="input" type="text" placeholder="Apenas números" onChange={ (e) => setPhoneNumberLocal(e.target.value) } />
+                <input className="input"
+                  type="text"
+                  placeholder="Apenas números"
+                  onChange={ (e) => setPhoneNumberLocal(e.target.value) } />
               </div>
             </label>
           </div>
@@ -224,7 +234,7 @@ const FilterReportsCalls = ({ getAllDataDb }) => {
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
                 <div className="control">
-                  <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => addFiltersOnReport() }>
+                  <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => addFiltersOnReport() }>
                   {/* <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => testeqqq() }> */}
                     <span className="icon">
                       <FontAwesomeIcon icon={faFilter} fixedWidth />
