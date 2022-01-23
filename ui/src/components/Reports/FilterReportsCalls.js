@@ -24,9 +24,17 @@ const FilterReportsCalls = ({ getAllDataDb, page }) => {
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [typeCallsLocal, setTypeCallsLocal] = useState('');
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   const fetchSectorsFunction = async () => { 
     const getSectorsInDb = await fetchSectors();
-    const sectorsList = Object.values(getSectorsInDb);
+    const sectorsList = getSectorsInDb.reduce((acc, cur) => {
+      const changeFirstLetter = capitalizeFirstLetter(cur.sector);
+      acc.push(changeFirstLetter);
+      return acc;
+    }, []).sort();
     setSectorDbLocal(sectorsList);
     return sectorsList;
   };
@@ -159,7 +167,7 @@ const FilterReportsCalls = ({ getAllDataDb, page }) => {
                   <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector.sectors }>{ sector.sectors }</option>)
+                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector }>{ sector }</option>)
                     }
                   </select>
                 </div>
@@ -173,7 +181,7 @@ const FilterReportsCalls = ({ getAllDataDb, page }) => {
                   <select className="select" onChange={(e) => setEndpointLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      endpoints.sort((a, b) => a - b).filter((endpoint) => endpoint.resource.length < 5).map((endpoint, index) => <option key={ index } value={ endpoint.resource }>{ endpoint.resource }</option>)
+                      endpoints.filter((endpoint) => endpoint.resource.length < 5).sort((a, b) => a.resource - b.resource).map((endpoint, index) => <option key={ index } value={ endpoint.resource }>{ endpoint.resource }</option>)
                     }
                   </select>
                 </div>

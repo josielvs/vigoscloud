@@ -1036,13 +1036,13 @@ COMMIT;
 -- SUBSTRING(lastdata, 0, CHAR_LENGTH(lastdata) - 9)
 CREATE OR REPLACE FUNCTION get_sectors()
   RETURNS TABLE (
-    "sectors" text
+    "sector" text
   )
   LANGUAGE plpgsql AS
   $$
     BEGIN
       return QUERY
-      SELECT DISTINCT(SUBSTRING(lastdata, 0, POSITION(',' in lastdata))) AS sectors FROM cdr
+      SELECT DISTINCT(SUBSTRING(lastdata, 0, POSITION(',' in lastdata))) FROM cdr
       WHERE disposition LIKE 'ANSWERED' AND typecall = 'Recebida' AND lastapp = 'Queue';
     END;
   $$;
