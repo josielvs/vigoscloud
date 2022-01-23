@@ -29,7 +29,7 @@ function Reports() {
 
   const history = useHistory();
 
-  const validateUserLogged = async () => {
+  const validateUserLogged = useCallback(async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     if (!dataUser) return history.push('/');
 
@@ -69,7 +69,7 @@ function Reports() {
     setEndpoints(localFetchEndpoints);
 
     if (localFetchDataReport || !Error) setLoading(false);
-  };
+  }, [setStorageDataReport]);
 
   const indexOfLastCall = currentPage * callsPerPage;
   const indexofFirstCall = indexOfLastCall - callsPerPage;
@@ -81,7 +81,7 @@ function Reports() {
 
   useEffect(() => {
     validateUserLogged()
-  }, []);
+  }, [validateUserLogged]);
 
   return (
     <div>
@@ -110,7 +110,7 @@ function Reports() {
           </div>
           <hr className="m-0 p-0"/>
           <hr className="m-0 p-0"/>
-          <FilterReportsCalls getAllDataDb={getAllDataDb} />
+          <FilterReportsCalls getAllDataDb={getAllDataDb} page={ setCurrentPage } />
           <ReportList callsList={currentCalls} />
           <Pagination callsPerPage={callsPerPage} totalCalls={callsReceived.length} paginate={paginate} currentPage={currentPage}/>
           </>

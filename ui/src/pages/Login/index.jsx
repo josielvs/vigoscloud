@@ -27,6 +27,11 @@ function Login() {
     history.push('home');
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log('Você clicou em enviar.');
+  }
+
   useEffect(() => {
     const validateData = () => {
       const validLocalEmail = validEmail(emailLocal);
@@ -43,11 +48,8 @@ function Login() {
     <div className="columns py-6 is-flex-desktop">
       <div className="card is-flex-direction-row column is-half is-offset-one-quarter mt-6">
         <form className="card-content is-flex-direction-row column is-full"
-          onKeyDown={ (event) => { 
-          if(event.key === 'Enter') {
-            return handleClick();
-          }
-          } }>
+          onSubmit={ (e) =>  e.preventDefault() }
+        >
         <div className="card-image column is-full">
           {/* style={ { width: '33rem', minWidth: '25rem' } } */}
             <figure className="image column is-tree-fifths"> 
@@ -62,6 +64,7 @@ function Login() {
                   type="email"
                   placeholder="Digite o email de acesso"
                   onChange={ (e) => setEmailLocal(e.target.value) }
+                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                   />
               </label>
             </div>
@@ -74,6 +77,7 @@ function Login() {
                   type="password"
                   placeholder="Digite a senha"
                   onChange={ (e) => setPassword(e.target.value) }
+                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 />
               </label>
             </div>
@@ -85,7 +89,7 @@ function Login() {
           <div className="field column is-full">
             <div className="control column is-full">
               <button
-                type="button"
+                type="submit"
                 onClick={ () => handleClick() }
                 className="button is-info column is-half py-0"
                 disabled={ disable }

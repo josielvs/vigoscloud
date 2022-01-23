@@ -16,9 +16,9 @@ class App extends React.Component {
           <div className="is-justify-content-end">
             <Header />
             <Burger />
-            <Route exact path="/" component={Login} />
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/relatorios" component={Reports} />
+            <Route exact path="/" component={ Login } />
+            <Route exact path="/home" component={ Home } />
+            <Route exact path="/relatorios" component={ Reports } />
           </div>
         </Provider>
       </BrowserRouter>
