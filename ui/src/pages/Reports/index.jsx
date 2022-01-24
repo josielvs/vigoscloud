@@ -63,16 +63,16 @@ function Reports() {
         limit: 5000,
         offset: 0,
       });
-      setCallsReceived(localFetchDataReportList);
+    setCallsReceived(localFetchDataReportList);
 
     const localFetchEndpoints = await fetchEndpoints();
     setEndpoints(localFetchEndpoints);
 
     const verifyDataReports = localFetchDataReport.hasOwnProperty('volumeEndpointsReceivedAnswered');
-    const verifyRowsReports = localFetchDataReportList[0];
+    // const verifyRowsReports = localFetchDataReportList[0];
     const verifyEndpoints = localFetchEndpoints[0];
 
-    if(verifyDataReports && verifyRowsReports && verifyEndpoints) setLoading(false);
+    if(verifyDataReports && verifyEndpoints) setLoading(false);
   }, [setStorageDataReport]);
 
   const indexOfLastCall = currentPage * callsPerPage;
