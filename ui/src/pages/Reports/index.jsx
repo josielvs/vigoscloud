@@ -68,16 +68,18 @@ function Reports() {
     const localFetchEndpoints = await fetchEndpoints();
     setEndpoints(localFetchEndpoints);
 
-    if (localFetchDataReport || !Error) setLoading(false);
+    const verifyDataReports = localFetchDataReport.hasOwnProperty('volumeEndpointsReceivedAnswered');
+    const verifyRowsReports = localFetchDataReportList[0];
+    const verifyEndpoints = localFetchEndpoints[0];
+
+    if(verifyDataReports && verifyRowsReports && verifyEndpoints) setLoading(false);
   }, [setStorageDataReport]);
 
   const indexOfLastCall = currentPage * callsPerPage;
   const indexofFirstCall = indexOfLastCall - callsPerPage;
-  const currentCalls = callsReceived.slice(indexofFirstCall, indexOfLastCall);
+  const currentCalls = callsReceived.length > 0 ? callsReceived.slice(indexofFirstCall, indexOfLastCall) : null;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const getAllDataDb = (list) => {
-    setCallsReceived(list);
-  };
+  const getAllDataDb = (list) => setCallsReceived(list);
 
   useEffect(() => {
     validateUserLogged()
@@ -110,7 +112,7 @@ function Reports() {
           </div>
           <hr className="m-0 p-0"/>
           <hr className="m-0 p-0"/>
-          <FilterReportsCalls getAllDataDb={getAllDataDb} page={ setCurrentPage } />
+          <FilterReportsCalls getAllDataDb={getAllDataDb} page={ setCurrentPage } setLoading={ setLoading } />
           <ReportList callsList={currentCalls} />
           <Pagination callsPerPage={callsPerPage} totalCalls={callsReceived.length} paginate={paginate} currentPage={currentPage}/>
           </>

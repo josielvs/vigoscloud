@@ -27,11 +27,6 @@ function Login() {
     history.push('home');
   };
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log('Você clicou em enviar.');
-  }
-
   useEffect(() => {
     const validateData = () => {
       const validLocalEmail = validEmail(emailLocal);
