@@ -9,7 +9,7 @@ import '../../libs/bulma.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-const FilterReportsCalls = ({ getAllDataDb, page }) => {
+const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
   const getItensStateGlobal = useContext(PbxContext);
   const { endpoints, setStorageDataReport, verifySort } = getItensStateGlobal;
 
@@ -92,6 +92,8 @@ const FilterReportsCalls = ({ getAllDataDb, page }) => {
         telNumber: phoneNumberLocal,
         getProtocol: protocolLocal,
       });
+    const verifyDataReports = localFetchDataReport.hasOwnProperty('volumeEndpointsReceivedAnswered');
+    if(!verifyDataReports) return setLoading(true);
     setStorageDataReport(localFetchDataReport);
     getListCallsRows();
     page(1);
@@ -264,6 +266,7 @@ const FilterReportsCalls = ({ getAllDataDb, page }) => {
 FilterReportsCalls.propTypes = {
   getAllDataDb: PropTypes.func,
   page: PropTypes.func,
+  setLoading: PropTypes.func,
 };
 
 export default FilterReportsCalls;
