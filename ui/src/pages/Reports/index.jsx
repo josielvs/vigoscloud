@@ -77,7 +77,7 @@ function Reports() {
 
   const indexOfLastCall = currentPage * callsPerPage;
   const indexofFirstCall = indexOfLastCall - callsPerPage;
-  const currentCalls = callsReceived.length > 0 ? callsReceived.slice(indexofFirstCall, indexOfLastCall) : null;
+  const currentCalls = callsReceived.length > 0 ? callsReceived.slice(indexofFirstCall, indexOfLastCall) : [];
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const getAllDataDb = (list) => setCallsReceived(list);
 
