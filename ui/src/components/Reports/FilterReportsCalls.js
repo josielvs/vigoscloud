@@ -171,7 +171,7 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
                   <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector }>{ sector }</option>)
+                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector.toLowerCase() }>{ sector }</option>)
                     }
                   </select>
                 </div>
