@@ -452,9 +452,9 @@ CREATE OR REPLACE FUNCTION get_vol_sent_endp_no_answer(
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%')
         AND typecall = 'Efetuada' AND disposition = 'NO ANSWER'
-          AND src LIKE '%' || endpoint || '%'
-          AND dst LIKE '%' || telNumber || '%'
-          AND callprotocol LIKE '%' || protocol || '%'
+        AND src LIKE '%' || endpoint || '%'
+        AND dst LIKE '%' || telNumber || '%'
+        AND callprotocol LIKE '%' || protocol || '%'
       GROUP BY endpoints
       ORDER BY endpoints;
     END;
@@ -892,7 +892,6 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
               lastdata LIKE '%'
             ELSE lastdata LIKE recSector || '%'
           END
-        -- AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
         AND src LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%'
@@ -1052,6 +1051,126 @@ DROP FUNCTION get_sectors();
 SELECT * FROM  "get_sectors"();
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 16- Function Get Rows For Calls --
+CREATE OR REPLACE FUNCTION get_chart_by_sectors_rows(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  statusCall character varying(30),
+  limitGet integer,
+  offsetGet integer
+)
+  RETURNS TABLE (
+    id character varying(32),
+    data timestamptz,
+    origem_primaria character varying(80),
+    origem_segundaria character varying(80),
+    destino_primario character varying(80),
+    destino_secundario text,
+    setor text,
+    aguardando_atendimento bigint,
+    duracao bigint,
+    status text,
+    sequencia integer,
+    tipo character varying(80),
+    protocolo character varying(150),
+    tipo_saida character varying(80),
+    id_sub character varying(32),
+    encerramento character varying(50)
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);     
+    BEGIN
+      return QUERY
+      SELECT
+        DISTINCT ON (uniqueid) id,
+        calldate AS data,
+        clid AS origem_primaria,
+        src AS origem_segundaria,
+        dst AS destino_primario,
+        REPLACE(
+          SUBSTRING(
+            dstchannel, POSITION('/' in dstchannel) + 1,
+              POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+            )
+          , '-', ''
+        )
+        AS destino_secundario,
+        CASE 
+          WHEN typecall='Recebida' THEN
+            SUBSTRING(lastdata, 0, POSITION(',' in lastdata))
+          WHEN typecall='Efetuada' THEN
+            dst
+          ELSE SUBSTRING(lastdata, 0, POSITION(',' in lastdata))
+        END
+        AS setor,
+        duration - billsec AS aguardando_atendimento,
+        duration AS duracao,
+        CASE 
+          WHEN disposition='NO ANSWER' THEN 'Não Atendida'
+          WHEN disposition='ANSWERED' THEN 'Atendida'
+          ELSE ''
+        END
+        AS status,
+        sequence AS sequencia,
+        typecall AS tipo,
+        callprotocol AS protocolo,
+        fromtypecall AS tipo_saida,
+        uniqueid AS id_sub,
+        hangupcause AS encerramento
+      FROM cdr AS a
+        WHERE (calldate BETWEEN data_inicial AND data_final)
+        AND
+          CASE
+            WHEN statusCall = 'Atendida' THEN 
+            lastapp = 'Queue' AND disposition = 'ANSWERED'
+            WHEN statusCall='Não Atendida' THEN
+              a.uniqueid NOT IN (
+              SELECT DISTINCT(uniqueid) FROM cdr
+              WHERE (calldate BETWEEN data_inicial AND data_final)
+              AND disposition LIKE 'ANSWERED'
+              AND lastapp = 'Queue'
+              AND lastdata LIKE '%' || recSector || '%'
+              AND dstchannel LIKE '%' || endpoint || '%'
+            )
+          END
+        AND
+          CASE 
+            WHEN recSector='' THEN
+              lastdata LIKE '%'
+            ELSE lastdata LIKE recSector || '%'
+          END
+        AND dst <> 'menu' AND dst <> '_attended'
+        AND dstchannel LIKE '%' || endpoint || '%'
+      ORDER BY uniqueid ASC
+      LIMIT limitGet OFFSET offsetGet;
+    END;
+  $$;
+
+DROP FUNCTION get_chart_by_sectors_rows(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  disposition character varying(30),
+  limitGet integer,
+  offsetGet integer
+);
+
+SELECT * FROM get_chart_by_sectors_rows('2022-01-01', '2022-01-25', '00:00:00', '23:59:59', 'tests', '', 'Atendida', '50', '0');
+SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', 'loja_virtual', '', 'Não Atendida', '50', '0');
+SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', '', '7007', 'Atendida', '50', '0');
+SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', '', '1025', 'Não Atendida', '50', '0');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- WORKING --
 
 SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
@@ -1108,6 +1227,19 @@ AND lastapp = 'Queue' AND disposition = 'ANSWERED'
 GROUP BY sectors
 ORDER BY sectors;
 
+SELECT lastdata, COUNT(lastdata) AS sectors FROM cdr
+WHERE (calldate BETWEEN '2022-01-01 00:00:00' AND '2022-01-25 23:59:59')
+AND lastapp = 'Queue'
+GROUP BY lastdata
+ORDER BY lastdata;
+
+UPDATE cdr SET lastdata = 'compras,hHtTkrR,,,30'
+WHERE lastapp = 'Queue'
+AND lastdata LIKE 'compras_a%'
+
+SELECT lastdata FROM cdr
+WHERE lastapp = 'Queue'
+AND lastdata LIKE 'compras%'
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
 -- Tipo: 'typecall' ===> 

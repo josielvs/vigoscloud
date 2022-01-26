@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, createRef } from 'react';
 import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
@@ -13,9 +13,11 @@ import { Bar } from 'react-chartjs-2';
 
 const ChartBySector = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { storageDataReport, verifySort } = getItensStateGlobal;
+  const { storageDataReport, verifySort, capitalizeFirstLetter } = getItensStateGlobal;
 
   const { volumeSectorsReceivedAnswered, volumeSectorsReceivedNotAnswer } = storageDataReport;
+
+  const chartRef = createRef();
   
   const callsSentsAnswered = volumeSectorsReceivedAnswered.reduce((obj, item) => ((obj[item.sectors] = item.answered), obj),{});
   const callsSentsNotAnswer = volumeSectorsReceivedNotAnswer.reduce((obj, item) => ((obj[item.sectors] = item.no_answer), obj),{});
@@ -25,8 +27,9 @@ const ChartBySector = () => {
   
   const labelsAnswered = Object.keys(callsSentsAnswered);
   const labelNoAnswer = Object.keys(callsSentsNotAnswer);
-  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);;
-  const labels = [...new Set(labelsVerify)].filter((sector) => sector !== 'porteiros');
+  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);
+  const labelsMerge = [...new Set(labelsVerify)].filter((sector) => sector !== 'Porteiros');
+  const labels = labelsMerge.map((label) => capitalizeFirstLetter(label));
   
   ChartJS.register(
     CategoryScale,
@@ -55,22 +58,39 @@ const ChartBySector = () => {
     datasets: [
       {
         label: 'Atendidas',
-        data: labels.map((label) => valueLabelsAtendidas[0][label]),
+        data: labels.map((label) => valueLabelsAtendidas[0][label.toLowerCase()]),
         backgroundColor: 'rgba(30, 144, 255, 0.7)',
       },
       {
         label: 'Não Atendidas',
-        data: labels.map((label) => valueLabelsNaoAtendidas[0][label]),
+        data: labels.map((label) => valueLabelsNaoAtendidas[0][label.toLowerCase()]),
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
     ],
   };
 
+  const getDataToRequestFilter = (event) => {
+    if (chartRef.current) {
+    const chart = ChartJS.getChart(chartRef.current);
+    const clickedElements = chart.getElementsAtEventForMode(event, 'nearest',{ intersect: true }, true);
+    if (clickedElements.length > 0) {
+      const firstElement = clickedElements[0];
+      const labelType = chart.data.datasets[firstElement.datasetIndex].label;
+      const labelIndexClicked = chart.data.labels[firstElement.index];
+      console.log(labelIndexClicked.toLowerCase(), labelType.slice(0, labelType.length - 1));
+    }
+   }
+  };
 
   return (
     <div className="column is-half">
       <h2 className="has-text-centered is-size-5">Status das Chamadas por Setor</h2>
-        <Bar options={options} data={data} />
+      <Bar
+        options={options}
+        data={data}
+        ref={chartRef}
+        getElementAtEvent={(_, event) => getDataToRequestFilter(event)}
+      />
     </div>
   );
 }
