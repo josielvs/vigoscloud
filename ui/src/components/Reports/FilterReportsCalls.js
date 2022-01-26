@@ -11,7 +11,7 @@ import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints, setStorageDataReport, verifySort } = getItensStateGlobal;
+  const { endpoints, setStorageDataReport, verifySort, capitalizeFirstLetter } = getItensStateGlobal;
 
   const [notification, setNotification] = useState(false);
   const [startDate, setStartDate] = useState('');
@@ -26,9 +26,9 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [typeCallsLocal, setTypeCallsLocal] = useState('');
 
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  // const capitalizeFirstLetter = (string) => {
+  //   return string.charAt(0).toUpperCase() + string.slice(1);
+  // }
 
   const fetchSectorsFunction = async () => { 
     const getSectorsInDb = await fetchSectors();
@@ -171,7 +171,7 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
                   <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector.toLowerCase() }>{ sector }</option>)
+                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector }>{ sector }</option>)
                     }
                   </select>
                 </div>

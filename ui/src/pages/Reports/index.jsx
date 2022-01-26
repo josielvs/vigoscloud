@@ -92,29 +92,29 @@ function Reports() {
           <Loading />
           :
           <>
-          <div className="columns mx-2">
-            <ChartsRecivedCalls />
-            <ChartsSendCalls />
-          </div>
-          <hr className="m-0 p-0"/>
-          <div className="columns mx-2">
-            <ChartCallsStatusGlobal />
-            <ChartBySector />
-          </div>
-          <hr className="m-0 p-0"/>
-          <div className="columns mx-2">
-            <ChartCallsStatusByTime />
-            <ChartCallsStatusIntAndExt />
-          </div>
-          <div className="columns mx-2">
-            <TableReceivedCalls />
-            <TableSentCalls />
-          </div>
-          <hr className="m-0 p-0"/>
-          <hr className="m-0 p-0"/>
-          <FilterReportsCalls getAllDataDb={getAllDataDb} page={ setCurrentPage } setLoading={ setLoading } />
-          <ReportList callsList={currentCalls} />
-          <Pagination callsPerPage={callsPerPage} totalCalls={callsReceived.length} paginate={paginate} currentPage={currentPage}/>
+            <div className="columns mx-2">
+              <ChartsRecivedCalls />
+              <ChartsSendCalls />
+            </div>
+            <hr className="m-0 p-0"/>
+            <div className="columns mx-2">
+              <ChartCallsStatusGlobal />
+              <ChartBySector />
+            </div>
+            <hr className="m-0 p-0"/>
+            <div className="columns mx-2">
+              <ChartCallsStatusByTime />
+              <ChartCallsStatusIntAndExt />
+            </div>
+            <div className="columns mx-2">
+              <TableReceivedCalls />
+              <TableSentCalls />
+            </div>
+            <hr className="m-0 p-0"/>
+            <hr className="m-0 p-0"/>
+            <FilterReportsCalls getAllDataDb={getAllDataDb} page={ setCurrentPage } setLoading={ setLoading } />
+            <ReportList callsList={currentCalls} />
+            <Pagination callsPerPage={callsPerPage} totalCalls={callsReceived.length} paginate={paginate} currentPage={currentPage}/>
           </>
       }
     </div>
