@@ -1,4 +1,4 @@
-import React, { useContext, createRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
@@ -11,13 +11,13 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-const ChartBySector = () => {
+const ChartBySector = ({ getRows }) => {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport, verifySort, capitalizeFirstLetter } = getItensStateGlobal;
 
   const { volumeSectorsReceivedAnswered, volumeSectorsReceivedNotAnswer } = storageDataReport;
 
-  const chartRef = createRef();
+  const chartRef = useRef(null);
   
   const callsSentsAnswered = volumeSectorsReceivedAnswered.reduce((obj, item) => ((obj[item.sectors] = item.answered), obj),{});
   const callsSentsNotAnswer = volumeSectorsReceivedNotAnswer.reduce((obj, item) => ((obj[item.sectors] = item.no_answer), obj),{});
@@ -77,7 +77,8 @@ const ChartBySector = () => {
       const firstElement = clickedElements[0];
       const labelType = chart.data.datasets[firstElement.datasetIndex].label;
       const labelIndexClicked = chart.data.labels[firstElement.index];
-      console.log(labelIndexClicked.toLowerCase(), labelType.slice(0, labelType.length - 1));
+      getRows(labelIndexClicked.toLowerCase(), labelType.slice(0, labelType.length - 1));
+      // console.log(labelIndexClicked.toLowerCase(), labelType.slice(0, labelType.length - 1));
     }
    }
   };

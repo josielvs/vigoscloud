@@ -30,6 +30,9 @@ dbCallRoute.get('/report/sector', authMiddleware, readAllSectorsRoute);
 const readAllRowsRoute = dbCallsController.readAllRowsController(callsDb);
 dbCallRoute.post('/report/list', authMiddleware, readAllRowsRoute);
 
+const readRowsChartSectorRoute = dbCallsController.readRowsChartSectorController(callsDb);
+dbCallRoute.post('/report/list-sector-chart', authMiddleware, readRowsChartSectorRoute);
+
 const downloadAudioCall = dbCallRoute.get('/file/:id', (req, res) => {
     const id = req.params.id;
     // res.download(path.join(__dirname, `../recs/${id}.wav`), (err)=>{

@@ -9,26 +9,37 @@ import '../../libs/bulma.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
+const FilterReportsCalls = ({
+  getAllDataDb, page, setLoading, setStartDate, setEndDate, sendDataToFilter,
+  setStartHour,
+  setEndHour,
+  setSectorLocal,
+  setEndpointLocal,
+  setSectorDbLocal,
+  setStatusCallLocal,
+  setProtocolLocal,
+  setPhoneNumberLocal,
+  setTypeCallsLocal,
+}) => {
   const getItensStateGlobal = useContext(PbxContext);
-  const { endpoints, setStorageDataReport, verifySort, capitalizeFirstLetter } = getItensStateGlobal;
+  const {
+    endpoints,
+    setStorageDataReport,
+    verifySort,
+    capitalizeFirstLetter
+  } = getItensStateGlobal;
 
   const [notification, setNotification] = useState(false);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [startHour, setStartHour] = useState(0);
-  const [endHour, setEndHour] = useState(23);
-  const [sectorLocal, setSectorLocal] = useState('');
-  const [endpointLocal, setEndpointLocal] = useState('');
-  const [sectorDbLocal, setSectorDbLocal] = useState([]);
-  const [statusCallLocal, setStatusCallLocal] = useState('');
-  const [protocolLocal, setProtocolLocal] = useState('');
-  const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
-  const [typeCallsLocal, setTypeCallsLocal] = useState('');
-
-  // const capitalizeFirstLetter = (string) => {
-  //   return string.charAt(0).toUpperCase() + string.slice(1);
-  // }
+  const [sectors, setSectors] = useState([]);
+  // const [startHour, setStartHour] = useState(0);
+  // const [endHour, setEndHour] = useState(23);
+  // const [sectorLocal, setSectorLocal] = useState('');
+  // const [endpointLocal, setEndpointLocal] = useState('');
+  // const [sectorDbLocal, setSectorDbLocal] = useState([]);
+  // const [statusCallLocal, setStatusCallLocal] = useState('');
+  // const [protocolLocal, setProtocolLocal] = useState('');
+  // const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
+  // const [typeCallsLocal, setTypeCallsLocal] = useState('');
 
   const fetchSectorsFunction = async () => { 
     const getSectorsInDb = await fetchSectors();
@@ -37,7 +48,7 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
       acc.push(changeFirstLetter);
       return acc;
     }, []).sort();
-    setSectorDbLocal(sectorsList);
+    setSectors(sectorsList);
     return sectorsList;
   };
 
@@ -56,49 +67,50 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
     inputDateFinal.toggle('is-danger');
     
     setNotification(status);
+
     return;
   };
 
-  const getListCallsRows = async () => {
-    const objOfFilter = {
-      dateStart: startDate,
-      dateStop: endDate,
-      hourStart: `${startHour}:00:00`,
-      hourStop: `${endHour}:59:59`,
-      sector: sectorLocal,
-      getEndpoint: endpointLocal,
-      telNumber: phoneNumberLocal,
-      getProtocol: protocolLocal,
-      statusCall: statusCallLocal,
-      typeRecOrEfet: typeCallsLocal,
-      limit: 3000,
-      offset: 0,
-    }
-    const localFetchDataReportList = await fetchDataReportList(objOfFilter);
-    getAllDataDb(localFetchDataReportList);
-    return;
-  };
+  // const getListCallsRows = async () => {
+  //   const objOfFilter = {
+  //     dateStart: startDate,
+  //     dateStop: endDate,
+  //     hourStart: `${startHour}:00:00`,
+  //     hourStop: `${endHour}:59:59`,
+  //     sector: sectorLocal,
+  //     getEndpoint: endpointLocal,
+  //     telNumber: phoneNumberLocal,
+  //     getProtocol: protocolLocal,
+  //     statusCall: statusCallLocal,
+  //     typeRecOrEfet: typeCallsLocal,
+  //     limit: 3000,
+  //     offset: 0,
+  //   }
+  //   const localFetchDataReportList = await fetchDataReportList(objOfFilter);
+  //   getAllDataDb(localFetchDataReportList);
+  //   return;
+  // };
   
-  const addFiltersOnReport = async () => {
-    if (!startDate || !endDate) return getStatusNotification(true);
-    const localFetchDataReport = await fetchDataReport(
-      {
-        dateStart: startDate,
-        dateStop: endDate,
-        hourStart: `${startHour}:00:00`,
-        hourStop: `${endHour}:59:59`,
-        sector: sectorLocal,
-        getEndpoint: endpointLocal,
-        telNumber: phoneNumberLocal,
-        getProtocol: protocolLocal,
-      });
-    const verifyDataReports = localFetchDataReport.hasOwnProperty('volumeEndpointsReceivedAnswered');
-    if(!verifyDataReports) return setLoading(true);
-    setStorageDataReport(localFetchDataReport);
-    getListCallsRows();
-    page(1);
-    return;
-  };
+  // const addFiltersOnReport = async () => {
+  //   if (!startDate || !endDate) return getStatusNotification(true);
+  //   const localFetchDataReport = await fetchDataReport(
+  //     {
+  //       dateStart: startDate,
+  //       dateStop: endDate,
+  //       hourStart: `${startHour}:00:00`,
+  //       hourStop: `${endHour}:59:59`,
+  //       sector: sectorLocal,
+  //       getEndpoint: endpointLocal,
+  //       telNumber: phoneNumberLocal,
+  //       getProtocol: protocolLocal,
+  //     });
+  //   const verifyDataReports = localFetchDataReport.hasOwnProperty('volumeEndpointsReceivedAnswered');
+  //   if(!verifyDataReports) return setLoading(true);
+  //   setStorageDataReport(localFetchDataReport);
+  //   getListCallsRows();
+  //   page(1);
+  //   return;
+  // };
 
   useEffect(() => {
     fetchSectorsFunction();
@@ -142,7 +154,7 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
             <label className="label">Tipo
               <div className="control">
                 <div className="select">
-                  <select className="select" value={ typeCallsLocal } onChange={ (e) => setTypeCallsLocal(e.target.value) }>
+                  <select className="select" onChange={ (e) => setTypeCallsLocal(e.target.value) }>
                     <option value="">Selecione</option>
                     <option value="Efetuada">Efetuada</option>
                     <option value="Recebida">Recebida</option>
@@ -155,7 +167,7 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
             <label className="label">Status
               <div className="control">
                 <div className="select pl-0">
-                  <select className="select" value={ statusCallLocal } onChange={(e) => setStatusCallLocal(e.target.value)}>
+                  <select className="select" onChange={(e) => setStatusCallLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     <option value="ANSWERED">Atendida</option>
                     <option value="NO ANSWER">Não Atendida</option>
@@ -171,7 +183,7 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
                   <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      sectorDbLocal.sort(verifySort).map((sector, index) => <option key={ index } value={ sector }>{ sector }</option>)
+                      sectors.sort(verifySort).map((sector, index) => <option key={ index } value={ sector }>{ sector }</option>)
                     }
                   </select>
                 </div>
@@ -246,8 +258,8 @@ const FilterReportsCalls = ({ getAllDataDb, page, setLoading }) => {
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
                 <div className="control">
-                  <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => addFiltersOnReport() }>
-                  {/* <button className="button is-info is-fullwidth px-1" type="button" onClick={ () => testeqqq() }> */}
+                  <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => sendDataToFilter() }>
+                  {/* <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => addFiltersOnReport() }> */}
                     <span className="icon">
                       <FontAwesomeIcon icon={faFilter} fixedWidth />
                     </span>

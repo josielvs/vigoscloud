@@ -186,3 +186,16 @@ export const fetchDataReportList = async (dataRequest) => {
     return error;
   }
 };
+
+
+export const fetchRowsChartSectors = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/db/report/list-sector-chart`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
