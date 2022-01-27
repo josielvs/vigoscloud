@@ -160,7 +160,7 @@ DROP FUNCTION get_data_report_received(
   protocol character varying(30)
 );
 
-SELECT * FROM  "get_data_report_received"('2022-01-01', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_data_report_received"('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
 SELECT * FROM  "get_data_report_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', 'suporte', '', '', '');
 SELECT * FROM  "get_data_report_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '4104', '', '');
 SELECT * FROM  "get_data_report_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '1430420844', '');
@@ -254,7 +254,7 @@ DROP FUNCTION get_data_report_sent(
   protocol character varying(30)
   );
 
-SELECT * FROM  "get_data_report_sent"('2022-01-01', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_data_report_sent"('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
 SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '4104', '', '');
 SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '1430420844', '');
 SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061503397');
@@ -1014,7 +1014,7 @@ DROP FUNCTION get_itens_report(
 );
 
 BEGIN;
-    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-01', '2022-01-17', '00:00:00', '23:59:59', '', '', '', '');
+    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
     FETCH ALL IN "Ref1";
     FETCH ALL IN "Ref2";
     FETCH ALL IN "Ref3";
@@ -1166,7 +1166,7 @@ DROP FUNCTION get_chart_by_sectors_rows(
 );
 
 SELECT * FROM get_chart_by_sectors_rows('2022-01-01', '2022-01-25', '00:00:00', '23:59:59', 'tests', '', 'Atendida', '50', '0');
-SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', 'loja_virtual', '', 'Não Atendida', '50', '0');
+SELECT * FROM get_chart_by_sectors_rows('2022-01-01', '2022-01-25', '00:00:00', '23:59:59', 'tests', '', 'Não Atendida', '50', '0');
 SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', '', '7007', 'Atendida', '50', '0');
 SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', '', '1025', 'Não Atendida', '50', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1233,13 +1233,13 @@ AND lastapp = 'Queue'
 GROUP BY lastdata
 ORDER BY lastdata;
 
-UPDATE cdr SET lastdata = 'compras,hHtTkrR,,,30'
-WHERE lastapp = 'Queue'
-AND lastdata LIKE 'compras_a%'
+UPDATE cdr SET typecall = 'Efetuada'
+WHERE dstchannel LIKE '%@ddd%'
+AND typecall LIKE 'Recebida'
 
 SELECT lastdata FROM cdr
 WHERE lastapp = 'Queue'
-AND lastdata LIKE 'compras%'
+AND lastdata LIKE 'aten%'
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
 -- Tipo: 'typecall' ===> 

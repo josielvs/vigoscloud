@@ -18,6 +18,7 @@ import {
   fetchDataReport,
   fetchSectors,
   fetchDataReportList,
+  fetchRowsChartSectors
 } from './api';
 
 export {
@@ -40,4 +41,5 @@ export {
   fetchDataReport,
   fetchSectors,
   fetchDataReportList,
+  fetchRowsChartSectors,
  } 

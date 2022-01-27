@@ -80,6 +80,22 @@ const readAllQueriesReport = async (connection, dateStart, dateStop, hourStart, 
   return returnPersonalized;
 };
 
+const readRowsChartSector = async (connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, statusCall, limitGet, offsetGet) => {
+  const result = await connection.query(`
+    SELECT * FROM
+      "get_chart_by_sectors_rows"(
+        '${dateStart}',
+        '${dateStop}',
+        '${hourStart}',
+        '${hourStop}',
+        '${sector}',
+        '${getEndpoint}',
+        '${statusCall}',
+        '${limitGet}',
+        '${offsetGet}'
+      )`);
+  return result.rows;
+};
 
 const factory = function (connection) {
   return {
@@ -103,6 +119,9 @@ const factory = function (connection) {
     },
     readAllRows: (dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol, statusCall, typeRecOrEfet, limitGet, offsetGet) => {
       return readAllRows(connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol, statusCall, typeRecOrEfet, limitGet, offsetGet);
+    },
+    readRowsChartSector: (dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, statusCall, limitGet, offsetGet) => {
+      return readRowsChartSector(connection, dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, statusCall, limitGet, offsetGet);
     },
   }
 };

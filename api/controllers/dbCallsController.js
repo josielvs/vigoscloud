@@ -64,7 +64,6 @@ exports.readAllQueriesReportController = (callsDb) => {
 
 exports.readAllRowsController = (callsDb) => {
   return async (req, res, next) => {
-    // const { dateStart, dateStop, hourStart, hourStop, sector, getEndpoint, telNumber, getProtocol, statusCall, typeRecOrEfet, limitGet, offsetGet } = req.body;
     const { body } = req;
     const dataReceived = Object.values(body);
     try {
@@ -75,3 +74,17 @@ exports.readAllRowsController = (callsDb) => {
     }
   }
 }
+
+exports.readRowsChartSectorController = (callsDb) => {
+  return async (req, res, next) => {
+    const { body } = req;
+    const dataReceived = Object.values(body);
+    try {
+      const calls = await callsDb.readRowsChartSector(...dataReceived);
+      res.status(200).json(calls);
+    } catch (error) {
+      next(error);
+    }
+  }
+}
+
