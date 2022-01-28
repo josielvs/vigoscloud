@@ -398,7 +398,7 @@ CREATE OR REPLACE FUNCTION get_vol_sent_endp_answered(
       SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr
         WHERE  char_length(src) < 5
         AND (calldate BETWEEN data_inicial AND data_final)
-        AND typecall = 'Efetuada' AND dstchannel <> '' AND disposition = 'ANSWERED'
+        AND typecall = 'Efetuada' AND disposition = 'ANSWERED'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
@@ -415,7 +415,11 @@ DROP FUNCTION get_vol_sent_endp_answered(
   telNumber character varying(30),
   protocol character varying(30)
 );
-SELECT * FROM  "get_vol_sent_endp_answered"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_sent_endp_answered"('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '2005', '', '');
+
+SELECT COUNT(DISTINCT(uniqueid))
+FROM cdr WHERE (calldate BETWEEN '2022-01-26 00:00:00' AND '2022-01-26 23:59:59')
+AND src = '2005';
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 6- Function Get Endpoints as Volume Calls Sent NO ANSWER --
 CREATE OR REPLACE FUNCTION get_vol_sent_endp_no_answer(
@@ -1129,13 +1133,14 @@ CREATE OR REPLACE FUNCTION get_chart_by_sectors_rows(
         AND
           CASE
             WHEN statusCall = 'Atendida' THEN 
-            lastapp = 'Queue' AND disposition = 'ANSWERED'
+            -- lastapp = 'Queue' AND disposition = 'ANSWERED'
+              disposition = 'ANSWERED'
             WHEN statusCall='Não Atendida' THEN
               a.uniqueid NOT IN (
               SELECT DISTINCT(uniqueid) FROM cdr
               WHERE (calldate BETWEEN data_inicial AND data_final)
               AND disposition LIKE 'ANSWERED'
-              AND lastapp = 'Queue'
+              -- AND lastapp = 'Queue'
               AND lastdata LIKE '%' || recSector || '%'
               AND dstchannel LIKE '%' || endpoint || '%'
             )
@@ -1146,7 +1151,12 @@ CREATE OR REPLACE FUNCTION get_chart_by_sectors_rows(
               lastdata LIKE '%'
             ELSE lastdata LIKE recSector || '%'
           END
-        AND dst <> 'menu' AND dst <> '_attended'
+        -- AND
+          -- CASE 
+          --   WHEN recSector<>'atendimento' THEN
+          --     dst <> 'menu' AND dst <> '_attended'
+          --   ELSE dst <> '_attended'
+          -- END
         AND dstchannel LIKE '%' || endpoint || '%'
       ORDER BY uniqueid ASC
       LIMIT limitGet OFFSET offsetGet;
@@ -1165,8 +1175,9 @@ DROP FUNCTION get_chart_by_sectors_rows(
   offsetGet integer
 );
 
-SELECT * FROM get_chart_by_sectors_rows('2022-01-01', '2022-01-25', '00:00:00', '23:59:59', 'tests', '', 'Atendida', '50', '0');
-SELECT * FROM get_chart_by_sectors_rows('2022-01-01', '2022-01-25', '00:00:00', '23:59:59', 'tests', '', 'Não Atendida', '50', '0');
+SELECT * FROM get_chart_by_sectors_rows('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'tests', '', 'Atendida', '50', '0');
+SELECT * FROM get_chart_by_sectors_rows('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'atendimento', '', 'Não Atendida', '50', '0');
+SELECT * FROM get_chart_by_sectors_rows('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'agricola', '', 'Não Atendida', '50', '0');
 SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', '', '7007', 'Atendida', '50', '0');
 SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', '23:59:59', '', '1025', 'Não Atendida', '50', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1253,6 +1264,8 @@ AND lastdata LIKE 'aten%'
 -- Protocolo: 'callprotocol'
 -- Código de Area ---> Não Usar
 
-
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Victor', 'victor@vigossolucoes.com.br', '$2a$05$ABJrNY5NXVQzgoMqenBlBuScfsCeFPtDxFp1qtyy8ovnJeluZqq4m', '4109', 'admin', 'true')
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (4100, 1, 120, 'yes');
+INSERT INTO ps_auths (id, auth_type, password, username) VALUES (4100, 'userpass', '!vigos!!interface#01!', 4100);
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux, dtls_cert_file, dtls_private_key, dtls_ca_file) VALUES (4100, 'wss_transport', 4100, 4100, 'from-extensions', '4100 <4100>', 'pt_BR', 'opus,ulaw,vp9,vp8,h264', 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt');
