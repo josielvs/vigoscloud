@@ -578,7 +578,7 @@ DROP FUNCTION get_vol_sec_rec(
   protocol character varying(30)
 );
 
-SELECT * FROM  "get_vol_sec_rec"('2022-01-17', '2022-01-17', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_sec_rec"('2022-01-17', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 9- Function Get Volume Calls Received and Not Answered By Sector --
@@ -1018,7 +1018,7 @@ DROP FUNCTION get_itens_report(
 );
 
 BEGIN;
-    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
+    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'boutique', '', '', '');
     FETCH ALL IN "Ref1";
     FETCH ALL IN "Ref2";
     FETCH ALL IN "Ref3";

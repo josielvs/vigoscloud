@@ -20,7 +20,7 @@ import '../../libs/bulma.min.css';
 function Reports() {
   const getItensStateGlobal = useContext(PbxContext);
   const { setStorageDataReport, setEndpoints, setStorageDataReportList } = getItensStateGlobal;
-  
+
   var today = new Date();
   const todayFull = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
@@ -78,14 +78,6 @@ function Reports() {
   return rows;
   };
 
-  const fecthDataFilterCurrent = async () => {
-    const localFetchDataReport = await getDataReportDb();
-    setStorageDataReport(localFetchDataReport);
-
-    const getRows = await getReportRowsFiltred();
-    setCallsReceived(getRows);
-  };
-
   const validateUserLogged = useCallback(async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     if (!dataUser) return history.push('/');
@@ -105,6 +97,15 @@ function Reports() {
     if(verifyDataReports && verifyEndpoints) setLoading(false);
   }, [setStorageDataReport]);
 
+  const fecthDataFilterCurrent = async () => {
+    if (!startDate || !endDate) return getStatusNotification(true);
+    const localFetchDataReport = await getDataReportDb();
+    setStorageDataReport(localFetchDataReport);
+
+    const getRows = await getReportRowsFiltred();
+    setCallsReceived(getRows);
+  };
+
   const getReportRowsFiltredChartSectors = async (sector, status) => {
     const rows =  await fetchRowsChartSectors({
       dateStart: startDate,
@@ -117,9 +118,8 @@ function Reports() {
       limit: 5000,
       offset: 0,
     });
-  setCallsReceived(rows);
-  // console.log(rows);
-  return rows;
+    setCallsReceived(rows);
+    return rows;
   };
 
   const indexOfLastCall = currentPage * callsPerPage;
@@ -162,6 +162,8 @@ function Reports() {
             <FilterReportsCalls
               getAllDataDb={getAllDataDb}
               page={ setCurrentPage }
+              startDate={ startDate }
+              endDate={ endDate }
               setLoading={ setLoading }
               setStartDate={ setStartDate }
               setEndDate={ setEndDate }
