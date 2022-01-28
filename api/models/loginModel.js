@@ -16,7 +16,7 @@ const readByEmail = async (connection, email) => {
 const create = async (connection, data) => {
   const { name, email, password, endpoint, role, active } = data;
   const [user] = await connection.query(
-  `INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (3, '${name}', '${email}', '${password}', '${endpoint}', '${role}', '${active}' )`);
+  `INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('${name}', '${email}', '${password}', '${endpoint}', '${role}', '${active}' )`);
   return user;
 };
 

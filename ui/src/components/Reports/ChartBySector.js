@@ -1,4 +1,7 @@
 import React, { useContext, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { Bar } from 'react-chartjs-2';
+
 import PbxContext from '../../context/PbxContext';
 import {
   Chart as ChartJS,
@@ -9,7 +12,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
 
 const ChartBySector = ({ getRows }) => {
   const getItensStateGlobal = useContext(PbxContext);
@@ -95,5 +97,9 @@ const ChartBySector = ({ getRows }) => {
     </div>
   );
 }
+
+ChartBySector.propTypes = {
+  getRows: PropTypes.func,
+};
 
 export default ChartBySector;

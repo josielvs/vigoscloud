@@ -10,12 +10,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const FilterReportsCalls = ({
-  getAllDataDb, page, setLoading, setStartDate, setEndDate, sendDataToFilter,
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
+  sendDataToFilter,
   setStartHour,
   setEndHour,
   setSectorLocal,
   setEndpointLocal,
-  setSectorDbLocal,
   setStatusCallLocal,
   setProtocolLocal,
   setPhoneNumberLocal,
@@ -24,22 +27,11 @@ const FilterReportsCalls = ({
   const getItensStateGlobal = useContext(PbxContext);
   const {
     endpoints,
-    setStorageDataReport,
     verifySort,
     capitalizeFirstLetter
   } = getItensStateGlobal;
 
-  const [notification, setNotification] = useState(false);
   const [sectors, setSectors] = useState([]);
-  // const [startHour, setStartHour] = useState(0);
-  // const [endHour, setEndHour] = useState(23);
-  // const [sectorLocal, setSectorLocal] = useState('');
-  // const [endpointLocal, setEndpointLocal] = useState('');
-  // const [sectorDbLocal, setSectorDbLocal] = useState([]);
-  // const [statusCallLocal, setStatusCallLocal] = useState('');
-  // const [protocolLocal, setProtocolLocal] = useState('');
-  // const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
-  // const [typeCallsLocal, setTypeCallsLocal] = useState('');
 
   const fetchSectorsFunction = async () => { 
     const getSectorsInDb = await fetchSectors();
@@ -53,64 +45,6 @@ const FilterReportsCalls = ({
   };
 
   const rangeHours = Array.from({ length: 24 }).map((_, index) => index);
-
-  const getStatusNotification = (status) => {
-    if (notification === status) return;
-
-    const notificationDiv = document.querySelector('#notification').classList;
-    notificationDiv.toggle('is-hidden');
-
-    const inputDateInitial = document.querySelector('#date-initial').classList;
-    inputDateInitial.toggle('is-danger');
-
-    const inputDateFinal = document.querySelector('#date-final').classList;
-    inputDateFinal.toggle('is-danger');
-    
-    setNotification(status);
-
-    return;
-  };
-
-  // const getListCallsRows = async () => {
-  //   const objOfFilter = {
-  //     dateStart: startDate,
-  //     dateStop: endDate,
-  //     hourStart: `${startHour}:00:00`,
-  //     hourStop: `${endHour}:59:59`,
-  //     sector: sectorLocal,
-  //     getEndpoint: endpointLocal,
-  //     telNumber: phoneNumberLocal,
-  //     getProtocol: protocolLocal,
-  //     statusCall: statusCallLocal,
-  //     typeRecOrEfet: typeCallsLocal,
-  //     limit: 3000,
-  //     offset: 0,
-  //   }
-  //   const localFetchDataReportList = await fetchDataReportList(objOfFilter);
-  //   getAllDataDb(localFetchDataReportList);
-  //   return;
-  // };
-  
-  // const addFiltersOnReport = async () => {
-  //   if (!startDate || !endDate) return getStatusNotification(true);
-  //   const localFetchDataReport = await fetchDataReport(
-  //     {
-  //       dateStart: startDate,
-  //       dateStop: endDate,
-  //       hourStart: `${startHour}:00:00`,
-  //       hourStop: `${endHour}:59:59`,
-  //       sector: sectorLocal,
-  //       getEndpoint: endpointLocal,
-  //       telNumber: phoneNumberLocal,
-  //       getProtocol: protocolLocal,
-  //     });
-  //   const verifyDataReports = localFetchDataReport.hasOwnProperty('volumeEndpointsReceivedAnswered');
-  //   if(!verifyDataReports) return setLoading(true);
-  //   setStorageDataReport(localFetchDataReport);
-  //   getListCallsRows();
-  //   page(1);
-  //   return;
-  // };
 
   useEffect(() => {
     fetchSectorsFunction();
@@ -130,14 +64,14 @@ const FilterReportsCalls = ({
           <div className="column is-2 is-offset-4 field">
             <label className="label">Data Inicial *
               <div className="control">
-              <input className="input" id="date-initial" type="date" onChange={(e) => setStartDate(e.target.value)} />
+              <input className="input" id="date-initial" type="date" value={ startDate } onChange={(e) => setStartDate(e.target.value)} />
             </div>
             </label>
           </div>
           <div className="field column is-2">
             <label className="label">Data Final *
               <div className="control">
-              <input className="input" id="date-final" type="date" onChange={(e) => setEndDate(e.target.value)}
+              <input className="input" id="date-final" type="date" value={ endDate } onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
             </label>
@@ -183,7 +117,7 @@ const FilterReportsCalls = ({
                   <select className="select" onChange={(e) => setSectorLocal(e.target.value)}>
                     <option value="">Selecione</option>
                     { 
-                      sectors.sort(verifySort).map((sector, index) => <option key={ index } value={ sector }>{ sector }</option>)
+                      sectors.sort(verifySort).map((sector, index) => <option key={ index } value={ sector.toLowerCase() }>{ sector }</option>)
                     }
                   </select>
                 </div>
@@ -259,7 +193,6 @@ const FilterReportsCalls = ({
             <div className="field column is-one-quarter">
                 <div className="control">
                   <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => sendDataToFilter() }>
-                  {/* <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => addFiltersOnReport() }> */}
                     <span className="icon">
                       <FontAwesomeIcon icon={faFilter} fixedWidth />
                     </span>
@@ -276,9 +209,19 @@ const FilterReportsCalls = ({
 };
 
 FilterReportsCalls.propTypes = {
-  getAllDataDb: PropTypes.func,
-  page: PropTypes.func,
-  setLoading: PropTypes.func,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
+  setStartDate: PropTypes.func,
+  setEndDate: PropTypes.func,
+  sendDataToFilter: PropTypes.func,
+  setStartHour: PropTypes.func,
+  setEndHour: PropTypes.func,
+  setSectorLocal: PropTypes.func,
+  setEndpointLocal: PropTypes.func,
+  setStatusCallLocal: PropTypes.func,
+  setProtocolLocal: PropTypes.func,
+  setPhoneNumberLocal: PropTypes.func,
+  setTypeCallsLocal: PropTypes.func,
 };
 
 export default FilterReportsCalls;

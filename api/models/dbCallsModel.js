@@ -76,7 +76,7 @@ const readAllQueriesReport = async (connection, dateStart, dateStop, hourStart, 
     globalReportToTableReceived: result[12].rows[0],
     globalReportToTableSent: result[13].rows[0]
   }
-  
+
   return returnPersonalized;
 };
 
