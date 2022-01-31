@@ -39,6 +39,8 @@ AFTER DELETE ON cdr
     FOR EACH ROW EXECUTE PROCEDURE add_row_deleted_from_cdr();
 -- ******************************************************************************************************************************************************************** --
 
+ALTER TABLE cdr DROP COLUMN peeraccount character varying(50) DEFAULT ''::character varying NOT NULL;
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --- 1- Function GET CALLS TO REPORT TABLE RECEIVED ---
@@ -1251,6 +1253,8 @@ AND typecall LIKE 'Recebida'
 SELECT lastdata FROM cdr
 WHERE lastapp = 'Queue'
 AND lastdata LIKE 'aten%'
+
+DELETE FROM ps_endpoints WHERE id = 4100;
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
 -- Tipo: 'typecall' ===> 
@@ -1264,8 +1268,36 @@ AND lastdata LIKE 'aten%'
 -- Protocolo: 'callprotocol'
 -- Código de Area ---> Não Usar
 
-INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Victor', 'victor@vigossolucoes.com.br', '$2a$05$ABJrNY5NXVQzgoMqenBlBuScfsCeFPtDxFp1qtyy8ovnJeluZqq4m', '4109', 'admin', 'true')
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vigos', 'adm@vigossolucoes.com.br', '$2a$05$A1Xso4kAVGLXxpJj1oAIxO5o4JR.PA0OdBKqZTwra10JQ62FCirj.', '4100', 'admin', 'true');
+
+  2 | Api     | api@vigossolucoes.com.br     | $2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC | 7000     | api   | t
+  1 | Vigos   | adm@vigossolucoes.com.br     | $2a$05$A1Xso4kAVGLXxpJj1oAIxO5o4JR.PA0OdBKqZTwra10JQ62FCirj. | 7000     | admin | t
+  3 | User    | user@vigossolucoes.com.br    | $2a$05$t77fhcB.jNZLLiYys6.aFuI5dZ07kTa/uTuF9cuIMK.TeyFfCp5Za | 7000     | user  | t
+  4 | Gustavo | gustavo@vigossolucoes.com.br | $2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC | 4108     | admin | t
+  5 | Victor  | victor@vigossolucoes.com.br  | $2a$05$ABJrNY5NXVQzgoMqenBlBuScfsCeFPtDxFp1qtyy8ovnJeluZqq4m | 4109     | admin | t
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--############-- WEB PHONE --############--
 INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (4100, 1, 120, 'yes');
 INSERT INTO ps_auths (id, auth_type, password, username) VALUES (4100, 'userpass', '!vigos!!interface#01!', 4100);
-INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux, dtls_cert_file, dtls_private_key, dtls_ca_file) VALUES (4100, 'wss_transport', 4100, 4100, 'from-extensions', '4100 <4100>', 'pt_BR', 'opus,ulaw,vp9,vp8,h264', 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt');
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux, dtls_cert_file, dtls_private_key, dtls_ca_file)
+  VALUES
+(4100, 'wss_transport', 4100, 4100, 'ddd-celular', '4100 <4100>', 'pt_BR', 'opus,ulaw,vp9,vp8,h264', 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt');
+--############################################--
+
+--############-- SIP PHONE --############--
+INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (4107, 1, 120, 'yes');
+INSERT INTO ps_auths (id, auth_type, password, username) VALUES (4107, 'userpass', '!vigos!!interface#01!', 4107);
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, inband_progress, rtp_timeout, message_context, allow_subscribe, subscribe_context, direct_media, dtmf_mode, device_state_busy_at, disallow, allow)
+  VALUES
+(4107, 'udp_transport', 4107, 4107, 'ddd-celular', '4107 <4107>', 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', 'auto_info', 1, 'all', 'ulaw');
+--############################################--
+
+--############-- PROVIDER TRUNK --############--
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (1421074100, 'sip:1421074100@189.52.73.116:5060', 120);
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, direct_media, dtmf_mode, language, tos_audio, cos_audio)
+  VALUES
+(1421074100, 'udp_transport', 'Embratel', 'all', 'ulaw,alaw', 1421074100, '200.208.223.218', 'no', 'info', 'pt_BR', 'af42', 3);
+INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport) VALUES (1421074100, 'sip:189.52.73.116', 'sip:1421074100@ 200.208.223.218', 1421074100, 'udp_transport');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1421074100, 1421074100, '189.52.73.116');
+--############################################--
