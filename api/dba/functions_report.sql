@@ -39,6 +39,8 @@ AFTER DELETE ON cdr
     FOR EACH ROW EXECUTE PROCEDURE add_row_deleted_from_cdr();
 -- ******************************************************************************************************************************************************************** --
 
+ALTER TABLE cdr DROP COLUMN peeraccount character varying(50) DEFAULT ''::character varying NOT NULL;
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --- 1- Function GET CALLS TO REPORT TABLE RECEIVED ---
@@ -238,7 +240,7 @@ CREATE OR REPLACE FUNCTION get_data_report_sent(
         ) AS failed_calls
       FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
-        AND typecall = 'Efetuada' AND lastdata LIKE '%@%'
+        AND typecall = 'Efetuada' AND lastdata LIKE '%@%' AND CHAR_LENGTH(dst) > 4
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%';
@@ -254,7 +256,7 @@ DROP FUNCTION get_data_report_sent(
   protocol character varying(30)
   );
 
-SELECT * FROM  "get_data_report_sent"('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_data_report_sent"('2022-01-28', '2022-01-28', '00:00:00', '23:59:59', '', '', '', '');
 SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '4104', '', '');
 SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '1430420844', '');
 SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061503397');
@@ -284,15 +286,15 @@ CREATE OR REPLACE FUNCTION get_vol_endp_rec_aswered(
     BEGIN
       return QUERY
       SELECT
-        REPLACE(
+        SPLIT_PART(REPLACE(
           SUBSTRING(
             dstchannel, POSITION('/' in dstchannel) + 1,
               POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
             )
           , '-', ''
-        ) AS endpoints, COUNT(*) FROM cdr
+        ), '@', 1) AS endpoints, COUNT(dstchannel) FROM cdr
       WHERE (calldate BETWEEN data_inicial AND data_final)
-      AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED'
+      AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4
       AND lastdata LIKE '%' || recSector || '%'
       AND dstchannel LIKE '%' || endpoint || '%'
       AND src LIKE '%' || telNumber || '%'
@@ -314,7 +316,7 @@ DROP FUNCTION get_vol_endp_rec_aswered(
   protocol character varying(30)
 );
 
-SELECT * FROM  "get_vol_endp_rec_aswered"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_endp_rec_aswered"('2022-01-28', '2022-01-28', '00:00:00', '23:59:59', '', '', '', '');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 4- Function Get Endpoints as Volume Calls Received NO ANSWER--
@@ -349,8 +351,9 @@ CREATE OR REPLACE FUNCTION get_vol_endp_rec_no_aswer(
           , '-', ''
         ) AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr AS a
       WHERE (calldate BETWEEN data_inicial AND data_final)
-      AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr WHERE (calldate BETWEEN data_inicial AND data_final) AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida')
-      AND typecall = 'Recebida' AND disposition = 'NO ANSWER'
+      AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr
+        WHERE (calldate BETWEEN data_inicial AND data_final) AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4)
+      AND typecall = 'Recebida' AND disposition = 'NO ANSWER' AND CHAR_LENGTH(src) > 4
       AND lastdata LIKE '%' || recSector || '%'
       AND dstchannel LIKE '%' || endpoint || '%'
       AND src LIKE '%' || telNumber || '%'
@@ -369,7 +372,7 @@ DROP FUNCTION get_vol_endp_rec_no_aswer(
   protocol character varying(30)
 );
 
-SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-01-28', '2022-01-28', '00:00:00', '23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 5- Function Get Endpoints as Volume Calls Sent ANSWERED--
@@ -578,7 +581,7 @@ DROP FUNCTION get_vol_sec_rec(
   protocol character varying(30)
 );
 
-SELECT * FROM  "get_vol_sec_rec"('2022-01-17', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_sec_rec"('2022-01-28', '2022-01-28', '00:00:00', '23:59:59', 'comercial', '', '', '');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 9- Function Get Volume Calls Received and Not Answered By Sector --
@@ -1207,10 +1210,50 @@ REPLACE(
 FROM cdr WHERE (calldate BETWEEN '2022-01-20 00:00:00' AND '2022-01-20 23:59:59')
 LIMIT 30;
 
+
+
+
+
 SELECT
-  dstchannel
-FROM cdr WHERE (calldate BETWEEN '2022-01-20 00:00:00' AND '2022-01-20 23:59:59')
-LIMIT 30;
+  TO_NUMBER(SPLIT_PART(REPLACE(
+    SUBSTRING(
+      dstchannel, POSITION('/' in dstchannel) + 1,
+        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+      )
+    , '-', ''
+  ), '@', 1), '9999') AS endpoints, COUNT(*)
+FROM cdr WHERE (calldate BETWEEN '2022-01-28 00:00:00' AND '2022-01-28 23:59:59')
+AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4
+GROUP BY endpoints
+HAVING endpoints > 8500
+ORDER BY endpoints;
+
+
+
+SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr
+WHERE  char_length(src) < 5
+AND (calldate BETWEEN '2022-01-28 00:00:00' AND '2022-01-28 23:59:59')
+AND typecall = 'Efetuada' AND disposition = 'ANSWERED'
+AND src LIKE '%'
+AND dst LIKE '%'
+AND callprotocol LIKE '%'
+GROUP BY endpoints
+ORDER BY endpoints;
+________
+SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr
+WHERE  char_length(dst) > 5
+AND (calldate BETWEEN '2022-01-28 00:00:00' AND '2022-01-28 23:59:59')
+AND typecall = 'Efetuada' AND disposition = 'ANSWERED'
+AND src LIKE '%'
+AND dst LIKE '%'
+AND callprotocol LIKE '%'
+GROUP BY endpoints
+ORDER BY endpoints;
+
+
+
+
+
 
 SELECT
   CASE
@@ -1251,6 +1294,12 @@ AND typecall LIKE 'Recebida'
 SELECT lastdata FROM cdr
 WHERE lastapp = 'Queue'
 AND lastdata LIKE 'aten%'
+
+DELETE FROM ps_endpoints WHERE id = '5510';
+
+UPDATE ps_endpoints SET transport = 'tcp_transport' WHERE id LIKE '6225';
+AND typecall LIKE 'Recebida'
+
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
 -- Tipo: 'typecall' ===> 
@@ -1264,8 +1313,35 @@ AND lastdata LIKE 'aten%'
 -- Protocolo: 'callprotocol'
 -- Código de Area ---> Não Usar
 
-INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Victor', 'victor@vigossolucoes.com.br', '$2a$05$ABJrNY5NXVQzgoMqenBlBuScfsCeFPtDxFp1qtyy8ovnJeluZqq4m', '4109', 'admin', 'true')
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (4100, 1, 120, 'yes');
-INSERT INTO ps_auths (id, auth_type, password, username) VALUES (4100, 'userpass', '!vigos!!interface#01!', 4100);
-INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux, dtls_cert_file, dtls_private_key, dtls_ca_file) VALUES (4100, 'wss_transport', 4100, 4100, 'from-extensions', '4100 <4100>', 'pt_BR', 'opus,ulaw,vp9,vp8,h264', 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 17- Function Get All Data Report --
+CREATE OR REPLACE FUNCTION get_itens_report_cetro(
+COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/4_ramais_efetuadas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_rec"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/5_setor_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_no_ans"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/6_setor_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_received"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/7_report_global_recebidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_sent"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/8_report_global_efetuadas.csv' WITH csv HEADER;
+
+cat /var/lib/postgresql/report/allcsv/*.csv > /var/lib/postgresql/report/report.csv
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (1421045555, 'sip:1421045555@189.52.73.116:5060', 120);
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, direct_media, dtmf_mode, language, tos_audio, cos_audio)
+  VALUES
+(1421045555, 'udp_transport', 'Embratel', 'all', 'ulaw,alaw', 1421045555, '200.191.211.54', 'no', 'info', 'pt_BR', 'af42', 3);
+INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport) VALUES (1421045555, 'sip:189.52.73.116', 'sip:1421045555@ 200.191.211.54', 1421045555, 'udp_transport');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1421045555, 1421045555, '189.52.73.116');
+
+INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (1001, 1, 120, 'yes');
+INSERT INTO ps_auths (id, auth_type, password, username) VALUES (1001, 'userpass', '!vigos!!interface#01!', 1001);
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, inband_progress, rtp_timeout, message_context, allow_subscribe, subscribe_context, direct_media, dtmf_mode, device_state_busy_at, disallow, allow)
+  VALUES
+(5555, 'udp_transport', 5555, 5555, 'ddd-celular', '5555 <5555>', 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', 'inband', 1, 'all', 'ulaw');
+
+CREATE TYPE sip_dtmfmode_values AS ENUM ('rfc2833', 'info', 'inband', 'auto');
+

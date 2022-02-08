@@ -4,9 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faBan } from '@fortawesome/free-solid-svg-icons';
 
 const ReportTable = ({ call, role }) => {
-
   let showRecs = { icon: '', path: '', target: '' };
-  // const { call } = this.props;
   const { data, origem_primaria, origem_segundaria, destino_primario, destino_secundario, setor, aguardando_atendimento, duracao, status, sequencia, tipo, protocolo, tipo_saida, id } = call;  
 
   let url = window.location.href;
@@ -39,6 +37,7 @@ const ReportTable = ({ call, role }) => {
         <td>{aguardando_atendimento}</td>
         <td>{duracao}</td>
         <td>{tipo}</td>
+        <td>{protocolo}</td>
         {/* <td>{id}</td>
         <td>{sequencia}</td> */}
         <td>{ role !== 'admin' ? userTd : adminTd }</td>

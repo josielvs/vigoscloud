@@ -44,6 +44,7 @@ const ReportList = ({ callsList }) => {
                 <th scope="col">Tipo</th>
                 {/* <th scope="col">Id</th>
                 <th scope="col">Sequencia</th> */}
+                <th scope="col">Protocolo</th>
                 <th scope="col">Gravação</th>
                 </tr>
             </thead>
