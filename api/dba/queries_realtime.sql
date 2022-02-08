@@ -24,13 +24,23 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language
 (1001, 'udp_transport', 1001, 1001, 'from-extensions', '1001 <1001>', 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', 'info', 1, 'all', 'ulaw');
 --############################################--
 
---############-- PROVIDER TRUNK --############--
+--############-- PROVIDER TRUNK IP --############--
 INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (1433129900, 'sip:1433129900@189.52.73.116:5060', 120);
 INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, direct_media, language, tos_audio, cos_audio)
   VALUES
 (1433129900, 'udp_transport', 'Embratel', 'all', 'ulaw,alaw', 1433129900, '200.208.223.42', 'no', 'pt_BR', 'af42', 3);
 INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport) VALUES (1433129900, 'sip:189.52.73.116', 'sip:1433129900@ 200.208.223.42', 1433129900, 'udp_transport');
 INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1433129900, 1433129900, '189.52.73.116');
+--############################################--
+
+--##########-- PROVIDER TRUNK AUTH --#########--
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (KZBRI, 'sip:KZBRI@189.84.133.135:5060', 120);
+INSERT INTO ps_auths (id, auth_type, password, username) VALUES (KZBRI, 'userpass', 'QX1hzIP2YN2fov9w', KZBRI);
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, direct_media, language, tos_audio, cos_audio)
+  VALUES
+(KZBRI, 'udp_transport', 'DirectCall', 'all', 'ulaw,alaw', KZBRI, '189.84.133.135', 'no', 'pt_BR', 'af42', 3);
+INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport) VALUES (KZBRI, 'sip:189.84.133.135', 'sip:KZBRI@189.84.133.135', KZBRI, 'udp_transport');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (KZBRI, KZBRI, '189.84.133.135');
 --############################################--
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,3 +103,5 @@ $$ LANGUAGE plpgsql;
 DROP FUNCTION endpointsWebGenerate;
 
 SELECT endpointsWebGenerate(7000, 30);
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
