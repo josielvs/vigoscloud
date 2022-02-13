@@ -75,6 +75,8 @@ function Reports() {
       limit: 5000,
       offset: 0,
     });
+    console.log(typeCallsLocal);
+    console.log(rows);
   return rows;
   };
 
@@ -115,7 +117,7 @@ function Reports() {
       sector: sector,
       getEndpoint: endpointLocal,
       statusCall: status,
-      limit: 5000,
+      limit: 10000,
       offset: 0,
     });
     setCallsReceived(rows);
@@ -160,7 +162,7 @@ function Reports() {
             <hr className="m-0 p-0"/>
             <hr className="m-0 p-0"/>
             <FilterReportsCalls
-              getAllDataDb={getAllDataDb}
+              getAllDataDb={ getAllDataDb }
               page={ setCurrentPage }
               startDate={ startDate }
               endDate={ endDate }
@@ -178,8 +180,8 @@ function Reports() {
               setPhoneNumberLocal={ setPhoneNumberLocal }
               setTypeCallsLocal={ setTypeCallsLocal }
             />
-            <ReportList callsList={currentCalls} />
-            <Pagination callsPerPage={callsPerPage} totalCalls={callsReceived.length} paginate={paginate} currentPage={currentPage}/>
+            <ReportList callsList={ currentCalls } />
+            <Pagination callsPerPage={ callsPerPage } totalCalls={ callsReceived.length } paginate={ paginate } currentPage={ currentPage }/>
           </>
       }
     </div>

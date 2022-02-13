@@ -872,7 +872,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
             SUBSTRING(lastdata, 0, POSITION(',' in lastdata))
           WHEN typecall='Efetuada' THEN
             dst
-          ELSE ''
+          ELSE '-'
         END
         AS setor,
         duration - billsec AS aguardando_atendimento,
@@ -899,7 +899,14 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
               lastdata LIKE '%'
             ELSE lastdata LIKE recSector || '%'
           END
-        AND dstchannel LIKE '%' || endpoint || '%'
+        AND
+          CASE 
+            WHEN typeRecOrEfet='Recebida' THEN
+              dstchannel LIKE '%' || endpoint || '%'
+            WHEN typeRecOrEfet='Efetuada' THEN
+              src LIKE endpoint
+            ELSE dstchannel LIKE '%' || endpoint || '%'
+          END
         AND src LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%'
         AND disposition LIKE '%' || statusCall || '%'
@@ -923,7 +930,7 @@ DROP FUNCTION get_all_calls_rows(
   offsetGet integer
 );
 
-SELECT * FROM get_all_calls_rows('2021-12-15', '2022-01-15', '00:00:00', '23:59:59', 'boutique', '', '', '', '', '', '50', '0');
+SELECT * FROM get_all_calls_rows('2021-12-15', '2022-02-09', '00:00:00', '23:59:59', '', '7000', '', '', '', 'Recebida', '50', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 14- Function Get All Data Report --
@@ -1135,15 +1142,13 @@ CREATE OR REPLACE FUNCTION get_chart_by_sectors_rows(
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND
           CASE
-            WHEN statusCall = 'Atendida' THEN 
-            -- lastapp = 'Queue' AND disposition = 'ANSWERED'
+            WHEN statusCall = 'Atendida' THEN
               disposition = 'ANSWERED'
             WHEN statusCall='Não Atendida' THEN
               a.uniqueid NOT IN (
               SELECT DISTINCT(uniqueid) FROM cdr
               WHERE (calldate BETWEEN data_inicial AND data_final)
               AND disposition LIKE 'ANSWERED'
-              -- AND lastapp = 'Queue'
               AND lastdata LIKE '%' || recSector || '%'
               AND dstchannel LIKE '%' || endpoint || '%'
             )
@@ -1154,12 +1159,6 @@ CREATE OR REPLACE FUNCTION get_chart_by_sectors_rows(
               lastdata LIKE '%'
             ELSE lastdata LIKE recSector || '%'
           END
-        -- AND
-          -- CASE 
-          --   WHEN recSector<>'atendimento' THEN
-          --     dst <> 'menu' AND dst <> '_attended'
-          --   ELSE dst <> '_attended'
-          -- END
         AND dstchannel LIKE '%' || endpoint || '%'
       ORDER BY uniqueid ASC
       LIMIT limitGet OFFSET offsetGet;
@@ -1187,118 +1186,99 @@ SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- WORKING --
 
-SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
--- SELECT lastdata AS sectors, COUNT(*) as answered FROM cdr
-WHERE (calldate BETWEEN '2022-01-01' AND '2022-01-15')
--- AND typecall = 'Recebida' AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
-AND lastapp = 'Queue' AND dstchannel <> '' AND disposition = 'ANSWERED'
-AND lastdata LIKE '%'
-AND dstchannel LIKE '%'
-AND src LIKE '%'
-AND callprotocol LIKE '%'
-GROUP BY sectors
-ORDER BY sectors;
-
-SELECT
-REPLACE(
+CREATE OR REPLACE FUNCTION get_all_calls_rows(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30),
+  statusCall character varying(30),
+  typeRecOrEfet character varying(30),
+  limitGet integer,
+  offsetGet integer
+)
+  RETURNS TABLE (
+    data timestamptz,
+    origem_primaria character varying(80),
+    origem_segundaria character varying(80),
+    destino_primario character varying(80),
+    destino_secundario text,
+    setor text,
+    aguardando_atendimento bigint,
+    duracao bigint,
+    status text,
+    sequencia integer,
+    tipo character varying(80),
+    protocolo character varying(150),
+    tipo_saida character varying(80),
+    id text,
+    encerramento character varying(50),
+    full_count bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);     
+    BEGIN
+      return QUERY
+      SELECT
+        calldate AS data,
+        clid AS origem_primaria,
+        src AS origem_segundaria,
+        dst AS destino_primario,
+        REPLACE(
           SUBSTRING(
             dstchannel, POSITION('/' in dstchannel) + 1,
               POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
             )
           , '-', ''
-        ) AS destino_secundario
-FROM cdr WHERE (calldate BETWEEN '2022-01-20 00:00:00' AND '2022-01-20 23:59:59')
-LIMIT 30;
-
-
-
-
-
-SELECT
-  TO_NUMBER(SPLIT_PART(REPLACE(
-    SUBSTRING(
-      dstchannel, POSITION('/' in dstchannel) + 1,
-        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
-      )
-    , '-', ''
-  ), '@', 1), '9999') AS endpoints, COUNT(*)
-FROM cdr WHERE (calldate BETWEEN '2022-01-28 00:00:00' AND '2022-01-28 23:59:59')
-AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4
-GROUP BY endpoints
-HAVING endpoints > 8500
-ORDER BY endpoints;
-
-
-
-SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr
-WHERE  char_length(src) < 5
-AND (calldate BETWEEN '2022-01-28 00:00:00' AND '2022-01-28 23:59:59')
-AND typecall = 'Efetuada' AND disposition = 'ANSWERED'
-AND src LIKE '%'
-AND dst LIKE '%'
-AND callprotocol LIKE '%'
-GROUP BY endpoints
-ORDER BY endpoints;
-________
-SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr
-WHERE  char_length(dst) > 5
-AND (calldate BETWEEN '2022-01-28 00:00:00' AND '2022-01-28 23:59:59')
-AND typecall = 'Efetuada' AND disposition = 'ANSWERED'
-AND src LIKE '%'
-AND dst LIKE '%'
-AND callprotocol LIKE '%'
-GROUP BY endpoints
-ORDER BY endpoints;
-
-
-
-
-
-
-SELECT
-  CASE
-    WHEN typecall = 'Efetuada' THEN dst
-    WHEN typecall = 'Recebida' THEN REPLACE(
-      SUBSTRING(
-        dstchannel, POSITION('/' in dstchannel) + 1,
-          POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
         )
-      , '-', '')
-    ELSE
-      SUBSTRING(
-        lastdata, 0,
-          POSITION(',' in lastdata)
-        )
-  END
-FROM cdr WHERE (calldate BETWEEN '2022-01-20 00:00:00' AND '2022-01-20 23:59:59')
-AND lastapp <> '' AND lastapp <> 'Hangup'
-ORDER BY calldate DESC, uniqueid DESC
-LIMIT 40 OFFSET 0;
-
-SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
-WHERE (calldate BETWEEN '2022-01-17 00:00:00' AND '2022-01-17 23:59:59')
-AND lastapp = 'Queue' AND disposition = 'ANSWERED'
-GROUP BY sectors
-ORDER BY sectors;
-
-SELECT lastdata, COUNT(lastdata) AS sectors FROM cdr
-WHERE (calldate BETWEEN '2022-01-01 00:00:00' AND '2022-01-25 23:59:59')
-AND lastapp = 'Queue'
-GROUP BY lastdata
-ORDER BY lastdata;
-
-UPDATE cdr SET typecall = 'Efetuada'
-WHERE dstchannel LIKE '%@ddd%'
-AND typecall LIKE 'Recebida'
-
-SELECT lastdata FROM cdr
-WHERE lastapp = 'Queue'
-AND lastdata LIKE 'aten%'
-
-DELETE FROM ps_endpoints WHERE id = '5510';
-
-UPDATE ps_endpoints SET transport = 'tcp_transport' WHERE id LIKE '6225';
-AND typecall LIKE 'Recebida'
+        AS destino_secundario,
+        CASE 
+          WHEN typecall='Recebida' THEN
+            SUBSTRING(lastdata, 0, POSITION(',' in lastdata))
+          WHEN typecall='Efetuada' THEN
+            dst
+          ELSE '-'
+        END
+        AS setor,
+        duration - billsec AS aguardando_atendimento,
+        duration AS duracao,
+        CASE 
+          WHEN disposition='NO ANSWER' THEN 'Não Atendida'
+          WHEN disposition='ANSWERED' THEN 'Atendida'
+          ELSE ''
+        END
+        AS status,
+        sequence AS sequencia,
+        typecall AS tipo,
+        callprotocol AS protocolo,
+        fromtypecall AS tipo_saida,
+        REPLACE(uniqueid, 'VigosPBX-', '') AS id,
+        hangupcause AS encerramento,
+        count(*) OVER() AS full_count
+      FROM cdr
+        WHERE (calldate BETWEEN data_inicial AND data_final)
+        AND lastapp <> '' AND lastapp <> 'Hangup'
+        AND
+          CASE 
+            WHEN recSector='' THEN
+              lastdata LIKE '%'
+            ELSE lastdata LIKE recSector || '%'
+          END
+        AND dstchannel LIKE '%' || endpoint || '%'
+        AND src LIKE '%' || telNumber || '%'
+        AND callprotocol LIKE '%' || protocol || '%'
+        AND disposition LIKE '%' || statusCall || '%'
+        AND typecall LIKE '%' || typeRecOrEfet || '%'
+      ORDER BY calldate DESC, id DESC
+      LIMIT limitGet OFFSET offsetGet;
+    END;
+  $$;
 
 -- ** Filtros ** --
 -- Data: calldate ===> dateInitial, dateEnd
@@ -1317,14 +1297,16 @@ AND typecall LIKE 'Recebida'
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 17- Function Get All Data Report --
 CREATE OR REPLACE FUNCTION get_itens_report_cetro(
-COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/4_ramais_efetuadas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sec_rec"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/5_setor_recebidas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sec_no_ans"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/6_setor_recebidas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_data_report_received"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/7_report_global_recebidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_data_report_sent"('2022-01-31', '2022-02-05', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/8_report_global_efetuadas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/4_ramais_efetuadas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_rec_answ_by_hour"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/5_por_hora.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_rec_no_answ_by_hour"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/6_or_hora_nao_atendida.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_rec"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/7_setor_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_no_ans"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/8_setor_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_received"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/9_report_global_recebidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_sent"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/report_global_efetuadas.csv' WITH csv HEADER;
 
 cat /var/lib/postgresql/report/allcsv/*.csv > /var/lib/postgresql/report/report.csv
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
