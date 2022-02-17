@@ -25,14 +25,14 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language
 --############################################--
 
 --############-- PROVIDER TRUNK IP --############--
-INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (32018500, 'sip:32018500@172.26.159.65:5060', 120);
-INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, "100rel", language, tos_audio, cos_audio)
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (1434340364, 'sip:1434340364@189.52.73.116:5060', 120);
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, language, tos_audio, cos_audio)
   VALUES
-(32018500, 'udp_transport', 'Algar', 'all', 'alaw', '32018500', '10.55.216.217', '32018500', 'no', 'yes', 'pt_BR', 'af42', 3);
+(1434340364, 'udp_transport', 'Embratel', 'all', 'alaw', '1434340364', '200.166.105.118', '1434340364', 'no', 'pt_BR', 'af42', 3);
 INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint, line)
 VALUES
-(32018500, 'sip:172.26.159.65:5060', 'sip:32018500@10.55.216.217:5060', '32018500', 'udp_transport', '32018500', 'yes');
-INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (32018500, '32018500', '172.26.159.65');
+(1434340364, 'sip:189.52.73.116:5060', 'sip:1434340364@200.166.105.118:5060', '1434340364', 'udp_transport', '1434340364', 'yes');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1434340364, '1434340364', '189.52.73.116');
 --############################################--
 
 --##########-- PROVIDER TRUNK AUTH --#########--
@@ -77,6 +77,17 @@ DROP FUNCTION endpointsSipGenerate;
 SELECT endpointsSipGenerate(7200, 50);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+named_call_group VARCHAR(40), 
+named_pickup_group VARCHAR(40), 
+
+UPDATE ps_endpoints SET named_call_group = 'crm', named_pickup_group = 'crm' WHERE id = ''
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 CREATE OR REPLACE FUNCTION endpointsWebGenerate(
   initEndpoint integer,
   qttEndpoints integer
@@ -241,7 +252,16 @@ $$ LANGUAGE plpgsql;
 
 DROP FUNCTION queuesMembersGenerate;
 
-SELECT queuesMembersGenerate('fin', 7251, 7400);
+SELECT queuesMembersGenerate('sac', 7451, 7500);
+
+
+
+
 
 DELETE FROM ps_endpoints WHERE id='1431085999';
 
+DELETE FROM queue_members WHERE queue_name = 'sac';
+
+UPDATE queue_members SET paused = 1 WHERE queue_name = 'sac';
+
+UPDATE queue_members SET paused = 0 WHERE uniqueid = '7472';

@@ -286,15 +286,27 @@ CREATE OR REPLACE FUNCTION get_vol_endp_rec_aswered(
     BEGIN
       return QUERY
       SELECT
-        SPLIT_PART(REPLACE(
-          SUBSTRING(
-            dstchannel, POSITION('/' in dstchannel) + 1,
-              POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
-            )
-          , '-', ''
-        ), '@', 1) AS endpoints, COUNT(dstchannel) FROM cdr
+        CASE 
+        WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+          REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+              )
+            , '-', ''
+          )
+        ELSE
+          REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+              )
+            , '-', ''
+          )
+      END
+      AS endpoints, COUNT(dstchannel) FROM cdr
       WHERE (calldate BETWEEN data_inicial AND data_final)
-      AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4
+      AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4 AND dstchannel SIMILAR TO '%@%' = False
       AND lastdata LIKE '%' || recSector || '%'
       AND dstchannel LIKE '%' || endpoint || '%'
       AND src LIKE '%' || telNumber || '%'
@@ -316,7 +328,7 @@ DROP FUNCTION get_vol_endp_rec_aswered(
   protocol character varying(30)
 );
 
-SELECT * FROM  "get_vol_endp_rec_aswered"('2022-01-28', '2022-01-28', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 4- Function Get Endpoints as Volume Calls Received NO ANSWER--
@@ -401,7 +413,7 @@ CREATE OR REPLACE FUNCTION get_vol_sent_endp_answered(
       SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr
         WHERE  char_length(src) < 5
         AND (calldate BETWEEN data_inicial AND data_final)
-        AND typecall = 'Efetuada' AND disposition = 'ANSWERED'
+        AND typecall = 'Efetuada' AND disposition = 'ANSWERED' AND char_length(dst) > 4
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
@@ -418,7 +430,7 @@ DROP FUNCTION get_vol_sent_endp_answered(
   telNumber character varying(30),
   protocol character varying(30)
 );
-SELECT * FROM  "get_vol_sent_endp_answered"('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '2005', '', '');
+SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '');
 
 SELECT COUNT(DISTINCT(uniqueid))
 FROM cdr WHERE (calldate BETWEEN '2022-01-26 00:00:00' AND '2022-01-26 23:59:59')
@@ -458,7 +470,7 @@ CREATE OR REPLACE FUNCTION get_vol_sent_endp_no_answer(
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%')
-        AND typecall = 'Efetuada' AND disposition = 'NO ANSWER'
+        AND typecall = 'Efetuada' AND disposition = 'NO ANSWER' AND char_length(dst) > 4
         AND src LIKE '%' || endpoint || '%'
         AND dst LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%'
@@ -475,7 +487,7 @@ DROP FUNCTION get_vol_sent_endp_no_answer(
   telNumber character varying(30),
   protocol character varying(30)
 );
-SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 7- Function Get Volume Calls Sent Internal and External --
@@ -859,13 +871,23 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         clid AS origem_primaria,
         src AS origem_segundaria,
         dst AS destino_primario,
-        REPLACE(
-          SUBSTRING(
-            dstchannel, POSITION('/' in dstchannel) + 1,
-              POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+        CASE 
+          WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+            REPLACE(
+              SUBSTRING(
+                dstchannel, POSITION('/' in dstchannel) + 1,
+                  (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                )
+              , '-', ''
             )
-          , '-', ''
-        )
+          ELSE REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+              )
+            , '-', ''
+          )
+        END        
         AS destino_secundario,
         CASE 
           WHEN typecall='Recebida' THEN
@@ -892,7 +914,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         count(*) OVER() AS full_count
       FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
-        AND lastapp <> '' AND lastapp <> 'Hangup'
+        AND lastapp <> '' AND lastapp <> 'Hangup' AND typecall <> ''
         AND
           CASE 
             WHEN recSector='' THEN
@@ -904,10 +926,17 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
             WHEN typeRecOrEfet='Recebida' THEN
               dstchannel LIKE '%' || endpoint || '%'
             WHEN typeRecOrEfet='Efetuada' THEN
-              src LIKE endpoint
+              src LIKE '%' || endpoint || '%'
             ELSE dstchannel LIKE '%' || endpoint || '%'
           END
-        AND src LIKE '%' || telNumber || '%'
+        AND
+          CASE 
+            WHEN typeRecOrEfet='Recebida' THEN
+              src LIKE '%' || telNumber || '%'
+            WHEN typeRecOrEfet='Efetuada' THEN
+              dst LIKE '%' || telNumber || '%'
+            ELSE src LIKE '%' || telNumber || '%'
+          END
         AND callprotocol LIKE '%' || protocol || '%'
         AND disposition LIKE '%' || statusCall || '%'
         AND typecall LIKE '%' || typeRecOrEfet || '%'
@@ -930,7 +959,7 @@ DROP FUNCTION get_all_calls_rows(
   offsetGet integer
 );
 
-SELECT * FROM get_all_calls_rows('2021-12-15', '2022-02-09', '00:00:00', '23:59:59', '', '7000', '', '', '', 'Recebida', '50', '0');
+SELECT * FROM get_all_calls_rows('2021-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '', '', 'Efetuada', '50', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 14- Function Get All Data Report --
@@ -1297,18 +1326,50 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 17- Function Get All Data Report --
 CREATE OR REPLACE FUNCTION get_itens_report_cetro(
-COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/4_ramais_efetuadas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_rec_answ_by_hour"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/5_por_hora.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_rec_no_answ_by_hour"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '85', '', '')) TO '/var/lib/postgresql/report/allcsv/6_or_hora_nao_atendida.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sec_rec"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/7_setor_recebidas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sec_no_ans"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', 'comercial', '', '', '')) TO '/var/lib/postgresql/report/allcsv/8_setor_recebidas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_data_report_received"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/9_report_global_recebidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_data_report_sent"('2022-02-10', '2022-02-10', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/report_global_efetuadas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/4_ramais_efetuadas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_rec_answ_by_hour"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/5_por_hora.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_rec_no_answ_by_hour"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/6_or_hora_nao_atendida.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_rec"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', 'crm', '', '', '')) TO '/var/lib/postgresql/report/allcsv/7_setor_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_no_ans"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', 'crm', '', '', '')) TO '/var/lib/postgresql/report/allcsv/8_setor_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_received"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/9_report_global_recebidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_sent"('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/99_report_global_efetuadas.csv' WITH csv HEADER;
+COPY (SELECT * FROM get_all_calls_rows('2022-02-16', '2022-02-16', '00:00:00', '23:59:59', '', '', '', '', '', '', '20000', '0')) TO '/var/lib/postgresql/report/log_chamadas.csv' WITH csv HEADER;
 
-cat /var/lib/postgresql/report/allcsv/*.csv > /var/lib/postgresql/report/report.csv
+-- cat /var/lib/postgresql/report/allcsv/*.csv > /var/lib/postgresql/report/report.csv
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT
+CASE 
+  WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+    REPLACE(
+      SUBSTRING(
+        dstchannel, POSITION('/' in dstchannel) + 1,
+          POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+        )
+      , '-', ''
+    )
+  ELSE
+    REPLACE(
+      SUBSTRING(
+        dstchannel, POSITION('/' in dstchannel) + 1,
+          (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+        )
+      , '-', ''
+    )
+END
+AS endpoints, COUNT(dstchannel)
+FROM cdr
+WHERE (calldate BETWEEN '2022-02-14 00:00:00' AND '2022-02-14 23:59:59')
+AND typecall = 'Recebida' AND dstchannel <> '' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4
+GROUP BY endpoints
+ORDER BY endpoints;
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1326,4 +1387,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language
 (5555, 'udp_transport', 5555, 5555, 'ddd-celular', '5555 <5555>', 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', 'inband', 1, 'all', 'ulaw');
 
 CREATE TYPE sip_dtmfmode_values AS ENUM ('rfc2833', 'info', 'inband', 'auto');
+
+
+UPDATE FROM cdr SET typecall = 'Recebida' WHERE CHAR_LENGTH(src) > 4;
 

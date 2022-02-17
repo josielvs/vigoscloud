@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faBan } from '@fortawesome/free-solid-svg-icons';
@@ -45,6 +47,22 @@ const ReportTable = ({ call, role }) => {
     </tbody>
   )
 }
+
+ReportTable.propTypes = {
+    data: PropTypes.string,
+    origem_primaria: PropTypes.string,
+    origem_segundaria: PropTypes.string,
+    setor: PropTypes.string,
+    destino_secundario: PropTypes.string,
+    destino_primario: PropTypes.string,
+    status: PropTypes.string,
+    aguardando_atendimento: PropTypes.string,
+    duracao: PropTypes.string,
+    tipo: PropTypes.string,
+    id: PropTypes.string,
+    sequencia: PropTypes.number,
+    protocolo: PropTypes.string,
+  };
 
 export default ReportTable;
 

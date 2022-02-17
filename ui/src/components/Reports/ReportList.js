@@ -1,18 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+
 import ReportTable from './ReportTable';
 import NoDataLoad from './NoDataLoad';
 import PbxContext from '../../context/PbxContext'
 import { accessLocalStorage } from '../../services';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
-
-const ReportList = ({ callsList }) => {
+import { faFileCsv, faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+const ReportList = ({ callsList, sortedCalls }) => {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport } = getItensStateGlobal;
 
   const [userRoleLocal, setUserRoleLocal] = useState('');
+  const [arrow, setArrow] = useState('');
 
   const getUserDataLocal = async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage(); 
@@ -21,6 +22,21 @@ const ReportList = ({ callsList }) => {
     return;
   };
 
+  const thElement = useRef(null);
+  
+  const setAndChangeDataElement = () => {
+    const arrowDown = <FontAwesomeIcon icon={ faArrowDown } />
+    const arrowUp = <FontAwesomeIcon icon={ faArrowUp } />
+
+    const { id } = thElement.current;
+    sortedCalls(id);
+
+    thElement.current.setAttribute('class', 'arrow-up');
+    // sortedCalls('data');
+    // const testeee = thElement.current.className.toggle("is-hidden");
+    // const vvv = testeee.toggle('is-hidden');
+    console.log(thElement.current);
+  };
 
   useEffect(() => {
     getUserDataLocal();
@@ -29,19 +45,19 @@ const ReportList = ({ callsList }) => {
   return storageDataReport && storageDataReport === [] ? { NoDataLoad } : (
     <div className='mt-5 pt-5 my-3'>
       <div className="table-container is-flex-wrap-wrap">
-        <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">
+        <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">  
             <thead>
                 <tr className='is-size-7 has-text-centered '>
-                <th scope="col">Data</th>
-                <th scope="col">Origem</th>
+                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('data') } >Data</th>
+                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('origem_primaria') } >Origem</th>
                 <th scope="col">Origem Secundaria</th>
-                <th scope="col">Setor</th>
-                <th scope="col">Destino</th>
-                <th scope="col">Destino Secundario</th>
-                <th scope="col">Status</th>
-                <th scope="col">Tempo Espera</th>
-                <th scope="col">Total da Ligação</th>
-                <th scope="col">Tipo</th>
+                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('setor') } >Setor</th>
+                <th scope="col" >Destino</th>
+                <th scope="col" >Destino Secundario</th>
+                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('status') } >Status</th>
+                <th scope="col" >Tempo Espera (segundos)</th>
+                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('duracao') } >Total da Ligação (segundos)</th>
+                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('tipo') } >Tipo</th>
                 {/* <th scope="col">Id</th>
                 <th scope="col">Sequencia</th> */}
                 <th scope="col">Protocolo</th>
@@ -56,5 +72,24 @@ const ReportList = ({ callsList }) => {
     </div>
   )
 }
+
+ReportList.propTypes = {
+  callsList: PropTypes.arrayOf(PropTypes.shape({
+    data: PropTypes.string,
+    origem_primaria: PropTypes.string,
+    origem_segundaria: PropTypes.string,
+    setor: PropTypes.string,
+    destino_secundario: PropTypes.string,
+    destino_primario: PropTypes.string,
+    status: PropTypes.string,
+    aguardando_atendimento: PropTypes.string,
+    duracao: PropTypes.string,
+    tipo: PropTypes.string,
+    id: PropTypes.string,
+    sequencia: PropTypes.number,
+    protocolo: PropTypes.string,
+  })),
+  sortedCalls: PropTypes.func,
+};
 
 export default ReportList;
