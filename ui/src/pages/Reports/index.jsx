@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
 import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList, fetchRowsChartSectors } from '../../services';
@@ -19,7 +19,7 @@ import '../../libs/bulma.min.css';
 
 function Reports() {
   const getItensStateGlobal = useContext(PbxContext);
-  const { setStorageDataReport, setEndpoints, setStorageDataReportList } = getItensStateGlobal;
+  const { setStorageDataReport, setEndpoints, verifySort } = getItensStateGlobal;
 
   var today = new Date();
   const todayFull = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -42,6 +42,7 @@ function Reports() {
   const [callsReceived, setCallsReceived] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [callsPerPage, setCallsPerPage] = useState(25);
+  const [sortElements, setSortElements] = useState({ key: '', direction: 'direction'});
 
   const history = useHistory();
 
@@ -115,7 +116,7 @@ function Reports() {
       sector: sector,
       getEndpoint: endpointLocal,
       statusCall: status,
-      limit: 5000,
+      limit: 10000,
       offset: 0,
     });
     setCallsReceived(rows);
@@ -127,6 +128,54 @@ function Reports() {
   const currentCalls = callsReceived.length > 0 ? callsReceived.slice(indexofFirstCall, indexOfLastCall) : [];
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const getAllDataDb = (list) => setCallsReceived(list);
+
+  // const sortedCalls = useCallback((sortedField) => {
+  //   if (sortedField !== null) {
+  //     const sortedCallsList = callsReceived.sort((a, b) => {
+  //       if (a[sortedField] < b[sortedField]) {
+  //         return -1;
+  //       }
+  //       if (a[sortedField] > b[sortedField]) {
+  //         return 1;
+  //       }
+  //       return 0;
+  //     });
+  //     console.log(sortedCallsList);
+  //     setSortElementName(sortedField);
+  //     setCallsReceived(sortedCallsList);
+  //   }
+  //   return sortedField
+  // }, [callsReceived]);
+
+  useMemo(() => {
+    let sortableItems = [...callsReceived];
+    if (sortElements !== null) {
+      sortableItems.sort((a, b) => {
+        if(sortElements.key === 'duracao' && sortElements.direction === 'ascending') return a[sortElements.key] - b[sortElements.key];
+        if(sortElements.key === 'duracao' && sortElements.direction === 'descending') return b[sortElements.key] - a[sortElements.key];
+        
+        if (a[sortElements.key] < b[sortElements.key]) {
+          return sortElements.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortElements.key] > b[sortElements.key]) {
+          return sortElements.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    setCallsReceived(sortableItems);
+    return;
+  }, [sortElements]);
+
+  const sortedCalls = (key) => {
+    let direction = 'ascending';
+    if (sortElements && sortElements.key === key && sortElements.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortElements({ key, direction });
+    return;
+  }
+
 
   useEffect(() => {
     validateUserLogged()
@@ -160,7 +209,7 @@ function Reports() {
             <hr className="m-0 p-0"/>
             <hr className="m-0 p-0"/>
             <FilterReportsCalls
-              getAllDataDb={getAllDataDb}
+              getAllDataDb={ getAllDataDb }
               page={ setCurrentPage }
               startDate={ startDate }
               endDate={ endDate }
@@ -178,8 +227,8 @@ function Reports() {
               setPhoneNumberLocal={ setPhoneNumberLocal }
               setTypeCallsLocal={ setTypeCallsLocal }
             />
-            <ReportList callsList={currentCalls} />
-            <Pagination callsPerPage={callsPerPage} totalCalls={callsReceived.length} paginate={paginate} currentPage={currentPage}/>
+            <ReportList callsList={ currentCalls } sortedCalls={ sortedCalls } verifySort={ verifySort } />
+            <Pagination callsPerPage={ callsPerPage } totalCalls={ callsReceived.length } paginate={ paginate } currentPage={ currentPage } />
           </>
       }
     </div>

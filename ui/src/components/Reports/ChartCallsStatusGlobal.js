@@ -36,7 +36,7 @@ const ChartBySector = () => {
       },
       title: {
         display: true,
-        text: 'Total Global (Todos Setores)',
+        text: 'Total Global Recebidas Externas (Todos Setores)',
       },
     },
   };
