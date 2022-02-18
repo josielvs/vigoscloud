@@ -25,17 +25,7 @@ const ReportList = ({ callsList, sortedCalls }) => {
   const thElement = useRef(null);
   
   const setAndChangeDataElement = () => {
-    const arrowDown = <FontAwesomeIcon icon={ faArrowDown } />
-    const arrowUp = <FontAwesomeIcon icon={ faArrowUp } />
 
-    const { id } = thElement.current;
-    sortedCalls(id);
-
-    thElement.current.setAttribute('class', 'arrow-up');
-    // sortedCalls('data');
-    // const testeee = thElement.current.className.toggle("is-hidden");
-    // const vvv = testeee.toggle('is-hidden');
-    console.log(thElement.current);
   };
 
   useEffect(() => {
