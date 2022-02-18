@@ -34,7 +34,7 @@ const ChartsReceived = () => {
 
   const labelsAnswered = Object.keys(callsRecevedsAnswered);
   const labelNoAnswer = Object.keys(callsRecevedsNotAnswer);
-  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort).filter((keylabel) => keylabel.length === 4);
+  const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort).filter((keylabel) => keylabel.length >= 2 && keylabel.length <= 4);
   const labels = [...new Set(labelsVerify)];
 
   const options = {

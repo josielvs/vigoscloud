@@ -7,13 +7,16 @@
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vigos', 'adm@vigossolucoes.com.br', '$2a$05$A1Xso4kAVGLXxpJj1oAIxO5o4JR.PA0OdBKqZTwra10JQ62FCirj.', '2000', 'admin', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('User', 'user@vigossolucoes.com.br', '$2a$05$t77fhcB.jNZLLiYys6.aFuI5dZ07kTa/uTuF9cuIMK.TeyFfCp5Za', '9900', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Support', 'support@vigossolucoes.com.br', '$2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC', '9900', 'tecnical', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Salete', 'salete@agrosolo.com.br', '$2a$05$vbjKbVzigocllTO2qvHZ6.qeZpM7bz1fwxz/W0rUt3xJlDzBY0GoG', '1152', 'admin', 'true');
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --############-- WEB PHONE --############--
-INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (1000, 1, 120, 'yes');
-INSERT INTO ps_auths (id, auth_type, password, username) VALUES (1000, 'userpass', '!vigos!!interface#01!', 1000);
+INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (8701, 1, 120, 'yes');
+INSERT INTO ps_auths (id, auth_type, password, username) VALUES (8701, 'userpass', '!vigos!!interface#01!', 8701);
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux, dtls_cert_file, dtls_private_key, dtls_ca_file)
   VALUES
-(1000, 'wss_transport', 1000, 1000, 'from-extensions', '1000 <1000>', 'pt_BR', 'opus,ulaw,vp9,vp8,h264', 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt');
+(8701, 'wss_transport', 8701, 8701, 'ddd-celular', '8701 <8701>', 'pt_BR', 'opus,ulaw,vp9,vp8,h264', 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt');
 --############################################--
 
 --############-- SIP PHONE --############--
@@ -25,14 +28,14 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language
 --############################################--
 
 --############-- PROVIDER TRUNK IP --############--
-INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (1434340364, 'sip:1434340364@189.52.73.116:5060', 120);
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (6721058700, 'sip:6721058700@189.23.0.173:5060', 120);
 INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, language, tos_audio, cos_audio)
   VALUES
-(1434340364, 'udp_transport', 'Embratel', 'all', 'alaw', '1434340364', '200.166.105.118', '1434340364', 'no', 'pt_BR', 'af42', 3);
+(6721058700, 'udp_transport', 'Embratel', 'all', 'alaw', '6721058700', '200.191132.146', '6721058700', 'no', 'pt_BR', 'af42', 3);
 INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint, line)
 VALUES
-(1434340364, 'sip:189.52.73.116:5060', 'sip:1434340364@200.166.105.118:5060', '1434340364', 'udp_transport', '1434340364', 'yes');
-INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1434340364, '1434340364', '189.52.73.116');
+(6721058700, 'sip:189.23.0.173:5060', 'sip:6721058700@200.191132.146:5060', '6721058700', 'udp_transport', '6721058700', 'yes');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (6721058700, '6721058700', '189.23.0.173');
 --############################################--
 
 --##########-- PROVIDER TRUNK AUTH --#########--
