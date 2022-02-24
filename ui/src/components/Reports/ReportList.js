@@ -48,8 +48,6 @@ const ReportList = ({ callsList, sortedCalls }) => {
                 <th scope="col" >Tempo Espera (segundos)</th>
                 <th className='th-interactive' scope="col" onClick={ () => sortedCalls('duracao') } >Total da Ligação (segundos)</th>
                 <th className='th-interactive' scope="col" onClick={ () => sortedCalls('tipo') } >Tipo</th>
-                {/* <th scope="col">Id</th>
-                <th scope="col">Sequencia</th> */}
                 <th scope="col">Protocolo</th>
                 <th scope="col">Gravação</th>
                 </tr>

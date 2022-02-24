@@ -28,25 +28,110 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language
 --############################################--
 
 --############-- PROVIDER TRUNK IP --############--
-INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (6721058700, 'sip:6721058700@189.23.0.173:5060', 120);
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (1421045555, 'sip:1421045555@189.52.73.116:5060', 120);
 INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, language, tos_audio, cos_audio)
   VALUES
-(6721058700, 'udp_transport', 'Embratel', 'all', 'alaw', '6721058700', '200.191132.146', '6721058700', 'no', 'pt_BR', 'af42', 3);
+(1421045555, 'udp_transport', 'Embratel', 'all', 'alaw', '1421045555', '200.191.211.54', '1421045555', 'no', 'pt_BR', 'af42', 3);
 INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint, line)
 VALUES
-(6721058700, 'sip:189.23.0.173:5060', 'sip:6721058700@200.191132.146:5060', '6721058700', 'udp_transport', '6721058700', 'yes');
-INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (6721058700, '6721058700', '189.23.0.173');
+(1421045555, 'sip:189.52.73.116:5060', 'sip:1421045555@200.191.211.54:5060', '1421045555', 'udp_transport', '1421045555', 'yes');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1421045555, '1421045555', '189.52.73.116');
 --############################################--
 
 --##########-- PROVIDER TRUNK AUTH --#########--
-INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (KZBRI, 'sip:KZBRI@189.84.133.135:5060', 120);
-INSERT INTO ps_auths (id, auth_type, password, username) VALUES (KZBRI, 'userpass', 'QX1hzIP2YN2fov9w', KZBRI);
-INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, direct_media, language, tos_audio, cos_audio)
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (32838070, 'sip:32838070@192.168.2.240:5060', 120);
+INSERT INTO ps_auths (id, auth_type, password, username) VALUES (32838070, 'userpass', '32838070', '32838070');
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, tos_audio, cos_audio, outbound_auth)
   VALUES
-(KZBRI, 'udp_transport', 'DirectCall', 'all', 'ulaw,alaw', KZBRI, '189.84.133.135', 'no', 'pt_BR', 'af42', 3);
-INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport) VALUES (KZBRI, 'sip:189.84.133.135', 'sip:KZBRI@189.84.133.135', 'KZBRI', 'udp_transport');
-INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (KZBRI, 'KZBRI', '189.84.133.135');
+(32838070, 'udp_transport', 'VIVO', 'all', 'ulaw', '32838070', 'no', 'pt_BR', 'af42', 3, '32838070');
+INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint, line)
+  VALUES
+(32838070, 'sip:192.168.2.240:5060', 'sip:32838070@192.168.2.240:5060', '32838070', 'udp_transport', '32838070', 'yes');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (32838070, '32838070', '192.168.2.240');
 --############################################--
+
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (32838070, 'sip:32838070@192.168.2.240:5060', 120);
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, language, tos_audio, cos_audio)
+  VALUES
+(32838070, 'udp_transport', 'Embratel', 'all', 'alaw', '32838070', '192.168.2.241', '32838070', 'no', 'pt_BR', 'af42', 3);
+INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint, line)
+VALUES
+(32838070, 'sip:192.168.2.240:5060', 'sip:32838070@192.168.2.241:5060', '32838070', 'udp_transport', '32838070', 'yes');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (32838070, '32838070', '192.168.2.240');
+
+TRUNCATE TABLE ps_aors;
+TRUNCATE TABLE ps_auths;
+TRUNCATE TABLE ps_endpoints;
+TRUNCATE TABLE ps_registrations;
+TRUNCATE TABLE ps_endpoint_id_ips;
+
+[DirectCall]
+type=endpoint
+language=pt_BR
+transport=udp_transport
+context=DirectCall
+direct_media=no
+disallow=all
+allow=ulaw
+outbound_auth=DirectCall
+aors=DirectCall
+
+[DirectCall]
+type=aor
+contact=sip:189.84.133.135
+
+[DirectCall]
+type=auth
+auth_type=userpass
+username=KZBRI
+password=QX1hzIP2YN2fov9w
+
+[DirectCall]
+type=registration
+outbound_auth=DirectCall
+server_uri=sip:189.84.133.135
+client_uri=sip:KZBRI@189.84.133.135
+contact_user=KZBRI
+
+[DirectCall]
+type=identify
+endpoint=DirectCall
+match=189.84.133.135
+
+
+;--
+[VIVO]
+type=aor
+contact=sip:172.16.0.60:5060
+
+[VIVO]
+type=auth
+auth_type=userpass
+username=30102000
+password=30102000
+
+[VIVO]
+type=endpoint
+transport=udp_transport
+context=VIVO
+direct_media=no
+disallow=all
+allow=ulaw
+outbound_auth=VIVO
+aors=VIVO
+
+[VIVO]
+type=registration
+outbound_auth=VIVO
+server_uri=sip:172.16.0.60:5060
+client_uri=sip:30102000@172.16.0.60:5060
+contact_user=30102000
+
+[VIVO]
+type=identify
+endpoint=VIVO
+match=172.16.0.60
+--;
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -77,7 +162,7 @@ $$ LANGUAGE plpgsql;
 
 DROP FUNCTION endpointsSipGenerate;
 
-SELECT endpointsSipGenerate(7200, 50);
+  SELECT endpointsSipGenerate(7670, 1);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 named_call_group VARCHAR(40), 
@@ -118,7 +203,7 @@ $$ LANGUAGE plpgsql;
 
 DROP FUNCTION endpointsWebGenerate;
 
-SELECT endpointsWebGenerate(7250, 500);
+  SELECT endpointsWebGenerate(8050, 50);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queues Generate
@@ -216,7 +301,7 @@ $$ LANGUAGE plpgsql;
 
 DROP FUNCTION queuesGenerate;
 
-SELECT queuesGenerate('fin');
+  SELECT queuesGenerate('recepcao');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -255,7 +340,7 @@ $$ LANGUAGE plpgsql;
 
 DROP FUNCTION queuesMembersGenerate;
 
-SELECT queuesMembersGenerate('sac', 7451, 7500);
+SELECT queuesMembersGenerate('recepcao', 5550);
 
 
 
@@ -268,3 +353,6 @@ DELETE FROM queue_members WHERE queue_name = 'sac';
 UPDATE queue_members SET paused = 1 WHERE queue_name = 'sac';
 
 UPDATE queue_members SET paused = 0 WHERE uniqueid = '7472';
+
+
+INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES ('recepcao', CONCAT('PJSIP/', '5539'), '5539');
