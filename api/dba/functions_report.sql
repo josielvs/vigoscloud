@@ -726,9 +726,10 @@ CREATE OR REPLACE FUNCTION get_vol_rec_no_answ_by_hour(
       data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
       
     BEGIN
-      return QUERY
+      return query
         SELECT
-          EXTRACT(HOUR FROM calldate) AS hours_calls, 0 AS answered, COUNT(DISTINCT(uniqueid)) AS no_answer 
+          EXTRACT(HOUR FROM calldate) AS hours_calls, 0 AS answered,
+          COUNT(DISTINCT(uniqueid)) AS no_answer 
         FROM cdr AS a
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND a.uniqueid NOT IN (
@@ -887,7 +888,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
               )
             , '-', ''
           )
-        END        
+        END
         AS destino_secundario,
         CASE 
           WHEN typecall='Recebida' THEN
@@ -900,7 +901,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         duration - billsec AS aguardando_atendimento,
         duration AS duracao,
         CASE 
-          WHEN disposition='NO ANSWER' THEN 'Não Atendida'
+          WHEN disposition='NO ANSWER' THEN 'Nao Atendida'
           WHEN disposition='ANSWERED' THEN 'Atendida'
           ELSE ''
         END
@@ -1326,17 +1327,17 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 17- Function Get All Data Report --
 CREATE OR REPLACE FUNCTION get_itens_report_cetro(
-COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/4_ramais_efetuadas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_rec_answ_by_hour"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/5_por_hora.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_rec_no_answ_by_hour"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/6_or_hora_nao_atendida.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sec_rec"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', 'crm', '', '', '')) TO '/var/lib/postgresql/report/allcsv/7_setor_recebidas_atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_vol_sec_no_ans"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', 'crm', '', '', '')) TO '/var/lib/postgresql/report/allcsv/8_setor_recebidas_nao-atendidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_data_report_received"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/9_report_global_recebidas.csv' WITH csv HEADER;
-COPY (SELECT * FROM  "get_data_report_sent"('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/99_report_global_efetuadas.csv' WITH csv HEADER;
-COPY (SELECT * FROM get_all_calls_rows('2022-02-17', '2022-02-17', '00:00:00', '23:59:59', '', '', '', '', '', '', '20000', '0')) TO '/var/lib/postgresql/report/log_chamadas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/4_ramais_efetuadas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_rec_answ_by_hour"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/5_por_hora.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_rec_no_answ_by_hour"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/6_or_hora_nao_atendida.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_rec"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', 'crm', '', '', '')) TO '/var/lib/postgresql/report/allcsv/7_setor_recebidas_atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_vol_sec_no_ans"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', 'crm', '', '', '')) TO '/var/lib/postgresql/report/allcsv/8_setor_recebidas_nao-atendidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_received"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/9_report_global_recebidas.csv' WITH csv HEADER;
+COPY (SELECT * FROM  "get_data_report_sent"('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/99_report_global_efetuadas.csv' WITH csv HEADER;
+COPY (SELECT * FROM get_all_calls_rows('2022-02-23', '2022-02-23', '00:00:00', '23:59:59', '', '', '', '', '', '', '30000', '0')) TO '/var/lib/postgresql/report/log_chamadas.csv' WITH csv HEADER;
 
 -- cat /var/lib/postgresql/report/allcsv/*.csv > /var/lib/postgresql/report/report.csv
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -31,7 +31,7 @@ const ChartBySector = ({ getRows }) => {
   const labelNoAnswer = Object.keys(callsSentsNotAnswer);
   const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);
   const labelsMerge = [...new Set(labelsVerify)].filter((sector) => sector !== 'Porteiros');
-  const labels = labelsMerge.map((label) => capitalizeFirstLetter(label));
+  const labels = labelsMerge.map((label) => label.length > 4 ? capitalizeFirstLetter(label) : label.toUpperCase());
   
   ChartJS.register(
     CategoryScale,
