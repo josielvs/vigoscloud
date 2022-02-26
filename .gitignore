@@ -8,7 +8,8 @@ ui/.env.production
 
 api/recs
 
-node_modules
-
 ui/log_ux.txt
 api/log_api.txt
+
+ui/package-lock.json
+api/package-lock.json
