@@ -33,15 +33,13 @@ const ReportTable = ({ call, role }) => {
         <td>{origem_primaria}</td>
         <td>{origem_segundaria}</td>
         <td>{setor}</td>
-        <td>{destino_secundario}</td>
         <td>{destino_primario}</td>
+        <td>{destino_secundario}</td>
         <td>{status}</td>
         <td>{aguardando_atendimento}</td>
         <td>{duracao}</td>
         <td>{tipo}</td>
         <td>{protocolo}</td>
-        {/* <td>{id}</td>
-        <td>{sequencia}</td> */}
         <td>{ role !== 'admin' ? userTd : adminTd }</td>
       </tr>
     </tbody>

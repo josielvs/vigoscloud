@@ -726,9 +726,10 @@ CREATE OR REPLACE FUNCTION get_vol_rec_no_answ_by_hour(
       data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
       
     BEGIN
-      return QUERY
+      return query
         SELECT
-          EXTRACT(HOUR FROM calldate) AS hours_calls, 0 AS answered, COUNT(DISTINCT(uniqueid)) AS no_answer 
+          EXTRACT(HOUR FROM calldate) AS hours_calls, 0 AS answered,
+          COUNT(DISTINCT(uniqueid)) AS no_answer 
         FROM cdr AS a
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND a.uniqueid NOT IN (
@@ -887,7 +888,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
               )
             , '-', ''
           )
-        END        
+        END
         AS destino_secundario,
         CASE 
           WHEN typecall='Recebida' THEN
@@ -900,7 +901,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         duration - billsec AS aguardando_atendimento,
         duration AS duracao,
         CASE 
-          WHEN disposition='NO ANSWER' THEN 'Não Atendida'
+          WHEN disposition='NO ANSWER' THEN 'Nao Atendida'
           WHEN disposition='ANSWERED' THEN 'Atendida'
           ELSE ''
         END
@@ -1243,7 +1244,7 @@ GROUP BY hours_calls;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 17- Function Get All Data Report --
-CREATE OR REPLACE FUNCTION get_itens_report_cetro(
+
 COPY (SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-25', '2022-02-25', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/1_ramais_recebidas_atendidas.csv' WITH csv HEADER;
 COPY (SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-02-25', '2022-02-25', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/2_ramais_recebidas_nao-atendidas.csv' WITH csv HEADER;
 COPY (SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-25', '2022-02-25', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/3_ramais_efetuadas_atendidas.csv' WITH csv HEADER;
