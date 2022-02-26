@@ -69,6 +69,12 @@ const ChartCallsStatusByTime = () => {
     ]
   };
 
+  const exportExcelDownload = async () => {
+    console.log(labelsVerify);
+    console.log(valueLabelsAtendidas);
+    console.log(valueLabelsNaoAtendidas);
+  }; 
+
 
   return (
     <div className="column is-half">
