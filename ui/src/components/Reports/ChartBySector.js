@@ -13,7 +13,7 @@ import {
   Legend,
 } from 'chart.js';
 
-const ChartBySector = ({ getRows }) => {
+const ChartBySector = ({ getRows, setDataChartSectors }) => {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport, verifySort, capitalizeFirstLetter } = getItensStateGlobal;
 
@@ -80,9 +80,21 @@ const ChartBySector = ({ getRows }) => {
       const labelType = chart.data.datasets[firstElement.datasetIndex].label;
       const labelIndexClicked = chart.data.labels[firstElement.index];
       getRows(labelIndexClicked.toLowerCase(), labelType.slice(0, labelType.length - 1));
-      // console.log(labelIndexClicked.toLowerCase(), labelType.slice(0, labelType.length - 1));
     }
    }
+  };
+
+  const exportExcelDownload = () => {
+    const arrayAtendidas = valueLabelsAtendidas[0];
+    const arrayNaoAtendidas = valueLabelsNaoAtendidas[0];
+
+    const data = labels.map((sector) => {
+      const atendidas = arrayAtendidas ? arrayAtendidas : '0';
+      const naoAtendidas = arrayNaoAtendidas ? arrayNaoAtendidas : '0';
+      const objElements = { sector, atendidas, naoAtendidas };
+      return objElements;
+    });
+    return { name: 'Chamadas_Setor', description: 'Chamadas Recebidas por Setor', data }
   };
 
   return (

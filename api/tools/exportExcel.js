@@ -39,10 +39,7 @@ const informations = [{
     ]},
 ];
 
-// Params
-// Sheet Name
-// Description
-// Title Name
+// Params, Sheet Name,  Description, Title Name
 
 const excelPrintData = async (params) => {
   const wb = new xl.Workbook();
@@ -53,16 +50,103 @@ const excelPrintData = async (params) => {
 
     const ws = wb.addWorksheet(sheetName);
     // Style Description
+    //(Border Line Styles) ['none', 'thin', 'medium', 'dashed', 'dotted', 'thick', 'double', 'hair', 'mediumDashed', 'dashDot', 'mediumDashDot', 'dashDotDot', 'mediumDashDotDot', 'slantDashDot']
     var descriptionStyle = wb.createStyle({
       font: {
         bold: true,
         size: 14,
+        color: '000000'
+      },
+      alignment: {
+        wrapText: false,
+        horizontal: 'center',
+      },
+      border: {
+        left: {
+            style: 'thin',
+            color: '000000'
+        },
+        right: {
+            style: 'thin',
+            color: '000000'
+        },
+        top: {
+            style: 'thin',
+            color: '000000'
+        },
+        bottom: {
+            style: 'thin',
+            color: '000000'
+        },
+      },
+      fill: {
+        type: 'pattern',
+        patternType: 'solid',
+        fgColor: 'E6E6FA', 
+      },
+    });
+
+    var headerStyle = wb.createStyle({
+      font: {
+        bold: true,
+        color: '000000',
       },
       alignment: {
         wrapText: true,
         horizontal: 'center',
       },
+      border: {
+        left: {
+            style: 'thin',
+            color: '000000'
+        },
+        right: {
+            style: 'thin',
+            color: '000000'
+        },
+        top: {
+            style: 'thin',
+            color: '000000'
+        },
+        bottom: {
+            style: 'thin',
+            color: '000000'
+        },
+      },
+      fill: {
+        type: 'pattern',
+        patternType: 'solid',
+        fgColor: 'E6E6FA', 
+      },
     });
+
+    var bodyStyle = wb.createStyle({
+      alignment: {
+        horizontal: 'center',
+      },
+      border: {
+        left: {
+            style: 'thin',
+            color: '000000'
+        },
+        right: {
+            style: 'thin',
+            color: '000000'
+        },
+        top: {
+            style: 'thin',
+            color: '000000'
+        },
+        bottom: {
+            style: 'thin',
+            color: '000000'
+        },
+      },
+    });
+
+    for (let index = 1; index <= titles.length; index++) {
+      ws.column(index).setWidth(28);
+    }
 
     // Insert Description => ws.cell(startRow, startColumn, [[endRow, endColumn], isMerged]);
     ws.cell(1, 1, 1, titles.length, true).string(description).style(descriptionStyle);
@@ -70,7 +154,7 @@ const excelPrintData = async (params) => {
     // Insert Header
     let setHeadersColumnIndex = 1;
     titles.forEach((header) => {
-      ws.cell(2, setHeadersColumnIndex++).string(header);
+      ws.cell(2, setHeadersColumnIndex++).string(header).style(headerStyle);
     });
 
     // Insert data
@@ -78,7 +162,11 @@ const excelPrintData = async (params) => {
     data.forEach((record) => {
       let columnIndex = 1;
       Object.keys(record).forEach((columnName) => {
-        ws.cell(setDataInRowsIndex, columnIndex++).string(record[columnName.toString()]);
+        if (typeof record[columnName] === 'number') {
+          ws.cell(setDataInRowsIndex, columnIndex++).number(record[columnName]).style(bodyStyle);
+        } else {
+          ws.cell(setDataInRowsIndex, columnIndex++).string(record[columnName]).style(bodyStyle);
+        }
       });
       setDataInRowsIndex++
     });
@@ -88,4 +176,5 @@ const excelPrintData = async (params) => {
   wb.write(`/home/vjpbx/${name}`);
 };
 
-excelPrintData(informations);
+module.exports = excelPrintData;
+// excelPrintData(informations);

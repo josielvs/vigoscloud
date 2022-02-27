@@ -19,7 +19,7 @@ import '../../libs/bulma.min.css';
 
 function Reports() {
   const getItensStateGlobal = useContext(PbxContext);
-  const { setStorageDataReport, setEndpoints, verifySort } = getItensStateGlobal;
+  const { storageDataReport, setStorageDataReport, setEndpoints, verifySort } = getItensStateGlobal;
 
   var today = new Date();
   const todayFull = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -38,11 +38,12 @@ function Reports() {
   const [protocolLocal, setProtocolLocal] = useState('');
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [typeCallsLocal, setTypeCallsLocal] = useState('');
-
   const [callsReceived, setCallsReceived] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [callsPerPage, setCallsPerPage] = useState(25);
   const [sortElements, setSortElements] = useState({ key: '', direction: 'direction'});
+  const [dataChartHours, setDataChartHours] = useState({});
+  const [dataChartSectors, setDataChartSectors] = useState({})
 
   const history = useHistory();
 
@@ -116,7 +117,7 @@ function Reports() {
       sector: sector,
       getEndpoint: endpointLocal,
       statusCall: status,
-      limit: 10000,
+      limit: 50000,
       offset: 0,
     });
     setCallsReceived(rows);
@@ -128,24 +129,6 @@ function Reports() {
   const currentCalls = callsReceived.length > 0 ? callsReceived.slice(indexofFirstCall, indexOfLastCall) : [];
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const getAllDataDb = (list) => setCallsReceived(list);
-
-  // const sortedCalls = useCallback((sortedField) => {
-  //   if (sortedField !== null) {
-  //     const sortedCallsList = callsReceived.sort((a, b) => {
-  //       if (a[sortedField] < b[sortedField]) {
-  //         return -1;
-  //       }
-  //       if (a[sortedField] > b[sortedField]) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-  //     console.log(sortedCallsList);
-  //     setSortElementName(sortedField);
-  //     setCallsReceived(sortedCallsList);
-  //   }
-  //   return sortedField
-  // }, [callsReceived]);
 
   useMemo(() => {
     let sortableItems = [...callsReceived];
@@ -176,6 +159,7 @@ function Reports() {
     return;
   }
 
+  console.log(storageDataReport);
 
   useEffect(() => {
     validateUserLogged()
@@ -195,7 +179,7 @@ function Reports() {
             <hr className="m-0 p-0"/>
             <div className="columns mx-2">
               <ChartCallsStatusGlobal />
-              <ChartBySector getRows={ getReportRowsFiltredChartSectors }/>
+              <ChartBySector  getRows={ getReportRowsFiltredChartSectors } />
             </div>
             <hr className="m-0 p-0"/>
             <div className="columns mx-2">

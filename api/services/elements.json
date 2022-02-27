@@ -1,0 +1,256 @@
+{
+  "globalAnsweredAndNotAnswer": {
+    "answered": "104",
+    "no_answer": "36"
+  },
+  "globalReportToTableReceived": {
+    "amount_calls": "140",
+    "total_time_calls": "01:54:40",
+    "average_time_calls": "00:02:17",
+    "answered_calls": "104",
+    "no_answer_calls": "36",
+    "busy_calls": "0",
+    "average_queue_calls": "00:00:05",
+    "transshipment_calls": "0"
+  },
+  "globalReportToTableSent": {
+    "amount_calls": "4",
+    "total_time_calls": "00:16:46",
+    "average_time_calls": "00:05:35",
+    "answered_calls": "1",
+    "no_answer_calls": "2",
+    "busy_calls": "0",
+    "failed_calls": "1"
+  },
+  "volumeCallsInternalsAndExternals": {
+    "externas": "4",
+    "internas": "0"
+  },
+  "volumeEndpointsReceivedAnswered": [
+    {
+        "endpoints": "7003",
+        "received_answered": "12"
+    },
+    {
+        "endpoints": "7007",
+        "received_answered": "10"
+    },
+    {
+        "endpoints": "7013",
+        "received_answered": "22"
+    },
+    {
+        "endpoints": "7015",
+        "received_answered": "3"
+    },
+    {
+        "endpoints": "7016",
+        "received_answered": "42"
+    },
+    {
+        "endpoints": "7017",
+        "received_answered": "15"
+    }
+  ],
+  "volumeEndpointsReceivedNotAnswer": [
+    {
+        "endpoints": "7003",
+        "received_no_aswer": "19"
+    },
+    {
+        "endpoints": "7005",
+        "received_no_aswer": "6"
+    },
+    {
+        "endpoints": "7006",
+        "received_no_aswer": "7"
+    },
+    {
+        "endpoints": "7007",
+        "received_no_aswer": "7"
+    },
+    {
+        "endpoints": "7013",
+        "received_no_aswer": "32"
+    },
+    {
+        "endpoints": "7015",
+        "received_no_aswer": "18"
+    },
+    {
+        "endpoints": "7016",
+        "received_no_aswer": "17"
+    },
+    {
+        "endpoints": "7017",
+        "received_no_aswer": "12"
+    }
+  ],
+  "volumeEndpointsSentAnswered": [
+    {
+        "endpoints": "7016",
+        "sent_answered": "4"
+    },
+    {
+      "endpoints": "7000",
+      "sent_answered": "12"
+    }
+  ],
+  "volumeEndpointsSentNoAnswer": [
+    {
+      "endpoints": "7000",
+      "sent_answered": "1"
+    }
+  ],
+  "volumeHourReceivedAnswered": [
+    {
+        "hours_calls": 7,
+        "answered": "1",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 8,
+        "answered": "12",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 9,
+        "answered": "9",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 10,
+        "answered": "10",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 11,
+        "answered": "11",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 12,
+        "answered": "7",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 13,
+        "answered": "10",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 14,
+        "answered": "11",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 15,
+        "answered": "6",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 16,
+        "answered": "8",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 17,
+        "answered": "5",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 18,
+        "answered": "4",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 19,
+        "answered": "4",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 20,
+        "answered": "5",
+        "no_answer": 0
+    },
+    {
+        "hours_calls": 22,
+        "answered": "1",
+        "no_answer": 0
+    }
+  ],
+  "volumeHourReceivedNoAnswer": [
+    {
+        "hours_calls": 8,
+        "answered": 0,
+        "no_answer": "5"
+    },
+    {
+        "hours_calls": 10,
+        "answered": 0,
+        "no_answer": "3"
+    },
+    {
+        "hours_calls": 11,
+        "answered": 0,
+        "no_answer": "3"
+    },
+    {
+        "hours_calls": 12,
+        "answered": 0,
+        "no_answer": "1"
+    },
+    {
+        "hours_calls": 13,
+        "answered": 0,
+        "no_answer": "2"
+    },
+    {
+        "hours_calls": 14,
+        "answered": 0,
+        "no_answer": "1"
+    },
+    {
+        "hours_calls": 15,
+        "answered": 0,
+        "no_answer": "3"
+    },
+    {
+        "hours_calls": 16,
+        "answered": 0,
+        "no_answer": "3"
+    },
+    {
+        "hours_calls": 17,
+        "answered": 0,
+        "no_answer": "1"
+    },
+    {
+        "hours_calls": 18,
+        "answered": 0,
+        "no_answer": "5"
+    },
+    {
+        "hours_calls": 19,
+        "answered": 0,
+        "no_answer": "8"
+    },
+    {
+        "hours_calls": 22,
+        "answered": 0,
+        "no_answer": "1"
+    }
+  ],
+  "volumeSectorsReceivedAnswered": [
+    {
+        "sectors": "atendimento",
+        "answered": "104"
+    }
+  ],
+  "volumeSectorsReceivedNotAnswer": [
+    {
+        "sectors": "atendimento",
+        "no_answer": "36"
+    }
+  ]
+}
