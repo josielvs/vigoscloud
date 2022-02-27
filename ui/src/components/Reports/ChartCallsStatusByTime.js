@@ -70,11 +70,20 @@ const ChartCallsStatusByTime = () => {
   };
 
   const exportExcelDownload = async () => {
-    console.log(labelsVerify);
-    console.log(valueLabelsAtendidas);
-    console.log(valueLabelsNaoAtendidas);
-  }; 
+    const arrayAtendidas = valueLabelsAtendidas[0];
+    const arrayNaoAtendidas = valueLabelsNaoAtendidas[0];
 
+    const total_hour = labels.map((hour) => hour);
+
+    const data = total_hour.map((hour) => {
+      const atendidas = arrayAtendidas[hour] ? arrayAtendidas[hour] : '0';
+      const naoAtendidas = arrayNaoAtendidas[hour] ? arrayNaoAtendidas[hour] : '0';
+      const objElements = { hour, atendidas, naoAtendidas };
+      return objElements;
+    });
+    return { name: 'Chamadas_Hora', description: 'Chamadas Por Hora', data }
+  };
+  console.log(exportExcelDownload());
 
   return (
     <div className="column is-half">
