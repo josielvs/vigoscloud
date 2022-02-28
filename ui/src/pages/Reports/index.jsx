@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
-import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList, fetchRowsChartSectors } from '../../services';
+import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList, fetchRowsChartSectors, exportReportGenerate, exportReportDownload } from '../../services';
 import ChartsRecivedCalls from '../../components/Reports/ChartsRecivedCalls';
 import ReportList from '../../components/Reports/ReportList';
 import ChartsSendCalls from '../../components/Reports/ChartsSendCalls';
@@ -17,12 +17,18 @@ import Loading from '../../components/Loading/LoadingModule';
 
 import '../../libs/bulma.min.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+
 function Reports() {
   const getItensStateGlobal = useContext(PbxContext);
   const { storageDataReport, setStorageDataReport, setEndpoints, verifySort } = getItensStateGlobal;
 
   var today = new Date();
   const todayFull = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+  let url = window.location.href;
+  url = url.split('/')[2];
 
   const [loading, setLoading] = useState(true);
 
@@ -129,6 +135,12 @@ function Reports() {
   const currentCalls = callsReceived.length > 0 ? callsReceived.slice(indexofFirstCall, indexOfLastCall) : [];
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const getAllDataDb = (list) => setCallsReceived(list);
+  
+  const sendDataExportReportGeneration = async () => {
+    console.log(storageDataReport);
+    const sendDataReport = await exportReportGenerate(storageDataReport);
+    if(sendDataReport.status) return window.location.replace(`http://${url}/api/report/download`);
+  };
 
   useMemo(() => {
     let sortableItems = [...callsReceived];
@@ -159,8 +171,6 @@ function Reports() {
     return;
   }
 
-  console.log(storageDataReport);
-
   useEffect(() => {
     validateUserLogged()
   }, [validateUserLogged]);
@@ -190,7 +200,21 @@ function Reports() {
               <TableReceivedCalls />
               <TableSentCalls />
             </div>
-            <hr className="m-0 p-0"/>
+            {/* <hr className="m-0 p-0"/> */}
+            <div className="columns is-centered mx-2">
+              <div className="field column is-one-quarter">
+                <div className="control">
+                  <button className="button is-link is-light is-fullwidth px-1" type="submit" onClick={ () => sendDataExportReportGeneration() }>
+                    <span className="icon">
+                      <FontAwesomeIcon icon={ faDownload } fixedWidth />
+                    </span>
+                    <span>
+                      Download
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
             <hr className="m-0 p-0"/>
             <FilterReportsCalls
               getAllDataDb={ getAllDataDb }

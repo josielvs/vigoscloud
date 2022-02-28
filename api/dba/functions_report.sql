@@ -56,13 +56,13 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
 )
   RETURNS TABLE (
     "amount_calls" bigint,
-    "total_time_calls" text,
-    "average_time_calls" text,
     "answered_calls" bigint,
     "no_answer_calls" bigint,
     "busy_calls" bigint,
-    "average_queue_calls" text,
-    "transshipment_calls" bigint
+    "transshipment_calls" bigint,
+    "total_time_calls" text,
+    "average_time_calls" text,
+    "average_queue_calls" text
   )
   LANGUAGE plpgsql AS
   $$
@@ -74,24 +74,6 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
       return query
       SELECT
         COUNT(DISTINCT(uniqueid)) AS amount_calls,
-         (SELECT TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
-          FROM cdr
-          WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
-          AND lastdata LIKE '%' || recSector || '%'
-          AND dstchannel LIKE '%' || endpoint || '%'
-          AND src LIKE '%' || telNumber || '%'
-          AND callprotocol LIKE '%' || protocol || '%'
-        ) AS total_time_calls,
-        (SELECT TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
-          FROM cdr
-          WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
-          AND lastdata LIKE '%' || recSector || '%'
-          AND dstchannel LIKE '%' || endpoint || '%'
-          AND src LIKE '%' || telNumber || '%'
-          AND callprotocol LIKE '%' || protocol || '%'
-        ) AS average_time_calls,
         (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
@@ -125,14 +107,6 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
           AND src LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
         ) AS busy_calls,
-        (SELECT TO_CHAR((AVG(billsec) || ' second')::interval, 'HH24:MI:SS') FROM cdr
-          WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
-          AND lastdata LIKE '%' || recSector || '%'
-          AND dstchannel LIKE '%' || endpoint || '%'
-          AND src LIKE '%' || telNumber || '%'
-          AND callprotocol LIKE '%' || protocol || '%'
-        ) AS average_queue_calls,
         (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND lastdata LIKE '%transb%' AND typecall = 'Recebida'
@@ -140,7 +114,33 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
           AND dstchannel LIKE '%' || endpoint || '%'
           AND src LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
-          ) AS transshipment_calls
+          ) AS transshipment_calls,
+         (SELECT TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
+          FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS total_time_calls,
+        (SELECT TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
+          FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS average_time_calls,
+        (SELECT TO_CHAR((AVG(billsec) || ' second')::interval, 'HH24:MI:SS') FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS average_queue_calls
       FROM cdr
       WHERE (calldate BETWEEN data_inicial AND data_final)
       AND typecall = 'Recebida'
@@ -182,12 +182,12 @@ CREATE OR REPLACE FUNCTION get_data_report_sent(
 )
   RETURNS TABLE (
     "amount_calls" bigint,
-    "total_time_calls" text,
-    "average_time_calls" text,
     "answered_calls" bigint,
     "no_answer_calls" bigint,
     "busy_calls" bigint,
-    "failed_calls" bigint
+    "failed_calls" bigint,
+    "total_time_calls" text,
+    "average_time_calls" text
   )
   LANGUAGE plpgsql AS
   $$
@@ -199,8 +199,6 @@ CREATE OR REPLACE FUNCTION get_data_report_sent(
       return query
       SELECT
         COUNT(DISTINCT(uniqueid)) AS amount_calls,
-        TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS total_time_calls,
-        TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS average_time_calls,
         (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND typecall = 'Efetuada' AND disposition LIKE 'ANSWERED' AND lastdata LIKE '%@%'
@@ -237,7 +235,9 @@ CREATE OR REPLACE FUNCTION get_data_report_sent(
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
-        ) AS failed_calls
+        ) AS failed_calls,
+        TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS total_time_calls,
+        TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS average_time_calls
       FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND typecall = 'Efetuada' AND lastdata LIKE '%@%' AND CHAR_LENGTH(dst) > 4

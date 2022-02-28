@@ -191,16 +191,16 @@ const FilterReportsCalls = ({
         </div>
         <div className="columns is-centered mx-2">
             <div className="field column is-one-quarter">
-                <div className="control">
-                  <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => sendDataToFilter() }>
-                    <span className="icon">
-                      <FontAwesomeIcon icon={faFilter} fixedWidth />
-                    </span>
-                    <span>
-                      FILTRAR
-                    </span>
-                  </button>
-                </div>
+              <div className="control">
+                <button className="button is-info is-fullwidth px-1" type="submit" onClick={ () => sendDataToFilter() }>
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faFilter} fixedWidth />
+                  </span>
+                  <span>
+                    FILTRAR
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
       </form>
