@@ -132,6 +132,7 @@ const excelPrintData = async (params) => {
       },
     });
 
+    // Load image on report
     ws.addImage({
       path: '/opt/vigoscloud/api/img/logo_name_mini.png',
       type: 'picture',
