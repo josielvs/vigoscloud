@@ -133,7 +133,7 @@ const excelPrintData = async (params) => {
     });
 
     ws.addImage({
-      path: '../img/logo_name_mini.png',
+      path: '/opt/vigoscloud/api/img/logo_name_mini.png',
       type: 'picture',
       position: {
         type: 'twoCellAnchor',
