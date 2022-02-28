@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
-import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList, fetchRowsChartSectors } from '../../services';
+import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList, fetchRowsChartSectors, exportReportGenerate, exportReportDownload } from '../../services';
 import ChartsRecivedCalls from '../../components/Reports/ChartsRecivedCalls';
 import ReportList from '../../components/Reports/ReportList';
 import ChartsSendCalls from '../../components/Reports/ChartsSendCalls';
@@ -17,12 +17,18 @@ import Loading from '../../components/Loading/LoadingModule';
 
 import '../../libs/bulma.min.css';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+
 function Reports() {
   const getItensStateGlobal = useContext(PbxContext);
-  const { setStorageDataReport, setEndpoints, verifySort } = getItensStateGlobal;
+  const { storageDataReport, setStorageDataReport, setEndpoints, verifySort } = getItensStateGlobal;
 
   var today = new Date();
   const todayFull = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+  let url = window.location.href;
+  url = url.split('/')[2];
 
   const [loading, setLoading] = useState(true);
 
@@ -38,11 +44,12 @@ function Reports() {
   const [protocolLocal, setProtocolLocal] = useState('');
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [typeCallsLocal, setTypeCallsLocal] = useState('');
-
   const [callsReceived, setCallsReceived] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [callsPerPage, setCallsPerPage] = useState(25);
   const [sortElements, setSortElements] = useState({ key: '', direction: 'direction'});
+  const [dataChartHours, setDataChartHours] = useState({});
+  const [dataChartSectors, setDataChartSectors] = useState({})
 
   const history = useHistory();
 
@@ -116,7 +123,7 @@ function Reports() {
       sector: sector,
       getEndpoint: endpointLocal,
       statusCall: status,
-      limit: 10000,
+      limit: 50000,
       offset: 0,
     });
     setCallsReceived(rows);
@@ -128,24 +135,12 @@ function Reports() {
   const currentCalls = callsReceived.length > 0 ? callsReceived.slice(indexofFirstCall, indexOfLastCall) : [];
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const getAllDataDb = (list) => setCallsReceived(list);
-
-  // const sortedCalls = useCallback((sortedField) => {
-  //   if (sortedField !== null) {
-  //     const sortedCallsList = callsReceived.sort((a, b) => {
-  //       if (a[sortedField] < b[sortedField]) {
-  //         return -1;
-  //       }
-  //       if (a[sortedField] > b[sortedField]) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-  //     console.log(sortedCallsList);
-  //     setSortElementName(sortedField);
-  //     setCallsReceived(sortedCallsList);
-  //   }
-  //   return sortedField
-  // }, [callsReceived]);
+  
+  const sendDataExportReportGeneration = async () => {
+    console.log(storageDataReport);
+    const sendDataReport = await exportReportGenerate(storageDataReport);
+    if(sendDataReport.status) return window.location.replace(`http://${url}/api/report/download`);
+  };
 
   useMemo(() => {
     let sortableItems = [...callsReceived];
@@ -176,7 +171,6 @@ function Reports() {
     return;
   }
 
-
   useEffect(() => {
     validateUserLogged()
   }, [validateUserLogged]);
@@ -195,7 +189,7 @@ function Reports() {
             <hr className="m-0 p-0"/>
             <div className="columns mx-2">
               <ChartCallsStatusGlobal />
-              <ChartBySector getRows={ getReportRowsFiltredChartSectors }/>
+              <ChartBySector  getRows={ getReportRowsFiltredChartSectors } />
             </div>
             <hr className="m-0 p-0"/>
             <div className="columns mx-2">
@@ -206,7 +200,21 @@ function Reports() {
               <TableReceivedCalls />
               <TableSentCalls />
             </div>
-            <hr className="m-0 p-0"/>
+            {/* <hr className="m-0 p-0"/> */}
+            <div className="columns is-centered mx-2">
+              <div className="field column is-one-quarter">
+                <div className="control">
+                  <button className="button is-link is-light is-fullwidth px-1" type="submit" onClick={ () => sendDataExportReportGeneration() }>
+                    <span className="icon">
+                      <FontAwesomeIcon icon={ faDownload } fixedWidth />
+                    </span>
+                    <span>
+                      Download
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
             <hr className="m-0 p-0"/>
             <FilterReportsCalls
               getAllDataDb={ getAllDataDb }
