@@ -174,7 +174,7 @@ const excelPrintData = async (params) => {
     });
 
     ws.addImage({
-      path: '../logo_name_mini.png',
+      path: '../img/logo_name_mini.png',
       type: 'picture',
       position: {
         type: 'twoCellAnchor',
