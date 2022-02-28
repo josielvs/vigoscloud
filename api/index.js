@@ -13,6 +13,7 @@ app.use('/api/db', route.dbCallsRoutes);
 app.use('/api/login', route.loginRoutes);
 app.use('/api/calls', route.callsRoutes);
 app.use('/api/download', route.dbCallsRoutes);
+app.use('/api/report', route.exportReportRoutes);
 
 app.use(errorMiddleware);
 

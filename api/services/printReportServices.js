@@ -2,7 +2,7 @@ const elements = require('./elements.json');
 const { global, globalReportReceiveds, globalReportSents, globalInternalsExternals, endpointsCallsReceiveds, endpointsCallsSents, hoursReceivedCalls, sectorReceivedCalls } = require('../helpers/printsHelpers/');
 const excelGenerate = require('../tools/exportExcel');
 
-const getAllElementsToPrint = (elements) => {
+const getAllElementsToPrint = async (elements) => {
   const {
     globalAnsweredAndNotAnswer,
     globalReportToTableReceived,
@@ -27,11 +27,8 @@ const getAllElementsToPrint = (elements) => {
   const callsByHours = hoursReceivedCalls(volumeHourReceivedAnswered, volumeHourReceivedNoAnswer);
   const callsBySectors = sectorReceivedCalls(volumeSectorsReceivedAnswered, volumeSectorsReceivedNotAnswer);
 
-  excelGenerate([globalReportRec, globalReportSent, endpointRecsCalls, endpointSentsCalls, callsBySectors, callsByHours, dataGlobal, internalsExternals]);
+  const result = await excelGenerate([ globalReportRec, globalReportSent, endpointRecsCalls, endpointSentsCalls, callsBySectors, callsByHours, dataGlobal, internalsExternals ]);
+  return result;
 };
 
-getAllElementsToPrint(elements);
-
-module.exports = {
-  getAllElementsToPrint
-};
+module.exports = { getAllElementsToPrint };

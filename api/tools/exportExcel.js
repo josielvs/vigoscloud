@@ -1,46 +1,5 @@
 const xl = require('excel4node');
 
-const informations = [{
-  sheetName: 'chamadas_por_hora',
-  description: 'Chamadas por Hora',
-  titles: [
-    'Hora',
-    'Atendidas',
-    'Nao Atendidas'
-  ],
-  data: [
-    {hour: '7', atendidas: '1', naoAtendidas: '0'},
-    {hour: '8', atendidas: '2', naoAtendidas: '0'},
-    {hour: '10', atendidas: '2', naoAtendidas: '0'},
-    {hour: '11', atendidas: '1', naoAtendidas: '0'},
-    {hour: '12', atendidas: '2', naoAtendidas: '0'},
-    {hour: '13', atendidas: '0', naoAtendidas: '2'},
-    {hour: '15', atendidas: '1', naoAtendidas: '3'},
-    {hour: '18', atendidas: '1', naoAtendidas: '5'},
-    {hour: '19', atendidas: '0', naoAtendidas: '4'}
-  ]},{
-    sheetName: 'chamadas_por_setor',
-    description: 'Chamadas por Setor',
-    titles: [
-      'Setor',
-      'Atendidas',
-      'Nao Atendidas'
-    ],
-    data: [
-      {hour: '7', atendidas: '10', naoAtendidas: '0'},
-      {hour: '8', atendidas: '20', naoAtendidas: '0'},
-      {hour: '10', atendidas: '20', naoAtendidas: '0'},
-      {hour: '11', atendidas: '10', naoAtendidas: '0'},
-      {hour: '12', atendidas: '20', naoAtendidas: '0'},
-      {hour: '13', atendidas: '00', naoAtendidas: '2'},
-      {hour: '15', atendidas: '10', naoAtendidas: '3'},
-      {hour: '18', atendidas: '10', naoAtendidas: '5'},
-      {hour: '19', atendidas: '00', naoAtendidas: '4'}
-    ]},
-];
-
-// Params, Sheet Name,  Description, Title Name
-
 const excelPrintData = async (params) => {
   const wb = new xl.Workbook();
   const name = 'vigoscloud_report.xlsx';
@@ -227,8 +186,12 @@ const excelPrintData = async (params) => {
   });
 
   // Record file
-  wb.write(`/home/vjpbx/${name}`);
+  try {
+    wb.write(`/home/vjpbx/${name}`);
+    return { status: true, message: 'Relatorio criado com sucesso!' };
+  } catch (error) {
+    return error;
+  }
 };
 
 module.exports = excelPrintData;
-// excelPrintData(informations);
