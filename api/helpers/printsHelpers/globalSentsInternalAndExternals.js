@@ -1,7 +1,7 @@
 const setDataForPrintInternalsExternals = (data) => {
   const global = {
     sheetName: 'realizadas_inter-exter',
-    description: 'Geral Ligacoes Realizadas Internas e Externas',
+    description: 'Realizadas Internas e Externas',
     titles: [
       'Externas',
       'Internas'

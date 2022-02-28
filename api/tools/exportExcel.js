@@ -51,7 +51,7 @@ const excelPrintData = async (params) => {
     const ws = wb.addWorksheet(sheetName);
     // Style Description
     //(Border Line Styles) ['none', 'thin', 'medium', 'dashed', 'dotted', 'thick', 'double', 'hair', 'mediumDashed', 'dashDot', 'mediumDashDot', 'dashDotDot', 'mediumDashDotDot', 'slantDashDot']
-    var descriptionStyle = wb.createStyle({
+    const descriptionStyle = wb.createStyle({
       font: {
         bold: true,
         size: 14,
@@ -82,11 +82,11 @@ const excelPrintData = async (params) => {
       fill: {
         type: 'pattern',
         patternType: 'solid',
-        fgColor: 'E6E6FA', 
+        fgColor: '808080', 
       },
     });
 
-    var headerStyle = wb.createStyle({
+    const headerStyle = wb.createStyle({
       font: {
         bold: true,
         color: '000000',
@@ -116,11 +116,11 @@ const excelPrintData = async (params) => {
       fill: {
         type: 'pattern',
         patternType: 'solid',
-        fgColor: 'E6E6FA', 
+        fgColor: '808080', 
       },
     });
 
-    var bodyStyle = wb.createStyle({
+    const bodyStyle = wb.createStyle({
       alignment: {
         horizontal: 'center',
       },
@@ -144,6 +144,55 @@ const excelPrintData = async (params) => {
       },
     });
 
+    const bodyTripedStyle = wb.createStyle({
+      alignment: {
+        horizontal: 'center',
+      },
+      border: {
+        left: {
+            style: 'thin',
+            color: '000000'
+        },
+        right: {
+            style: 'thin',
+            color: '000000'
+        },
+        top: {
+            style: 'thin',
+            color: '000000'
+        },
+        bottom: {
+            style: 'thin',
+            color: '000000'
+        },
+      },
+      fill: {
+        type: 'pattern',
+        patternType: 'solid',
+        fgColor: 'DCDCDC', 
+      },
+    });
+
+    ws.addImage({
+      path: '../logo_name_mini.png',
+      type: 'picture',
+      position: {
+        type: 'twoCellAnchor',
+        from: {
+          col: 1,
+          colOff: "0.50mm",
+          row: 1,
+          rowOff: "0.50mm"
+        },
+        to: {
+          col: 1,
+          colOff: "25mm",
+          row: 1,
+          rowOff: "25mm"
+        }
+      }
+    });
+
     for (let index = 1; index <= titles.length; index++) {
       ws.column(index).setWidth(28);
     }
@@ -161,11 +210,16 @@ const excelPrintData = async (params) => {
     let setDataInRowsIndex = 3;
     data.forEach((record) => {
       let columnIndex = 1;
+      const striped = setDataInRowsIndex;
       Object.keys(record).forEach((columnName) => {
         if (typeof record[columnName] === 'number') {
-          ws.cell(setDataInRowsIndex, columnIndex++).number(record[columnName]).style(bodyStyle);
+          striped % 2 === 0 ?
+            ws.cell(setDataInRowsIndex, columnIndex++).number(record[columnName]).style(bodyTripedStyle) :
+            ws.cell(setDataInRowsIndex, columnIndex++).number(record[columnName]).style(bodyStyle);
         } else {
-          ws.cell(setDataInRowsIndex, columnIndex++).string(record[columnName]).style(bodyStyle);
+          striped % 2 === 0 ?
+            ws.cell(setDataInRowsIndex, columnIndex++).string(record[columnName]).style(bodyTripedStyle) :
+            ws.cell(setDataInRowsIndex, columnIndex++).string(record[columnName]).style(bodyStyle);
         }
       });
       setDataInRowsIndex++
