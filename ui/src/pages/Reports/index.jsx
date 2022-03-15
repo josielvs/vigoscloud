@@ -137,9 +137,8 @@ function Reports() {
   const getAllDataDb = (list) => setCallsReceived(list);
   
   const sendDataExportReportGeneration = async () => {
-    console.log(storageDataReport);
     const sendDataReport = await exportReportGenerate(storageDataReport);
-    if(sendDataReport.status) return window.location.replace(`http://${url}/api/report/download`);
+    if(sendDataReport.status) return setTimeout(() => window.location.replace(`http://${url}/api/report/download`), 1000); 
   };
 
   useMemo(() => {
