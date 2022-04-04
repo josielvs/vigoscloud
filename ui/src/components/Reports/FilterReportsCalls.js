@@ -36,7 +36,8 @@ const FilterReportsCalls = ({
   const fetchSectorsFunction = async () => { 
     const getSectorsInDb = await fetchSectors();
     const sectorsList = getSectorsInDb.reduce((acc, cur) => {
-      const changeFirstLetter = cur.sector.length > 3 ? capitalizeFirstLetter(cur.sector) : cur.sector.toUpperCase();
+      // const changeFirstLetter = cur.sector.length > 3 ? capitalizeFirstLetter(cur.sector) : cur.sector.toUpperCase();
+      const changeFirstLetter = cur.sector.toUpperCase();
       acc.push(changeFirstLetter);
       return acc;
     }, []).sort();

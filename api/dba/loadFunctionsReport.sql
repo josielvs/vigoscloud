@@ -119,7 +119,6 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
 
 --- 2- Function GET CALLS TO REPORT TABLE SENT ---
 DROP FUNCTION get_data_report_sent;
-
 CREATE OR REPLACE FUNCTION get_data_report_sent(
   dateInitial date,
   dateEnd date,

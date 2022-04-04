@@ -14,11 +14,23 @@ INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recep
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepcao', 'recepcaoaeroporto@magna.med.br', '$2a$05$IRMSFDUgHg0bqfktB7Jj3.il3LjkjrSo/RSCOF6576bcrygrXA4BC', '2300', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepcao', 'recepcaocomendador@magna.med.br', '$2a$05$YWvEiOQpSd5amcr41tKVeO3eIhRItF0GEb/M8XegZ8u.Q/gQ/7Lci', '2300', 'user', 'true');
 
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Thiago', 'cati.magna@magna.med.br', '$2a$05$TVY716JU..GZIFPfwzOxauR1TJzJMqxVQ.Mp3lHZ6rKb5me2Q4/2.', '2502', 'admin', 'true');
+
+ Thiago   | catimagna@magna.med.br             | $2a$05$TVY716JU..GZIFPfwzOxauR1TJzJMqxVQ.Mp3lHZ6rKb5me2Q4/2. | 2502     | admin | t
 TRUNCATE TABLE ps_aors;
 TRUNCATE TABLE ps_auths;
 TRUNCATE TABLE ps_endpoints;
 TRUNCATE TABLE ps_registrations;
 TRUNCATE TABLE ps_endpoint_id_ips;
+TRUNCATE TABLE queues;
+TRUNCATE TABLE queue_members;
+TRUNCATE TABLE cdr;
+
+INSERT INTO ps_endpoints
+        (id, transport, aors, auth, context, callerid, language, inband_progress, rtp_timeout, message_context, allow_subscribe, subscribe_context, direct_media, dtmf_mode, device_state_busy_at, disallow, allow, named_call_group, named_pickup_group, force_rport, rewrite_contact, rtp_symmetric)
+      VALUES
+        (endpoint, transportValue, endpoint, endpoint, contextValue, CONCAT(endpoint, ' ', '<', endpoint, '>'), 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', dtmfMode,
+         stateBusy, 'all', codec, callGroup, pickupGroup, nat, nat, nat);
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --############-- WEB PHONE --############--
@@ -49,13 +61,13 @@ INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1432352500, '143235
 --#########################################################--
 
 --############-- PROVIDER TRUNK IP - NAMED --############--
-INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES ('Embratel', 'sip:21061500@189.52.73.116:5060', 120);
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES ('Embratel', 'sip:1433129900@189.52.73.116:5060', 120);
 INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, language, tos_audio, cos_audio)
   VALUES
-('Embratel', 'udp_transport', 'Embratel', 'all', 'alaw', 'Embratel', '189.2.25.170', '21061500', 'no', 'pt_BR', 'af42', 3);
+('Embratel', 'udp_transport', 'Embratel', 'all', 'alaw', 'Embratel', '200.210.39.6', '1433129900', 'no', 'pt_BR', 'af42', 3);
 INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint, line)
 VALUES
-('Embratel', 'sip:189.52.73.116:5060', 'sip:21061500@189.2.25.170:5060', '21061500', 'udp_transport', 'Embratel', 'yes');
+('Embratel', 'sip:189.52.73.116:5060', 'sip:1433129900@200.210.39.6:5060', '1433129900', 'udp_transport', 'Embratel', 'yes');
 INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES ('Embratel', 'Embratel', '189.52.73.116');
 --########################################################--
 
@@ -93,6 +105,42 @@ INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, outbound
 ('DirectCall', 'sip:S8BHM@189.84.129.12:5060', 'sip:S8BHM@192.168.0.41:5060', 'S8BHM', 'DirectCall');
 INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES ('DirectCall', 'DirectCall', '189.84.129.12');
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Trunk Generate --
+DROP FUNCTION trunkIPGenerate;
+CREATE OR REPLACE FUNCTION trunkIPGenerate(
+  provider character varying(50),
+  ipSbcTrunk character varying(50),
+  ipGwLocal character varying(50),
+  keyTrunk character varying(50),
+  codec character varying(50)
+)
+RETURNS boolean 
+AS
+$$
+BEGIN
+  IF char_length(provider) > 0 THEN
+      INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (provider, 'sip:' || keyTrunk || '@' || ipSbcTrunk || ':5060', 120);
+      INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, language, tos_audio, cos_audio)
+        VALUES
+      (provider, 'udp_transport', provider, 'all', codec, provider, ipGwLocal, keyTrunk, 'no', 'pt_BR', 'af42', 3);
+      INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint, line)
+      VALUES
+      (provider, 'sip:' || ipSbcTrunk || ':5060', 'sip:' || keyTrunk || '@' || ipGwLocal || ':5060', keyTrunk, 'udp_transport', provider, 'yes');
+      INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (provider, provider, ipSbcTrunk);
+    RETURN True;
+  ELSE
+    RETURN False;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- SELECT trunkIPGenerate('Embratel', '189.1.1.1', '200.201.0.1', '1432230303', 'ulaw');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints SIP Generate --
@@ -134,44 +182,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT endpointsSipGenerate(1501, 1, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'auto', 'geral', 'geral', 'no');
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Endpoints SIP UPDATE --
-DROP FUNCTION endpointsSipUpdate;
-CREATE OR REPLACE FUNCTION endpointsSipUpdate(
-  endpoint character varying(50),
-  passwordValue character varying(50),
-  transportValue character varying(50), -- udp_transport, tcp_transport and wss_transport
-  contextValue character varying(50),
-  dtmfMode pjsip_dtmf_mode_values_v3, -- 'rfc2833', 'info', 'shortinfo', 'inband', 'auto'
-  stateBusy integer, 
-  codec character varying(50), -- ulaw or alaw
-  callGroup character varying(50),
-  pickupGroup character varying(50),
-  nat  yesno_values
-)
-RETURNS boolean 
-AS
-$$
-BEGIN
-  IF endpoint <> '' THEN
-      UPDATE ps_auths SET password = passwordValue WHERE id = endpoint;
-      UPDATE ps_endpoints SET 
-      (id, transport, aors, auth, context, callerid, language, inband_progress, rtp_timeout, message_context, allow_subscribe, subscribe_context, direct_media, dtmf_mode,
-       device_state_busy_at, disallow, allow, named_call_group, named_pickup_group, force_rport, rewrite_contact, rtp_symmetric)
-      =
-      (endpoint, transportValue, endpoint, endpoint, contextValue, CONCAT(endpoint, ' ', '<', endpoint, '>'), 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', dtmfMode,
-       stateBusy, 'all', codec, callGroup, pickupGroup, nat, nat, nat)
-      WHERE id = endpoint;
-    RETURN True;
-  ELSE
-    RETURN False;
-  END IF;
-END;
-$$ LANGUAGE plpgsql;
-
-SELECT endpointsSipUpdate('1501', 'ABC', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
+-- SELECT endpointsSipGenerate('6210', 50, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'yes');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints Web Generate --
@@ -203,7 +214,7 @@ BEGIN
         (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux, dtmf_mode,
          device_state_busy_at, dtls_cert_file, dtls_private_key, dtls_ca_file, named_call_group, named_pickup_group, rewrite_contact)
       VALUES
-        (endpoint, transportValue, endpoint, endpoint, contextValue, CONCAT(endpoint, ' ', '<', endpoint, '>'), 'pt_BR', codec, 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', dtmfMode,
+        (endpoint, 'wss_transport', endpoint, endpoint, contextValue, CONCAT(endpoint, ' ', '<', endpoint, '>'), 'pt_BR', codec, 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', dtmfMode,
          stateBusy, '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt', callGroup, pickupGroup, nat);
     END LOOP;
     RETURN True;
@@ -214,36 +225,117 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-SELECT endpointsWebGenerate(5560, 1, '!vigos!!interface#01!', 'wss_transport', 'ddd-celular', 'info', 1, 'opus', 'geral', 'geral', 'no');
+-- SELECT endpointsWebGenerate(9910, 1, '!vigos!!interface#01!', 'wss_transport', 'ddd-celular', 'info', 1, 'opus', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Endpoints WEB UPDATE --
-DROP FUNCTION endpointsWebUpdate;
-CREATE OR REPLACE FUNCTION endpointsWebUpdate(
-  endpoint character varying(50),
-  passwordValue character varying(50),
-  transportValue character varying(50), -- udp_transport, tcp_transport and wss_transport
-  contextValue character varying(50),
-  dtmfMode pjsip_dtmf_mode_values_v3, -- 'rfc2833', 'info', 'shortinfo', 'inband', 'auto'
-  stateBusy integer, 
-  codec character varying(50), -- ulaw or alaw
-  callGroup character varying(50),
-  pickupGroup character varying(50),
+-- Function Endpoints SELECT --
+DROP FUNCTION endpointsSelect;
+CREATE OR REPLACE FUNCTION endpointsSelect()
+RETURNS TABLE (
+  endpoint character varying(30),
+  transportName character varying(30),
+  contextName character varying(30),
+  languageName character varying(30),
+  codec character varying(30),
+  dtmf pjsip_dtmf_mode_values_v3,
+  busy integer,
+  callGroup  character varying(30),
+  captureGroup character varying(30),
   nat yesno_values
 )
-RETURNS boolean 
+  LANGUAGE plpgsql AS
+$$
+BEGIN
+  return QUERY
+  SELECT
+    id AS endpoint,
+    transport AS transportName,
+    context as contextName,
+    language,
+    allow AS codec,
+    dtmf_mode AS dtmf,
+    device_state_busy_at AS busy,
+    named_call_group AS callGroup,
+    named_pickup_group AS captureGroup,
+    rewrite_contact AS nat
+  FROM
+    ps_endpoints
+  ORDER BY id;
+END;
+$$;
+
+-- SELECT endpointsSelect();
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Endpoint SELECT By ID --
+DROP FUNCTION endpointByIdSelect;
+CREATE OR REPLACE FUNCTION endpointByIdSelect(
+  elements text[]
+)
+RETURNS TABLE (
+  endpoint character varying(30),
+  transportName character varying(30),
+  contextName character varying(30),
+  languageName character varying(30),
+  codec character varying(30),
+  dtmf pjsip_dtmf_mode_values_v3,
+  busy integer,
+  callGroup  character varying(30),
+  captureGroup character varying(30),
+  nat yesno_values
+) 
 AS
 $$
 BEGIN
-  IF endpoint <> '' THEN
-      UPDATE ps_auths SET password = passwordValue WHERE id = endpoint;
+  return QUERY
+  SELECT
+    id AS endpoint,
+    transport AS transportName,
+    context as contextName,
+    language,
+    allow AS codec,
+    dtmf_mode AS dtmf,
+    device_state_busy_at AS busy,
+    named_call_group AS callGroup,
+    named_pickup_group AS captureGroup,
+    rewrite_contact AS nat
+  FROM
+    ps_endpoints
+  WHERE id = ANY(elements);
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- SELECT endpointByIdSelect(ARRAY["9000"]);
+-- SELECT endpointByIdSelect('{9000, 9001}');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Endpoint UPDATE --
+DROP FUNCTION endpointsUpdate;
+CREATE OR REPLACE FUNCTION endpointsUpdate(
+  endpoint text[],
+  passwordValue character varying(150),
+  transportValue character varying(150), -- udp_transport, tcp_transport and wss_transport
+  contextValue character varying(150),
+  languageValue character varying(150),
+  dtmfMode pjsip_dtmf_mode_values_v3, -- 'rfc2833', 'info', 'shortinfo', 'inband', 'auto'
+  stateBusy integer, 
+  codec character varying(150), -- ulaw or alaw
+  callGroup character varying(150),
+  pickupGroup character varying(150),
+  nat yesno_values
+)
+RETURNS boolean
+AS
+$$
+BEGIN
+  IF array_length(endpoint::bigint[], 0) IS NULL THEN
+      UPDATE ps_auths SET password = passwordValue WHERE id = ANY(endpoint);
       UPDATE ps_endpoints SET 
-        (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux,
-         dtmf_mode, device_state_busy_at, dtls_cert_file, dtls_private_key, dtls_ca_file, named_call_group, named_pickup_group, rewrite_contact)
-      =
-        (endpoint, transportValue, endpoint, endpoint, contextValue, CONCAT(endpoint, ' ', '<', endpoint, '>'), 'pt_BR', codec, 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes',
-        dtmfMode, stateBusy, '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt', callGroup, pickupGroup, nat)
-      WHERE id = endpoint;
+        (transport, context, language, dtmf_mode, device_state_busy_at, allow, named_call_group, named_pickup_group, force_rport, rewrite_contact, rtp_symmetric)
+        =
+        (transportValue, contextValue, languageValue, dtmfMode, stateBusy, codec, callGroup, pickupGroup, nat, nat, nat)
+      WHERE id = ANY(endpoint);
     RETURN True;
   ELSE
     RETURN False;
@@ -251,13 +343,37 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT endpointsWebUpdate('5560', 'TESTE', 'wss_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'yes');
+-- SELECT endpointsUpdate('{8502, 8002}', '!vigos!!zzzzzzzz#01!', 'tcp_transport', 'ddd-celular', 'en-teste', 'info', 1, 'ulaw', 'geral-3', 'geral-3', 'yes');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Endpoints DELETE --
+DROP FUNCTION endpointDelete;
+CREATE OR REPLACE FUNCTION endpointDelete(
+  elements text[]
+)
+RETURNS boolean 
+AS
+$$
+BEGIN
+  IF array_length(elements::bigint[], 0) IS NULL THEN
+      DELETE FROM ps_aors WHERE id = ANY(elements);
+      DELETE FROM ps_auths WHERE id = ANY(elements);
+      DELETE FROM ps_endpoints WHERE id = ANY(elements);
+    RETURN True;
+  ELSE
+    RETURN False;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- SELECT endpointDelete(ARRAY['9002', '9910'], 1);
+-- SELECT endpointDelete('{8002, 8504}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queues Generate --
-INSERT INTO queues (name, strategy, autofill, maxlen, ringinuse, announce_position, announce_frequency, announce_holdtime, min_announce_frequency, setqueueentryvar, wrapuptime)
-VALUES
-('crm', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 4);
+-- INSERT INTO queues (name, strategy, autofill, maxlen, ringinuse, announce_position, announce_frequency, announce_holdtime, min_announce_frequency, setqueueentryvar, wrapuptime)
+-- VALUES
+-- ('crm', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 4);
 
 DROP FUNCTION queuesGenerate;
 CREATE OR REPLACE FUNCTION queuesGenerate(
@@ -272,16 +388,18 @@ CREATE OR REPLACE FUNCTION queuesGenerate(
   queueAnnounceHoldTime yesno_values, -- yes or no
   queueMinAnnounceFrequency integer,
   queueSetQueueEntryVarQueue yesno_values, -- yes or no
-  queueWrapuptime integer
+  queueWrapuptime integer,
+  queueJoinempty character varying(128),
+  queueLeavewhenempty character varying(128)
 )
 RETURNS boolean 
 AS
 $$
 BEGIN
   IF CHAR_LENGTH(queueName) > 0 THEN
-    INSERT INTO queues (name, musiconhold, strategy, autofill, maxlen, ringinuse, announce_position, announce_frequency, announce_holdtime, min_announce_frequency, setqueueentryvar, wrapuptime)
+    INSERT INTO queues (name, musiconhold, strategy, autofill, maxlen, ringinuse, announce_position, announce_frequency, announce_holdtime, min_announce_frequency, setqueueentryvar, wrapuptime, joinempty, leavewhenempty)
       VALUES
-    (queueName, queueMusicOnHold, queueStrategy, queueAutoFill, queueMaxLen, queueRinginuse, queueAnnouncePosition, queueAnnounceFrequency, queueAnnounceHoldTime, queueMinAnnounceFrequency, queueSetQueueEntryVarQueue, queueWrapuptime);
+    (queueName, queueMusicOnHold, queueStrategy, queueAutoFill, queueMaxLen, queueRinginuse, queueAnnouncePosition, queueAnnounceFrequency, queueAnnounceHoldTime, queueMinAnnounceFrequency, queueSetQueueEntryVarQueue, queueWrapuptime, queueJoinempty, queueLeavewhenempty);
     RETURN True;
   ELSE
     RETURN False;
@@ -289,7 +407,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT queuesGenerate('avancadas', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 4);
+SELECT queuesGenerate('castelo', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('falcao', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('mary-dota', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('backoffice-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('saleops-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('salesenablement-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('isr_n1-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('isr_n2-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('isr_n3-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+SELECT queuesGenerate('isr_n4-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queues Update --
@@ -306,7 +434,9 @@ CREATE OR REPLACE FUNCTION queuesUpdate(
   queueAnnounceHoldTime yesno_values, -- yes or no
   queueMinAnnounceFrequency integer,
   queueSetQueueEntryVarQueue yesno_values, -- yes or no
-  queueWrapuptime integer
+  queueWrapuptime integer,
+  queueJoinempty character varying(128),
+  queueLeavewhenempty character varying(128)
 )
 RETURNS boolean 
 AS
@@ -314,9 +444,9 @@ $$
 BEGIN
   IF CHAR_LENGTH(queueName) > 0 THEN
     UPDATE queues SET
-      (name, musiconhold, strategy, autofill, maxlen, ringinuse, announce_position, announce_frequency, announce_holdtime, min_announce_frequency, setqueueentryvar, wrapuptime)
+      (musiconhold, strategy, autofill, maxlen, ringinuse, announce_position, announce_frequency, announce_holdtime, min_announce_frequency, setqueueentryvar, wrapuptime, joinempty, leavewhenempty)
     =
-      (queueName, queueMusicOnHold, queueStrategy, queueAutoFill, queueMaxLen, queueRinginuse, queueAnnouncePosition, queueAnnounceFrequency, queueAnnounceHoldTime, queueMinAnnounceFrequency, queueSetQueueEntryVarQueue, queueWrapuptime)
+      (queueMusicOnHold, queueStrategy, queueAutoFill, queueMaxLen, queueRinginuse, queueAnnouncePosition, queueAnnounceFrequency, queueAnnounceHoldTime, queueMinAnnounceFrequency, queueSetQueueEntryVarQueue, queueWrapuptime, queueJoinempty, queueLeavewhenempty)
     WHERE name = queueName;
     RETURN True;
   ELSE
@@ -325,11 +455,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT queuesUpdate('avancadas', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 4);
+-- Com anuncio
+-- SELECT queuesUpdate('isr_n1', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, '', '');
+
+-- Sem anuncio
+-- SELECT queuesUpdate('monsenhor', 'default', 'ringall', 'yes', 20, 'no', 'no', 0, 'no', 0, 'yes', 5, '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queue Membres Generate --
-INSERT INTO queue_members (queue_name, interface) VALUES ('crm', 'PJSIP/7251', 1);
+-- INSERT INTO queue_members (queue_name, interface) VALUES ('crm', 'PJSIP/7251', 1);
 
 DROP FUNCTION queuesMembersGenerate;
 CREATE OR REPLACE FUNCTION queuesMembersGenerate(
@@ -346,7 +480,6 @@ BEGIN
   IF initEndpoint > 0 THEN
     FOR endpoint in initEndpoint .. finalEndpoint LOOP
       existsUniqueid = (SELECT COUNT(*) FROM queue_members WHERE uniqueid = endpoint);
-      -- raise notice 'SELECT: %', existsUniqueid;
       IF existsUniqueid::integer < 1 THEN
         INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES (nameQueue, CONCAT('PJSIP/', endpoint), endpoint);
       ELSE
@@ -360,8 +493,46 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT queuesMembersGenerate('recepcao', 2000, 2000);
+-- SELECT queuesMembersGenerate('atendimento', 2530, 2532);
+INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES ('atendimento', 'PJSIP/2013', 2013);
+SELECT queuesMembersGenerate('castelo', 6218, 6221);
+SELECT queuesMembersGenerate('falcao', 6210, 6216);
+SELECT queuesMembersGenerate('mary-dota', 6217, 6225);
+SELECT queuesMembersGenerate('polo_bauru', 4120, 4120);
+SELECT queuesMembersGenerate('polo_bauru', 4044, 4044);
 
+SELECT queuesMembersGenerate('polo_bauru', 4110, 4110);
+SELECT queuesMembersGenerate('polo_bauru', 4118, 4118);
+
+SELECT queuesMembersGenerate('trasb_polo_bauru', 4007, 4007);
+SELECT queuesMembersGenerate('trasb_polo_bauru', 4122, 4122);
+SELECT queuesMembersGenerate('trasb_polo_bauru', 4117, 4117);
+SELECT queuesMembersGenerate('trasb_polo_bauru', 4119, 4119);
+SELECT queuesMembersGenerate('trasb_polo_bauru', 4044, 4044);
+-- SELECT queuesMembersGenerate('agendamento', 4122, 4122);
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Queue Membres Update --
+DROP FUNCTION queuesMembersUpdate;
+CREATE OR REPLACE FUNCTION queuesMembersUpdate(
+  nameQueue character varying(128),
+  endpointId integer,
+  pause integer
+)
+RETURNS boolean 
+AS
+$$
+BEGIN
+  IF endpointId > 0 THEN
+    UPDATE queue_members SET (queue_name, paused) = (nameQueue, pause) WHERE uniqueid = endpointId;
+    RETURN True;
+  ELSE
+    RETURN False;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- SELECT queuesMembersUpdate('avancadas', 5560, 1);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Music on hold
@@ -417,3 +588,44 @@ UPDATE queue_members SET paused = 1 WHERE queue_name = 'sac';
 UPDATE queue_members SET paused = 0 WHERE uniqueid = '7472';
 
 INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES ('recepcao', CONCAT('PJSIP/', '5539'), '5539');
+
+
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, inband_progress, allow_subscribe, direct_media, dtmf_mode, device_state_busy_at, disallow, allow)
+  VALUES
+(200, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(201, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(202, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(203, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(204, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(205, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(206, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(207, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(208, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(209, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(210, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(211, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(212, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(213, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(214, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(215, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(216, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(217, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(218, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(219, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(220, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(221, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(222, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(223, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(224, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(225, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(226, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(227, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(228, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(229, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(230, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(231, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(232, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(233, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(234, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
+(235, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw');
+

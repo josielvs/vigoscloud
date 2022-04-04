@@ -14,6 +14,7 @@ app.use('/api/login', route.loginRoutes);
 app.use('/api/calls', route.callsRoutes);
 app.use('/api/download', route.dbCallsRoutes);
 app.use('/api/report', route.exportReportRoutes);
+app.use('/api/config/endpoints', route.endpointsRealtimeRoutes);
 
 app.use(errorMiddleware);
 

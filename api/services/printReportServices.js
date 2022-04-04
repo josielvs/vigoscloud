@@ -1,4 +1,3 @@
-const elements = require('./elements.json');
 const { global, globalReportReceiveds, globalReportSents, globalInternalsExternals, endpointsCallsReceiveds, endpointsCallsSents, hoursReceivedCalls, sectorReceivedCalls } = require('../helpers/printsHelpers/');
 const excelGenerate = require('../tools/exportExcel');
 

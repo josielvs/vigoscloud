@@ -162,7 +162,7 @@ CREATE OR REPLACE FUNCTION get_data_report_received(
   $$;
 
 SELECT * FROM  "get_data_report_received"('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', '', '', '', '');
-SELECT * FROM  "get_data_report_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', 'suporte', '', '', '');
+SELECT * FROM  "get_data_report_received"('2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'closer', '', '', '');
 SELECT * FROM  "get_data_report_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '4104', '', '');
 SELECT * FROM  "get_data_report_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '1430420844', '');
 SELECT * FROM  "get_data_report_received"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061503397');
@@ -442,7 +442,6 @@ CREATE OR REPLACE FUNCTION get_vol_sent_endp_no_answer(
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%')
-        -- AND typecall = 'Efetuada' AND disposition = 'NO ANSWER' AND char_length(dst) > 4
         AND disposition = 'NO ANSWER' AND char_length(dst) > 4
         AND src LIKE '%' || endpoint || '%'
         AND dst LIKE '%' || telNumber || '%'
@@ -482,14 +481,14 @@ CREATE OR REPLACE FUNCTION get_volume_sent_external_and_external(
       SELECT
         (SELECT COUNT(DISTINCT(uniqueid)) AS externas FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND typecall = 'Efetuada' AND dstchannel <> '' AND lastdata LIKE '%@%' --AND disposition = 'ANSWERED'
+          AND typecall = 'Efetuada' AND dstchannel <> '' AND lastdata LIKE '%@%'
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
         ) AS externas,
         (SELECT COUNT(DISTINCT(uniqueid)) internas FROM cdr AS a
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND typecall = 'Efetuada' AND CHAR_LENGTH(a.src) > 3 AND dstchannel <> '' -- AND disposition = 'ANSWERED'
+          AND typecall = 'Efetuada' AND CHAR_LENGTH(a.src) > 3 AND dstchannel <> ''
           AND src LIKE '%' || endpoint || '%'
           AND dst LIKE '%' || telNumber || '%'
           AND callprotocol LIKE '%' || protocol || '%'
@@ -702,36 +701,36 @@ CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
     DECLARE
       data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
       data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
-      
     BEGIN
       return QUERY
       SELECT
         (SELECT
           COUNT(DISTINCT(uniqueid)) FROM cdr
           WHERE (calldate BETWEEN data_inicial AND data_final)
-          AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
+          AND lastapp = 'Queue' AND disposition = 'ANSWERED' AND dstchannel <> ''
         AND lastdata LIKE '%' || recSector || '%'
         AND dstchannel LIKE '%' || endpoint || '%'
         AND src LIKE '%' || telNumber || '%'
         AND callprotocol LIKE '%' || protocol || '%') AS answered,
-        (SELECT
-          COUNT(DISTINCT(uniqueid))
-        FROM cdr AS a
+        (
+          SELECT  
+            COUNT(DISTINCT(uniqueid)) FROM cdr AS a
           WHERE (calldate BETWEEN data_inicial AND data_final)
           AND a.uniqueid NOT IN (
-            SELECT DISTINCT(uniqueid) FROM cdr
+            SELECT uniqueid FROM cdr
             WHERE (calldate BETWEEN data_inicial AND data_final)
-            AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
+            AND lastapp = 'Queue' AND disposition = 'ANSWERED' AND dstchannel <> ''
             AND lastdata LIKE '%' || recSector || '%'
             AND dstchannel LIKE '%' || endpoint || '%'
             AND src LIKE '%' || telNumber || '%'
             AND callprotocol LIKE '%' || protocol || '%'
           )
-          AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue'
+          AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue' AND dstchannel <> ''
           AND lastdata LIKE '%' || recSector || '%'
           AND dstchannel LIKE '%' || endpoint || '%'
           AND src LIKE '%' || telNumber || '%'
-          AND callprotocol LIKE '%' || protocol || '%') AS no_answer;
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS no_answer;
     END;
   $$;
 
@@ -1114,8 +1113,6 @@ SELECT * FROM get_chart_by_sectors_rows('2022-01-25', '2022-01-25', '00:00:00', 
 -- Protocolo: 'callprotocol'
 -- Código de Area ---> Não Usar
 
-
-
 SELECT
   COUNT(DISTINCT(uniqueid)) AS no_answer 
 FROM cdr AS a
@@ -1195,4 +1192,960 @@ CREATE TYPE sip_dtmfmode_values AS ENUM ('rfc2833', 'info', 'inband', 'auto');
 
 
 UPDATE FROM cdr SET typecall = 'Recebida' WHERE CHAR_LENGTH(src) > 4;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--- 2- Function GET CALLS TO REPORT TABLE SENT ---
+DROP FUNCTION get_data_report_sent;
+CREATE OR REPLACE FUNCTION get_data_report_sent(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "amount_calls" bigint,
+    "answered_calls" bigint,
+    "no_answer_calls" bigint,
+    "busy_calls" bigint,
+    "failed_calls" bigint,
+    "total_time_calls" text,
+    "average_time_calls" text
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+
+    BEGIN
+      return query
+      SELECT
+        COUNT(DISTINCT(uniqueid)) AS amount_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND lastdata LIKE '%@%' AND CHAR_LENGTH(dst) > 4
+          AND src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS answered_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr AS a
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr 
+            WHERE (calldate BETWEEN data_inicial AND data_final)
+            AND disposition LIKE 'ANSWERED'
+            AND CHAR_LENGTH(dst) > 4 AND lastdata LIKE '%@%'
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%')
+          AND disposition LIKE 'NO ANSWER' AND lastdata LIKE '%@%' AND CHAR_LENGTH(dst) > 4
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS no_answer_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND  disposition LIKE 'BUSY'
+          AND CHAR_LENGTH(dst) > 4
+           AND lastdata LIKE '%@%'
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS busy_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND  disposition LIKE 'FAILED' AND CHAR_LENGTH(dst) > 4 AND lastdata LIKE '%@%'
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS failed_calls,
+        TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS total_time_calls,
+        TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS') AS average_time_calls
+      FROM cdr
+        WHERE (calldate BETWEEN data_inicial AND data_final)
+        AND lastdata LIKE '%@%' AND CHAR_LENGTH(dst) > 4
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%';
+    END;
+  $$;
+
+-- SELECT * FROM  "get_data_report_sent"('2022-03-01', '2022-03-15', '00:00:00', '23:59:59', '', '', '', '');
+-- SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '4104', '', '');
+-- SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '1430420844', '');
+-- SELECT * FROM  "get_data_report_sent"('2022-01-05 00:00:00', '2022-01-30 23:59:59', '', '', '', '202201061503397');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 3- Function Get Endpoints as Volume Calls Received ANSWERED --
+DROP FUNCTION get_vol_endp_rec_aswered;
+CREATE OR REPLACE FUNCTION get_vol_endp_rec_aswered(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "endpoints" text,
+    "received_answered" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+      SELECT
+        CASE 
+        WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+          REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+              )
+            , '-', ''
+          )
+        ELSE
+          REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+              )
+            , '-', ''
+          )
+      END
+      AS endpoints, COUNT(dstchannel) FROM cdr
+      WHERE (calldate BETWEEN data_inicial AND data_final)
+      AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+      AND lastdata LIKE '%' || recSector || '%'
+      AND
+        CASE WHEN char_length(recSector) > 0 THEN
+          CASE 
+          WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+            REPLACE(
+              SUBSTRING(
+                dstchannel, POSITION('/' in dstchannel) + 1,
+                  (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                )
+              , '-', ''
+            )
+          ELSE REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+              )
+            , '-', ''
+          )
+          END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+        ELSE
+          dstchannel LIKE '%' || endpoint || '%'
+        END
+      AND src LIKE '%' || telNumber || '%'
+      AND callprotocol LIKE '%' || protocol || '%'
+      GROUP BY endpoints
+      ORDER BY endpoints;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '');
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 4- Function Get Endpoints as Volume Calls Received NO ANSWER--
+DROP FUNCTION get_vol_endp_rec_no_aswer;
+CREATE OR REPLACE FUNCTION get_vol_endp_rec_no_aswer(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "endpoints" text,
+    "received_no_aswer" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+      SELECT
+        REPLACE(
+          SUBSTRING(
+            dstchannel, POSITION('/' in dstchannel) + 1,
+              POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+            )
+          , '-', ''
+        ) AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr AS a
+      WHERE (calldate BETWEEN data_inicial AND data_final)
+      AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr
+        WHERE (calldate BETWEEN data_inicial AND data_final) AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4  AND dstchannel <> '')
+      AND disposition = 'NO ANSWER' AND CHAR_LENGTH(src) > 4
+      AND lastdata LIKE '%' || recSector || '%'
+      AND
+        CASE WHEN char_length(recSector) > 0 THEN
+          CASE 
+          WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+            REPLACE(
+              SUBSTRING(
+                dstchannel, POSITION('/' in dstchannel) + 1,
+                  (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                )
+              , '-', ''
+            )
+          ELSE REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+              )
+            , '-', ''
+          )
+          END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+        ELSE
+          dstchannel LIKE '%' || endpoint || '%'
+        END
+      AND src LIKE '%' || telNumber || '%'
+      AND callprotocol LIKE '%' || protocol || '%'
+      GROUP BY endpoints
+      ORDER BY endpoints;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_endp_rec_no_aswer"('2022-01-28', '2022-01-28', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 5- Function Get Endpoints as Volume Calls Sent ANSWERED--
+DROP FUNCTION get_vol_sent_endp_answered;
+CREATE OR REPLACE FUNCTION get_vol_sent_endp_answered(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "endpoints" character varying(80),
+    "sent_answered" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+      SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr
+        WHERE  char_length(src) < 5
+        AND (calldate BETWEEN data_inicial AND data_final)
+        AND disposition = 'ANSWERED' AND char_length(dst) > 4
+        AND
+          CASE WHEN char_length(recSector) > 0 THEN 
+            src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+          ELSE
+            src LIKE '%' || endpoint || '%'
+          END
+        AND dst LIKE '%' || telNumber || '%'
+        AND callprotocol LIKE '%' || protocol || '%'
+      GROUP BY endpoints
+      ORDER BY endpoints;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_sent_endp_answered"('2022-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 6- Function Get Endpoints as Volume Calls Sent NO ANSWER --
+DROP FUNCTION get_vol_sent_endp_no_answer;
+CREATE OR REPLACE FUNCTION get_vol_sent_endp_no_answer(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "endpoints" character varying(80),
+    "sent_no_answer" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+      SELECT src AS endpoints, COUNT(DISTINCT(uniqueid)) FROM cdr AS a
+      WHERE char_length(src) < 5
+      AND (calldate BETWEEN data_inicial AND data_final)
+        AND a.uniqueid NOT IN (
+          SELECT DISTINCT(uniqueid) FROM cdr
+          WHERE char_length(src) < 5
+          AND (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED'
+          AND src IN (SELECT id FROM ps_endpoints WHERE named_pickup_group = 'crm')
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%')
+        AND disposition = 'NO ANSWER' AND char_length(dst) > 4
+        AND
+          CASE WHEN char_length(recSector) > 0 THEN 
+            src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+          ELSE
+            src LIKE '%' || endpoint || '%'
+          END
+        AND dst LIKE '%' || telNumber || '%'
+        AND callprotocol LIKE '%' || protocol || '%'
+      GROUP BY endpoints
+      ORDER BY endpoints;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_sent_endp_no_answer"('2022-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 7- Function Get Volume Calls Sent Internal and External --
+DROP FUNCTION get_volume_sent_external_and_external;
+CREATE OR REPLACE FUNCTION get_volume_sent_external_and_external(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "externas" bigint,
+    "internas" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+      SELECT
+        (
+          SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND typecall = 'Efetuada' AND dstchannel <> '' AND lastdata LIKE '%@%' AND CHAR_LENGTH(dst) > 4
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS externas,
+        (
+          SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND typecall = 'Efetuada' AND dstchannel <> '' AND CHAR_LENGTH(dst) < 5
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN 
+              src IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              src LIKE '%' || endpoint || '%'
+            END
+          AND dst LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS internas;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_volume_sent_external_and_external"('2022-01-01', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 8- Function Get Volume Calls Received and Answered By Sector --
+DROP FUNCTION get_vol_sec_rec;
+CREATE OR REPLACE FUNCTION get_vol_sec_rec(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "sectors" text,
+    "answered" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+    BEGIN
+      return QUERY
+      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors, COUNT(DISTINCT(uniqueid)) as answered FROM cdr
+      WHERE (calldate BETWEEN data_inicial AND data_final)
+      AND lastapp = 'Queue' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4  AND dstchannel <> ''
+      AND lastdata LIKE '%' || recSector || '%'
+      AND dstchannel LIKE '%' || endpoint || '%'
+      AND src LIKE '%' || telNumber || '%'
+      AND callprotocol LIKE '%' || protocol || '%'
+      GROUP BY sectors
+      ORDER BY sectors;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_sec_rec"('2022-01-28', '2022-01-28', '00:00:00', '23:59:59', 'comercial', '', '', '');
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 9- Function Get Volume Calls Received and Not Answered By Sector --
+DROP FUNCTION get_vol_sec_no_ans;
+CREATE OR REPLACE FUNCTION get_vol_sec_no_ans(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "sectors" text,
+    "no_answer" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+      SELECT SUBSTRING(lastdata, 0, POSITION(',' in lastdata)) AS sectors_not_atennd, COUNT(DISTINCT(uniqueid)) AS no_answer FROM cdr AS a
+        WHERE (calldate BETWEEN data_inicial AND data_final)
+        AND a.uniqueid NOT IN (
+          SELECT uniqueid FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+           AND lastapp = 'Queue' AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4  AND dstchannel <> ''
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        )
+        AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue' AND CHAR_LENGTH(src) > 4  AND dstchannel <> ''
+        AND lastdata LIKE '%' || recSector || '%'
+        AND dstchannel LIKE '%' || endpoint || '%'
+        AND src LIKE '%' || telNumber || '%'
+        AND callprotocol LIKE '%' || protocol || '%'
+      GROUP BY sectors_not_atennd
+      ORDER BY sectors_not_atennd;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_sec_no_ans"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 10- Function Get Volume Calls Received By Hour Answered--
+DROP FUNCTION get_vol_rec_answ_by_hour;
+CREATE OR REPLACE FUNCTION get_vol_rec_answ_by_hour(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "hours_calls" double precision,
+    "answered" bigint,
+    "no_answer" integer
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+        SELECT
+          EXTRACT(HOUR FROM calldate) AS hours_calls, COUNT(DISTINCT(uniqueid)) AS answered, 0 AS no_answer
+        FROM cdr 
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+              WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+                REPLACE(
+                  SUBSTRING(
+                    dstchannel, POSITION('/' in dstchannel) + 1,
+                      (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                    )
+                  , '-', ''
+                )
+              ELSE REPLACE(
+                SUBSTRING(
+                  dstchannel, POSITION('/' in dstchannel) + 1,
+                    POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                  )
+                , '-', ''
+              )
+              END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              dstchannel LIKE '%' || endpoint || '%'
+            END
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        GROUP BY hours_calls;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_rec_answ_by_hour"('2022-02-25', '2022-02-25', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 11- Function Get Volume Calls Received By Hour No Answer--
+DROP FUNCTION get_vol_rec_no_answ_by_hour;
+CREATE OR REPLACE FUNCTION get_vol_rec_no_answ_by_hour(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "hours_calls" double precision,
+    "answered" integer,
+    "no_answer" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return query
+        SELECT
+          EXTRACT(HOUR FROM calldate) AS hours_calls, 0 AS answered,
+          COUNT(DISTINCT(uniqueid)) AS no_answer 
+        FROM cdr AS a
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND a.uniqueid NOT IN (
+            SELECT uniqueid FROM cdr
+            WHERE (calldate BETWEEN data_inicial AND data_final)
+            AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+              WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+                REPLACE(
+                  SUBSTRING(
+                    dstchannel, POSITION('/' in dstchannel) + 1,
+                      (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                    )
+                  , '-', ''
+                )
+              ELSE REPLACE(
+                SUBSTRING(
+                  dstchannel, POSITION('/' in dstchannel) + 1,
+                    POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                  )
+                , '-', ''
+              )
+              END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              dstchannel LIKE '%' || endpoint || '%'
+            END
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+          )
+          AND disposition LIKE 'NO ANSWER' AND typecall = 'Recebida'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND
+        CASE WHEN char_length(recSector) > 0 THEN
+          CASE 
+          WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+            REPLACE(
+              SUBSTRING(
+                dstchannel, POSITION('/' in dstchannel) + 1,
+                  (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                )
+              , '-', ''
+            )
+          ELSE REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+              )
+            , '-', ''
+          )
+          END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+        ELSE
+          dstchannel LIKE '%' || endpoint || '%'
+        END
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        GROUP BY hours_calls;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_rec_no_answ_by_hour"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 12- Function Get Volume Calls Received Global Sectors --
+DROP FUNCTION get_vol_rec_answered_and_no_answer_global;
+CREATE OR REPLACE FUNCTION get_vol_rec_answered_and_no_answer_global(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "answered" bigint,
+    "no_answer" bigint
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
+      
+    BEGIN
+      return QUERY
+      SELECT
+        (SELECT
+          COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
+        AND lastdata LIKE '%' || recSector || '%'
+        AND
+        CASE WHEN char_length(recSector) > 0 THEN
+          CASE 
+          WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+            REPLACE(
+              SUBSTRING(
+                dstchannel, POSITION('/' in dstchannel) + 1,
+                  (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                )
+              , '-', ''
+            )
+          ELSE REPLACE(
+            SUBSTRING(
+              dstchannel, POSITION('/' in dstchannel) + 1,
+                POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+              )
+            , '-', ''
+          )
+          END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+        ELSE
+          dstchannel LIKE '%' || endpoint || '%'
+        END
+        AND src LIKE '%' || telNumber || '%'
+        AND callprotocol LIKE '%' || protocol || '%') AS answered,
+        (SELECT
+          COUNT(DISTINCT(uniqueid))
+        FROM cdr AS a
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND a.uniqueid NOT IN (
+            SELECT DISTINCT(uniqueid) FROM cdr
+            WHERE (calldate BETWEEN data_inicial AND data_final)
+            AND disposition LIKE 'ANSWERED' AND lastapp = 'Queue'
+            AND lastdata LIKE '%' || recSector || '%'
+            AND
+              CASE WHEN char_length(recSector) > 0 THEN
+                CASE 
+                WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                      )
+                    , '-', ''
+                  )
+                ELSE REPLACE(
+                  SUBSTRING(
+                    dstchannel, POSITION('/' in dstchannel) + 1,
+                      POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                    )
+                  , '-', ''
+                )
+                END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+              ELSE
+                dstchannel LIKE '%' || endpoint || '%'
+              END
+            AND src LIKE '%' || telNumber || '%'
+            AND callprotocol LIKE '%' || protocol || '%'
+          )
+          AND disposition LIKE 'NO ANSWER' AND lastapp = 'Queue'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+              WHEN dstchannel SIMILAR TO '%@%' = True THEN            
+                REPLACE(
+                  SUBSTRING(
+                    dstchannel, POSITION('/' in dstchannel) + 1,
+                      (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                    )
+                  , '-', ''
+                )
+              ELSE REPLACE(
+                SUBSTRING(
+                  dstchannel, POSITION('/' in dstchannel) + 1,
+                    POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                  )
+                , '-', ''
+              )
+              END IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+            ELSE
+              dstchannel LIKE '%' || endpoint || '%'
+            END
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%') AS no_answer;
+    END;
+  $$;
+
+-- SELECT * FROM  "get_vol_rec_answered_and_no_answer_global"('2022-01-05', '2022-01-30', '00:00:00', '23:59:59', '', '', '', '');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 14- Function Get All Data Report --
+DROP FUNCTION get_itens_report;
+CREATE OR REPLACE FUNCTION get_itens_report( 
+  ref1 refcursor,
+  ref2 refcursor,
+  ref3 refcursor,
+  ref4 refcursor,
+  ref5 refcursor,
+  ref6 refcursor,
+  ref7 refcursor,
+  ref8 refcursor,
+  ref9 refcursor,
+  ref10 refcursor,
+  ref11 refcursor,
+  ref12 refcursor,
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+RETURNS SETOF refcursor 
+LANGUAGE 'plpgsql'
+COST 100
+VOLATILE PARALLEL UNSAFE
+ROWS 2000
+
+AS $BODY$
+DECLARE
+            
+BEGIN
+  OPEN ref1 FOR SELECT * FROM  "get_vol_endp_rec_aswered"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref1;
+
+  OPEN ref2 FOR SELECT * FROM  "get_vol_endp_rec_no_aswer"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref2;
+
+  OPEN ref3 FOR SELECT * FROM  "get_vol_sent_endp_answered"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref3;
+
+  OPEN ref4 FOR SELECT * FROM  "get_vol_sent_endp_no_answer"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref4;
+
+  OPEN ref5 FOR SELECT * FROM  "get_volume_sent_external_and_external"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref5;
+
+  OPEN ref6 FOR SELECT * FROM  "get_vol_sec_rec"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref6;
+
+  OPEN ref7 FOR SELECT * FROM  "get_vol_sec_no_ans"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref7;
+
+  OPEN ref8 FOR SELECT * FROM  "get_vol_rec_answ_by_hour"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref8;
+
+  OPEN ref9 FOR SELECT * FROM  "get_vol_rec_no_answ_by_hour"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref9;
+
+  OPEN ref10 FOR SELECT * FROM  "get_vol_rec_answered_and_no_answer_global"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref10;
+
+  OPEN ref11 FOR SELECT * FROM  "get_data_report_received"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref11;
+
+  OPEN ref12 FOR SELECT * FROM  "get_data_report_sent"(dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
+  RETURN NEXT ref12;
+END;
+$BODY$;
+
+DROP FUNCTION get_itens_report( 
+  ref1 refcursor,
+  ref2 refcursor,
+  ref3 refcursor,
+  ref4 refcursor,
+  ref5 refcursor,
+  ref6 refcursor,
+  ref7 refcursor,
+  ref8 refcursor,
+  ref9 refcursor,
+  ref10 refcursor,
+  ref11 refcursor,
+  ref12 refcursor,
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+);
+
+BEGIN;
+    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'boutique', '', '', '');
+    FETCH ALL IN "Ref1";
+    FETCH ALL IN "Ref2";
+    FETCH ALL IN "Ref3";
+    FETCH ALL IN "Ref4";
+    FETCH ALL IN "Ref5";
+    FETCH ALL IN "Ref6";
+    FETCH ALL IN "Ref7";
+    FETCH ALL IN "Ref8";
+    FETCH ALL IN "Ref9";
+    FETCH ALL IN "Ref10";
+    FETCH ALL IN "Ref11";
+    FETCH ALL IN "Ref12";
+COMMIT;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 16- Function Get Rows For Calls --
+SELECT
+  calldate, src, dst, dstchannel, lastapp, lastdata
+FROM cdr
+AND lastapp = 'Queue'
+-- AND lastdata LIKE '%closer%'
+AND dstchannel LIKE '%/7252%'
+ORDER BY calldate DESC;
+
+SELECT
+  calldate, src, dst, dstchannel, lastapp, lastdata
+FROM cdr
+WHERE (calldate BETWEEN '2022-03-29 00:00:00' AND '2022-03-29 23:59:59')
+AND lastdata LIKE 'crm%'
+AND dstchannel LIKE '%/251%'
+ORDER BY calldate
+DESC LIMIT 50;
+
+SELECT
+  calldate, src, dst, dstchannel, lastapp, lastdata
+FROM cdr
+WHERE (calldate BETWEEN '2022-03-29 00:00:00' AND '2022-03-29 23:59:59')
+AND lastdata LIKE 'closer%'
+AND dstchannel LIKE '%7277%'
+ORDER BY calldate
+DESC LIMIT 50;
+
+SELECT
+  calldate, src, dst, dstchannel, lastapp, lastdata
+FROM cdr
+WHERE (calldate BETWEEN '2022-03-29 00:00:00' AND '2022-03-29 23:59:59')
+AND lastdata LIKE 'sdr_n2%'
+AND dstchannel LIKE '%7251%'
+ORDER BY calldate
+DESC LIMIT 50;
+
+'crm,rthHk,,,45'
+
+UPDATE cdr SET lastdata = 'sdr_n2,rthHk,,,45'
+WHERE lastdata LIKE 'crm%'
+AND dstchannel LIKE '%/7251%';
+
+UPDATE cdr SET lastdata = 'sdr_n2,rthHk,,,45'
+WHERE lastdata LIKE 'crm%'
+AND dstchannel LIKE '%7271%';
+
+UPDATE cdr SET lastdata = 'sdr_n2,rthHk,,,45'
+WHERE lastdata LIKE 'crm%'
+AND dstchannel LIKE '%7265%';
+
+UPDATE cdr SET lastdata = 'sdr_n2,rthHk,,,45'
+WHERE lastdata LIKE 'crm%'
+AND dstchannel LIKE '%7277%';
+
 
