@@ -191,6 +191,7 @@ BEGIN
       DELETE FROM ps_endpoints WHERE id = ANY(elements);
       DELETE FROM ps_registrations WHERE id = ANY(elements);
       DELETE FROM ps_endpoint_id_ips WHERE id = ANY(elements);
+      -- Deletar
     RETURN True;
   ELSE
     RETURN False;
