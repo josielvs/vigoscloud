@@ -140,7 +140,66 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT trunkIPGenerate('Embratel', '189.1.1.1', '200.201.0.1', '1432230303', 'ulaw');
+-- SELECT trunkIPGenerate('Embratel', '189.52.73.116', '200.166.105.118', '1434340364', 'alaw');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Trunk AUTH Generate --
+DROP FUNCTION trunkAuthGenerate;
+CREATE OR REPLACE FUNCTION trunkAuthGenerate(
+  provider character varying(50),
+  ipSbcTrunk character varying(50),
+  authUserName character varying(50),
+  password character varying(50),
+  codec character varying(50)
+)
+RETURNS boolean 
+AS
+$$
+BEGIN
+  IF char_length(provider) > 0 THEN
+      INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (provider, 'sip:' || ipSbcTrunk || ':5060', 120);
+      INSERT INTO ps_auths (id, auth_type, username, password) VALUES (provider, 'userpass', authUserName, password);
+      INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, outbound_auth)
+        VALUES
+      (provider, 'udp_transport', provider, 'all', codec, provider, 'no', 'pt_BR', provider);
+      INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, outbound_auth)
+        VALUES
+      (provider, 'sip:' || ipSbcTrunk || ':5060', 'sip:' || authUserName || '@' || ipSbcTrunk || ':5060', authUserName, provider);
+      INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (provider, provider, ipSbcTrunk);
+    RETURN True;
+  ELSE
+    RETURN False;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- SELECT trunkAuthGenerate('DirectCall', '189.84.133.135', 'KZBRI', 'QX1hzIP2YN2fov9w', 'ulaw');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Endpoints DELETE --
+DROP FUNCTION trunkDelete;
+CREATE OR REPLACE FUNCTION trunkDelete(
+  elements text[]
+)
+RETURNS boolean 
+AS
+$$
+BEGIN
+  IF array_length(elements::text[], 0) IS NULL THEN
+      DELETE FROM ps_aors WHERE id = ANY(elements);
+      DELETE FROM ps_auths WHERE id = ANY(elements);
+      DELETE FROM ps_endpoints WHERE id = ANY(elements);
+      DELETE FROM ps_registrations WHERE id = ANY(elements);
+      DELETE FROM ps_endpoint_id_ips WHERE id = ANY(elements);
+    RETURN True;
+  ELSE
+    RETURN False;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- SELECT trunkDelete(ARRAY['9002', '9910'], 1);
+-- SELECT trunkDelete('{Embratel}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints SIP Generate --
@@ -182,7 +241,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT endpointsSipGenerate('6210', 50, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'yes');
+-- SELECT endpointsSipGenerate('1550', 30, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints Web Generate --
@@ -371,9 +430,18 @@ $$ LANGUAGE plpgsql;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queues Generate --
--- INSERT INTO queues (name, strategy, autofill, maxlen, ringinuse, announce_position, announce_frequency, announce_holdtime, min_announce_frequency, setqueueentryvar, wrapuptime)
--- VALUES
--- ('crm', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 4);
+-- Se "leavewhenempty" for definido como "strict".
+-- E "joinempty" definido como "strict".
+-- Impedirá que os chamadores de entrada sejam colocados em filas onde não há agentes para atender chamadas.
+-- O aplicativo Queue() retornará e o plano de discagem poderá determinar o que fazer em seguida.
+-- Essa configuração controla se os chamadores podem ingressar em uma fila sem membros.
+-- Existem três escolhas: 
+--   yes - os chamadores podem entrar em uma fila sem membros ou apenas membros indisponíveis
+--   no - os chamadores não podem entrar em uma fila sem membros
+--   strict - os chamadores não podem entrar em uma fila sem membros ou apenas membros indisponíveis
+--   soltos - o mesmo que restrito, mas os membros da fila pausados ​​não contar como indisponível
+
+
 
 DROP FUNCTION queuesGenerate;
 CREATE OR REPLACE FUNCTION queuesGenerate(
@@ -407,16 +475,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT queuesGenerate('castelo', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('falcao', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('mary-dota', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('backoffice-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('saleops-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('salesenablement-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('isr_n1-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('isr_n2-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('isr_n3-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-SELECT queuesGenerate('isr_n4-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('atendimento', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('falcao', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('mary-dota', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('backoffice-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('saleops-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('salesenablement-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('isr_n1-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('isr_n2-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('isr_n3-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('isr_n4-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -456,7 +524,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Com anuncio
--- SELECT queuesUpdate('isr_n1', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, '', '');
+-- SELECT queuesUpdate('pecas', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, 'no', 'no');
 
 -- Sem anuncio
 -- SELECT queuesUpdate('monsenhor', 'default', 'ringall', 'yes', 20, 'no', 'no', 0, 'no', 0, 'yes', 5, '', '');
@@ -493,22 +561,22 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersGenerate('atendimento', 2530, 2532);
+-- SELECT queuesMembersGenerate('atendimento', 1615, 1654);
 INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES ('atendimento', 'PJSIP/2013', 2013);
-SELECT queuesMembersGenerate('castelo', 6218, 6221);
-SELECT queuesMembersGenerate('falcao', 6210, 6216);
-SELECT queuesMembersGenerate('mary-dota', 6217, 6225);
-SELECT queuesMembersGenerate('polo_bauru', 4120, 4120);
-SELECT queuesMembersGenerate('polo_bauru', 4044, 4044);
+-- SELECT queuesMembersGenerate('castelo', 6218, 6221);
+-- SELECT queuesMembersGenerate('falcao', 6210, 6216);
+-- SELECT queuesMembersGenerate('mary-dota', 6217, 6225);
+-- SELECT queuesMembersGenerate('polo_bauru', 4120, 4120);
+-- SELECT queuesMembersGenerate('polo_bauru', 4044, 4044);
 
-SELECT queuesMembersGenerate('polo_bauru', 4110, 4110);
-SELECT queuesMembersGenerate('polo_bauru', 4118, 4118);
+-- SELECT queuesMembersGenerate('polo_bauru', 4110, 4110);
+-- SELECT queuesMembersGenerate('polo_bauru', 4118, 4118);
 
-SELECT queuesMembersGenerate('trasb_polo_bauru', 4007, 4007);
-SELECT queuesMembersGenerate('trasb_polo_bauru', 4122, 4122);
-SELECT queuesMembersGenerate('trasb_polo_bauru', 4117, 4117);
-SELECT queuesMembersGenerate('trasb_polo_bauru', 4119, 4119);
-SELECT queuesMembersGenerate('trasb_polo_bauru', 4044, 4044);
+-- SELECT queuesMembersGenerate('trasb_polo_bauru', 4007, 4007);
+-- SELECT queuesMembersGenerate('trasb_polo_bauru', 4122, 4122);
+-- SELECT queuesMembersGenerate('trasb_polo_bauru', 4117, 4117);
+-- SELECT queuesMembersGenerate('trasb_polo_bauru', 4119, 4119);
+-- SELECT queuesMembersGenerate('trasb_polo_bauru', 4044, 4044);
 -- SELECT queuesMembersGenerate('agendamento', 4122, 4122);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -532,7 +600,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersUpdate('avancadas', 5560, 1);
+-- SELECT queuesMembersUpdate('avancadas', 5560);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Music on hold
@@ -576,56 +644,4 @@ $$ LANGUAGE plpgsql;
 SELECT queuesMembersGenerate('teste', 'files');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-named_call_group, named_pickup_group
-
-DELETE FROM ps_endpoints WHERE id='1431085999';
-
-DELETE FROM queue_members WHERE queue_name = 'sac';
-
-UPDATE queue_members SET paused = 1 WHERE queue_name = 'sac';
-
-UPDATE queue_members SET paused = 0 WHERE uniqueid = '7472';
-
-INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES ('recepcao', CONCAT('PJSIP/', '5539'), '5539');
-
-
-INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, inband_progress, allow_subscribe, direct_media, dtmf_mode, device_state_busy_at, disallow, allow)
-  VALUES
-(200, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(201, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(202, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(203, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(204, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(205, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(206, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(207, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(208, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(209, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(210, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(211, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(212, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(213, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(214, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(215, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(216, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(217, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(218, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(219, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(220, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(221, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(222, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(223, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(224, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(225, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(226, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(227, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(228, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(229, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(230, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(231, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(232, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(233, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(234, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw'),
-(235, 'udp_transport', 200, 200, 'from-extensions', '200 <200>', 'pt_BR', 'no', 'yes', 'no', 'info', 1, 'all', 'ulaw');
 
