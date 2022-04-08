@@ -28,13 +28,13 @@ const createAuthTrunkEndpoint = async (connection, data) => {
 //   const { elements, password, transport, context, language, dtmf, state, codec, callGroup, pickupGroup, nat } = data;
 //   const result = await connection.query(`SELECT endpointsUpdate('{${elements}}', '${password}', '${transport}', '${context}', '${language}', '${dtmf}', ${state}, '${codec}', '${callGroup}', '${pickupGroup}', '${nat}')`);
 //   return result;
-// };  
-
-// const deleteEndpoints = async (connection, data) => {
-//   const { elements } = data;
-//   const result = await connection.query(`SELECT endpointDelete('{${elements}}')`);
-//   return result.rows;
 // };
+
+const deleteTrunks = async (connection, data) => {
+  const { elements } = data;
+  const result = await connection.query(`SELECT endpointDelete('{${elements}}')`);
+  return result.rows;
+};
 
 const factory = function (connection) {
   return {
@@ -53,8 +53,8 @@ const factory = function (connection) {
     updateEndpoints: (data) => {
       return updateEndpoints(connection, data);
     },
-    deleteEndpoints: (data) => {
-      return deleteEndpoints(connection, data);
+    deleteTrunks: (data) => {
+      return deleteTrunks(connection, data);
     },
   }
 };

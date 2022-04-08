@@ -140,7 +140,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT trunkIPGenerate('Embratel', '189.52.73.116', '200.166.105.118', '1434340364', 'alaw');
+-- SELECT trunkIPGenerate('VIVO', '189.52.73.117', '200.166.105.119', '1434340365', 'alaw');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk AUTH Generate --
@@ -174,6 +174,38 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- SELECT trunkAuthGenerate('DirectCall', '189.84.133.135', 'KZBRI', 'QX1hzIP2YN2fov9w', 'ulaw');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Trunk SELECT --
+DROP FUNCTION trunksSelect;
+CREATE OR REPLACE FUNCTION trunksSelect()
+RETURNS TABLE (
+  name character varying(50),
+  modeTransport character varying(50),
+  trunkContext character varying(50),
+  codec character varying(50),
+  server character varying(50),
+  client character varying(50),
+  authUser character varying(50),
+  authPassword character varying(50)
+)
+  LANGUAGE plpgsql AS
+$$
+BEGIN
+  return QUERY
+  SELECT
+    (SELECT id FROM ps_endpoints WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS name,
+    (SELECT transport FROM ps_endpoints WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS modeTransport ,
+    (SELECT context FROM ps_endpoints WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS trunkContext,
+    (SELECT allow FROM ps_endpoints WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS codec,
+    (SELECT server_uri FROM ps_registrations WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS server,
+    (SELECT client_uri FROM ps_registrations WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS client,
+    (SELECT username FROM ps_auths WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS authUser,
+    (SELECT password FROM ps_auths WHERE id IN (SELECT id FROM ps_endpoint_id_ips)) AS authPassword;
+END;
+$$;
+
+-- SELECT trunksSelect();
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints DELETE --

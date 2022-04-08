@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
-import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList, fetchRowsChartSectors, exportReportGenerate, exportReportDownload } from '../../services';
+import { fetchEndpoints, accessLocalStorage, fetchDataReport, fetchDataReportList, fetchRowsChartSectors, exportReportGenerate, exportReportGenerateLogs } from '../../services';
 import ChartsRecivedCalls from '../../components/Reports/ChartsRecivedCalls';
 import ReportList from '../../components/Reports/ReportList';
 import ChartsSendCalls from '../../components/Reports/ChartsSendCalls';
@@ -14,6 +14,8 @@ import TableSentCalls from '../../components/Reports/TableSentCalls';
 import FilterReportsCalls from '../../components/Reports/FilterReportsCalls';
 import Pagination from '../../components/Reports/Pagination';
 import Loading from '../../components/Loading/LoadingModule';
+import SaveButton from '../../components/Buttons/SaveButton';
+import DownloadButton from '../../components/Buttons/DownloadButton';
 
 import '../../libs/bulma.min.css';
 
@@ -49,7 +51,11 @@ function Reports() {
   const [callsPerPage, setCallsPerPage] = useState(25);
   const [sortElements, setSortElements] = useState({ key: '', direction: 'direction'});
   const [dataChartHours, setDataChartHours] = useState({});
-  const [dataChartSectors, setDataChartSectors] = useState({})
+  const [dataChartSectors, setDataChartSectors] = useState({});
+  const [classButtonGenerateStats, setClassButtonGenerateStats] = useState('');
+  const [classButtonGenerateLogs, setClassButtonGenerateLogs] = useState('');
+  const [classButtonDownloadStats, setClassButtonDownloadStats] = useState('is-hidden');
+  const [classButtonDownloadLogs, setClassButtonDownloadLogs] = useState('is-hidden');
 
   const history = useHistory();
 
@@ -86,6 +92,10 @@ function Reports() {
   return rows;
   };
 
+  const getStatsReport = () => setTimeout(() => window.location.replace(`http://${url}/api/report/download-stats`), 1000);
+
+  const getLogsReport = () => setTimeout(() => window.location.replace(`http://${url}/api/report/download-logs`), 1000);
+
   const validateUserLogged = useCallback(async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     if (!dataUser) return history.push('/');
@@ -109,6 +119,12 @@ function Reports() {
     if (!startDate || !endDate) return getStatusNotification(true);
     const localFetchDataReport = await getDataReportDb();
     setStorageDataReport(localFetchDataReport);
+
+    setClassButtonDownloadStats('is-hidden');
+    setClassButtonGenerateStats('');
+
+    setClassButtonDownloadLogs('is-hidden');
+    setClassButtonGenerateLogs('');
 
     const getRows = await getReportRowsFiltred();
     setCallsReceived(getRows);
@@ -138,7 +154,30 @@ function Reports() {
   
   const sendDataExportReportGeneration = async () => {
     const sendDataReport = await exportReportGenerate(storageDataReport);
-    if(sendDataReport.status) return setTimeout(() => window.location.replace(`http://${url}/api/report/download`), 1000); 
+    setClassButtonGenerateStats('is-hidden');
+    setClassButtonDownloadStats('');
+    return;
+  };
+
+  const sendDataExportReportGenerationLogs = async () => {
+    const sendToFileRows = await exportReportGenerateLogs({
+      dateStart: startDate,
+      dateStop: endDate,
+      hourStart: `${startHour}:00:00`,
+      hourStop: `${endHour}:59:59`,
+      sector: sectorLocal,
+      getEndpoint: endpointLocal,
+      telNumber: phoneNumberLocal,
+      getProtocol: protocolLocal,
+      statusCall: statusCallLocal,
+      typeRecOrEfet: typeCallsLocal,
+      limit: 1000000,
+      offset: 0,
+    });
+
+    setClassButtonGenerateLogs('is-hidden');
+    setClassButtonDownloadLogs('');
+    return;
   };
 
   useMemo(() => {
@@ -199,21 +238,14 @@ function Reports() {
               <TableReceivedCalls />
               <TableSentCalls />
             </div>
-            {/* <hr className="m-0 p-0"/> */}
-            <div className="columns is-centered mx-2">
-              <div className="field column is-one-quarter">
-                <div className="control">
-                  <button className="button is-link is-light is-fullwidth px-1" type="submit" onClick={ () => sendDataExportReportGeneration() }>
-                    <span className="icon">
-                      <FontAwesomeIcon icon={ faDownload } fixedWidth />
-                    </span>
-                    <span>
-                      Download
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <SaveButton
+              generateFile={ sendDataExportReportGeneration }
+              classStatus={ classButtonGenerateStats }
+            />
+            <DownloadButton
+              getFileName={ getStatsReport }
+              classStatus={ classButtonDownloadStats }
+            />
             <hr className="m-0 p-0"/>
             <FilterReportsCalls
               getAllDataDb={ getAllDataDb }
@@ -236,6 +268,14 @@ function Reports() {
             />
             <ReportList callsList={ currentCalls } sortedCalls={ sortedCalls } verifySort={ verifySort } />
             <Pagination callsPerPage={ callsPerPage } totalCalls={ callsReceived.length } paginate={ paginate } currentPage={ currentPage } />
+            <SaveButton
+              generateFile={ sendDataExportReportGenerationLogs }
+              classStatus={ classButtonGenerateLogs }
+            />
+            <DownloadButton
+              getFileName={ getLogsReport }
+              classStatus={ classButtonDownloadLogs }
+            />
           </>
       }
     </div>

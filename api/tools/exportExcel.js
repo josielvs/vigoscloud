@@ -1,8 +1,7 @@
 const xl = require('excel4node');
 
-const excelPrintData = async (params) => {
+const excelPrintData = async (name, params) => {
   const wb = new xl.Workbook();
-  const name = 'vigoscloud_report.xlsx';
 
   params.forEach((worksheet) => {
     const { sheetName, description, titles, data } = worksheet;
