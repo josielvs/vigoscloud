@@ -1,11 +1,11 @@
 const callsModel = require('./dbCallsModel');
 const loginModel = require('./loginModel');
 const amiCallsModel = require('./amiModel');
-const dbRealtimeModel = require('./dbRealtimeModel');
+const endpointsRealtimeModel = require('./endpointsRealtimeModel');
 
 module.exports = {
   callsModel,
   loginModel,
   amiCallsModel,
-  dbRealtimeModel,
+  endpointsRealtimeModel,
 };

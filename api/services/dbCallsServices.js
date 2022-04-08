@@ -48,13 +48,11 @@ const verifyAllData = (data) => {
 
       case 'checkedHourInit':
         verifyCaracterSegurity(elementValue);
-        // verifyItemsNumber(elementValue);
         acc.push(elementValue);
         break;
 
       case 'checkedHourFinal':
         verifyCaracterSegurity(elementValue);
-        // verifyItemsNumber(elementValue);
         acc.push(elementValue);
         break;
 
@@ -92,4 +90,4 @@ const verifyAllData = (data) => {
 
 module.exports = {
   verifyAllData
-};
+};   

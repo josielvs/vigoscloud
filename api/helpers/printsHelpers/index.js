@@ -6,6 +6,7 @@ const endpointsCallsReceiveds = require('./endpointsReceived');
 const endpointsCallsSents = require('./endpointsSent');
 const hoursReceivedCalls = require('./callsReceivedHours');
 const sectorReceivedCalls = require('./callsBySectors');
+const logsReport = require('./logsReport');
 
 module.exports = {
   global,
@@ -16,4 +17,5 @@ module.exports = {
   endpointsCallsSents,
   hoursReceivedCalls,
   sectorReceivedCalls,
+  logsReport,
 };

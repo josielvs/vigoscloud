@@ -21,6 +21,7 @@ import {
   fetchRowsChartSectors,
   exportReportGenerate,
   exportReportDownload,
+  exportReportGenerateLogs,
 } from './api';
 
 export {
@@ -46,4 +47,5 @@ export {
   fetchRowsChartSectors,
   exportReportGenerate,
   exportReportDownload,
+  exportReportGenerateLogs,
  } 
