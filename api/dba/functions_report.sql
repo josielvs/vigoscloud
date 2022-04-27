@@ -1192,13 +1192,269 @@ CREATE TYPE sip_dtmfmode_values AS ENUM ('rfc2833', 'info', 'inband', 'auto');
 
 
 UPDATE FROM cdr SET typecall = 'Recebida' WHERE CHAR_LENGTH(src) > 4;
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--- 1- Function GET CALLS TO REPORT TABLE RECEIVED ---
+DROP FUNCTION get_data_report_received;
+CREATE OR REPLACE FUNCTION get_data_report_received(
+  dateInitial date,
+  dateEnd date,
+  hourInitial time,
+  hourEnd time,
+  recSector character varying(30),
+  endpoint character varying(30),
+  telNumber character varying(30),
+  protocol character varying(30)
+)
+  RETURNS TABLE (
+    "amount_calls" bigint,
+    "answered_calls" bigint,
+    "no_answer_calls" bigint,
+    "busy_calls" bigint,
+    "transshipment_calls" bigint,
+    "total_time_calls" text,
+    "average_time_calls" text,
+    "average_queue_calls" text
+  )
+  LANGUAGE plpgsql AS
+  $$
+    DECLARE
+      data_inicial timestamp = CONCAT(dateInitial, ' ', hourInitial);
+      data_final timestamp = CONCAT(dateEnd, ' ', hourEnd);
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    BEGIN
+      return query
+      SELECT
+      COUNT(DISTINCT(uniqueid)) AS amount_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          -- AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND disposition LIKE 'ANSWERED' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+          AND lastdata LIKE '%' || recSector || '%'
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS answered_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr AS a
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          AND a.uniqueid
+          NOT IN (SELECT DISTINCT(uniqueid) FROM cdr
+            WHERE (calldate BETWEEN data_inicial AND data_final)
+            -- AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+            AND disposition LIKE 'ANSWERED' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+            AND lastdata LIKE '%' || recSector || '%'
+            AND src LIKE '%' || telNumber || '%'
+            AND callprotocol LIKE '%' || protocol || '%'
+            )
+          AND disposition LIKE 'NO ANSWER' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+          AND dstchannel LIKE '%' || endpoint || '%'
+          AND lastdata LIKE '%' || recSector || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+          ) AS no_answer_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          -- AND  disposition LIKE 'BUSY' AND typecall = 'Recebida'
+          AND  disposition LIKE 'BUSY' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+                WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                      )
+                    , '-', ''
+                  )
+                ELSE
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                      )
+                    , '-', ''
+                  )
+              END
+                IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+              ELSE
+                dstchannel LIKE '%' || endpoint || '%'
+            END
+          -- AND lastdata LIKE '%' || recSector || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS busy_calls,
+        (SELECT COUNT(DISTINCT(uniqueid)) FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          -- AND lastdata LIKE '%transb%' AND typecall = 'Recebida'
+           AND lastdata LIKE '%transb%' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+                WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                      )
+                    , '-', ''
+                  )
+                ELSE
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                      )
+                    , '-', ''
+                  )
+              END
+                IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+              ELSE
+                dstchannel LIKE '%' || endpoint || '%'
+            END
+          -- AND lastdata LIKE '%' || recSector || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+          ) AS transshipment_calls,
+        (SELECT TO_CHAR((SUM(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
+          FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          -- AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND disposition LIKE 'ANSWERED' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+                WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                      )
+                    , '-', ''
+                  )
+                ELSE
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                      )
+                    , '-', ''
+                  )
+              END
+                IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+              ELSE
+                dstchannel LIKE '%' || endpoint || '%'
+            END
+          -- AND lastdata LIKE '%' || recSector || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS total_time_calls,
+        (SELECT TO_CHAR((AVG(DISTINCT(duration)) || ' second')::interval, 'HH24:MI:SS')
+          FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          -- AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND disposition LIKE 'ANSWERED' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+                WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                      )
+                    , '-', ''
+                  )
+                ELSE
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                      )
+                    , '-', ''
+                  )
+              END
+                IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+              ELSE
+                dstchannel LIKE '%' || endpoint || '%'
+            END
+          -- AND lastdata LIKE '%' || recSector || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS average_time_calls,
+        (SELECT TO_CHAR((AVG(billsec) || ' second')::interval, 'HH24:MI:SS') FROM cdr
+          WHERE (calldate BETWEEN data_inicial AND data_final)
+          -- AND disposition LIKE 'ANSWERED' AND typecall = 'Recebida'
+          AND disposition LIKE 'ANSWERED' AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+          AND
+            CASE WHEN char_length(recSector) > 0 THEN
+              CASE 
+                WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                      )
+                    , '-', ''
+                  )
+                ELSE
+                  REPLACE(
+                    SUBSTRING(
+                      dstchannel, POSITION('/' in dstchannel) + 1,
+                        (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                      )
+                    , '-', ''
+                  )
+              END
+                IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+              ELSE
+                dstchannel LIKE '%' || endpoint || '%'
+            END
+          -- AND lastdata LIKE '%' || recSector || '%'
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%'
+        ) AS average_queue_calls
+      FROM cdr
+      WHERE (calldate BETWEEN data_inicial AND data_final)
+      -- AND typecall = 'Recebida'
+      AND char_length(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
+      AND
+        CASE WHEN char_length(recSector) > 0 THEN
+          CASE 
+              WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+                REPLACE(
+                  SUBSTRING(
+                    dstchannel, POSITION('/' in dstchannel) + 1,
+                      POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+                    )
+                  , '-', ''
+                )
+              ELSE
+                REPLACE(
+                  SUBSTRING(
+                    dstchannel, POSITION('/' in dstchannel) + 1,
+                      (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+                    )
+                  , '-', ''
+                )
+            END
+          IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%'|| recSector || '%')
+          ELSE
+            dstchannel LIKE '%' || endpoint || '%'
+        END
+          AND src LIKE '%' || telNumber || '%'
+          AND callprotocol LIKE '%' || protocol || '%';
+    END;
+  $$;
+
+-- SELECT * FROM  "get_data_report_received"('2022-04-01', '2022-04-12', '00:00:00', '23:59:59', 'isr_n1', '', '', '');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --- 2- Function GET CALLS TO REPORT TABLE SENT ---
@@ -1359,11 +1615,11 @@ CREATE OR REPLACE FUNCTION get_vol_endp_rec_aswered(
               )
             , '-', ''
           )
-      END
+        END
       AS endpoints, COUNT(dstchannel) FROM cdr
       WHERE (calldate BETWEEN data_inicial AND data_final)
       AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4 AND dstchannel SIMILAR TO '%@%' = False AND dstchannel <> ''
-      AND lastdata LIKE '%' || recSector || '%'
+      -- AND lastdata LIKE '%' || recSector || '%'
       AND
         CASE WHEN char_length(recSector) > 0 THEN
           CASE 
@@ -1393,7 +1649,7 @@ CREATE OR REPLACE FUNCTION get_vol_endp_rec_aswered(
     END;
   $$;
 
--- SELECT * FROM  "get_vol_endp_rec_aswered"('2022-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '');
+-- SELECT * FROM  "get_vol_endp_rec_aswered"('2022-03-15', '2022-03-30', '00:00:00', '23:59:59', '', '', '', '');
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 4- Function Get Endpoints as Volume Calls Received NO ANSWER--
@@ -1432,7 +1688,7 @@ CREATE OR REPLACE FUNCTION get_vol_endp_rec_no_aswer(
       AND a.uniqueid NOT IN (SELECT uniqueid FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final) AND disposition = 'ANSWERED' AND CHAR_LENGTH(src) > 4  AND dstchannel <> '')
       AND disposition = 'NO ANSWER' AND CHAR_LENGTH(src) > 4
-      AND lastdata LIKE '%' || recSector || '%'
+      -- AND lastdata LIKE '%' || recSector || '%'
       AND
         CASE WHEN char_length(recSector) > 0 THEN
           CASE 
@@ -2149,3 +2405,24 @@ WHERE lastdata LIKE 'crm%'
 AND dstchannel LIKE '%7277%';
 
 
+
+SELECT calldate, src, dst, dstchannel FROM cdr WHERE
+CASE 
+WHEN dstchannel SIMILAR TO '%@%' = False THEN 
+  REPLACE(
+    SUBSTRING(
+      dstchannel, POSITION('/' in dstchannel) + 1,
+        POSITION('-' in dstchannel) - POSITION('/' in dstchannel)
+      )
+    , '-', ''
+  )
+ELSE
+  REPLACE(
+    SUBSTRING(
+      dstchannel, POSITION('/' in dstchannel) + 1,
+        (POSITION('@' in dstchannel) - POSITION('/' in dstchannel)) - 1
+      )
+    , '-', ''
+  )
+END
+IN (SELECT id FROM ps_endpoints WHERE named_call_group LIKE '%isr_n1%');

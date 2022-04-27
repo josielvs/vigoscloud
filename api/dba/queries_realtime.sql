@@ -14,9 +14,8 @@ INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recep
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepcao', 'recepcaoaeroporto@magna.med.br', '$2a$05$IRMSFDUgHg0bqfktB7Jj3.il3LjkjrSo/RSCOF6576bcrygrXA4BC', '2300', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepcao', 'recepcaocomendador@magna.med.br', '$2a$05$YWvEiOQpSd5amcr41tKVeO3eIhRItF0GEb/M8XegZ8u.Q/gQ/7Lci', '2300', 'user', 'true');
 
-INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Thiago', 'cati.magna@magna.med.br', '$2a$05$TVY716JU..GZIFPfwzOxauR1TJzJMqxVQ.Mp3lHZ6rKb5me2Q4/2.', '2502', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepção', 'recep.bru@lagosan.com.br', '$2a$05$otXhMerurrt1Gobom4bUOOKpewrVwEX/7RYmxfHcP8Byw6gpESnjy', '6200', 'user', 'true');
 
- Thiago   | catimagna@magna.med.br             | $2a$05$TVY716JU..GZIFPfwzOxauR1TJzJMqxVQ.Mp3lHZ6rKb5me2Q4/2. | 2502     | admin | t
 TRUNCATE TABLE ps_aors;
 TRUNCATE TABLE ps_auths;
 TRUNCATE TABLE ps_endpoints;
@@ -39,14 +38,14 @@ INSERT INTO ps_auths (id, auth_type, password, username) VALUES (8701, 'userpass
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, allow, webrtc, use_avpf, media_encryption, dtls_verify, dtls_setup, ice_support, media_use_received_transport, rtcp_mux, dtls_cert_file, dtls_private_key, dtls_ca_file)
   VALUES
 (8701, 'wss_transport', 8701, 8701, 'ddd-celular', '8701 <8701>', 'pt_BR', 'opus,ulaw,vp9,vp8,h264', 'yes', 'yes', 'dtls', 'fingerprint', 'actpass', 'yes', 'yes', 'yes', '/home/vjpbx/certificates/certs/vigoscloud.crt', '/home/vjpbx/certificates/certs/vigoscloud.key', '/home/vjpbx/certificates/ca/vigoscloud-Root-CA.crt');
---############################################--
+--########################################--
 
 --############-- SIP PHONE --############--
-INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (1001, 1, 120, 'yes');
-INSERT INTO ps_auths (id, auth_type, password, username) VALUES (1001, 'userpass', '!vigos!!interface#01!', 1001);
+INSERT INTO ps_aors (id, max_contacts, qualify_frequency, remove_existing) VALUES (2014, 1, 120, 'yes');
+INSERT INTO ps_auths (id, auth_type, password, username) VALUES (2014, 'userpass', '!vigos!!interface#01!', 2014);
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, callerid, language, inband_progress, rtp_timeout, message_context, allow_subscribe, subscribe_context, direct_media, dtmf_mode, device_state_busy_at, disallow, allow)
   VALUES
-(1001, 'udp_transport', 1001, 1001, 'from-extensions', '1001 <1001>', 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', 'info', 1, 'all', 'ulaw');
+(2014, 'udp_transport', 2014, 2014, 'ddd-celular', '2014 <2014>', 'pt_BR', 'no', 120, 'textmessages', 'yes', 'subscriptions', 'no', 'info', 1, 'all', 'ulaw');
 --############################################--
 
 --############-- PROVIDER TRUNK IP - NUMBER --############--
@@ -60,7 +59,7 @@ VALUES
 INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (1432352500, '1432352500', '172.26.156.70');
 --#########################################################--
 
---############-- PROVIDER TRUNK IP - NAMED --############--
+--#############-- PROVIDER TRUNK IP - NAMED --#############--
 INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES ('Embratel', 'sip:1433129900@189.52.73.116:5060', 120);
 INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, from_domain, from_user, direct_media, language, tos_audio, cos_audio)
   VALUES
@@ -74,9 +73,9 @@ INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES ('Embratel', 'Embrat
 --##########-- PROVIDER TRUNK AUTH - NUMBER --#########--
 INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (21061500, 'sip:0537@131.196.224.6:5060', 120);
 INSERT INTO ps_auths (id, auth_type, password, username) VALUES (21061500, 'userpass', '2l1@mVcXe37u8i', '0537');
-INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, tos_audio, cos_audio, outbound_auth)
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, tos_audio, cos_audio, outbound_auth, from_user)
   VALUES
-(21061500, 'udp_transport', 'NOVA', 'all', 'ulaw', '21061500', 'no', 'pt_BR', 'af42', 3, '21061500');
+(21061500, 'udp_transport', 'NOVA', 'all', 'ulaw', '21061500', 'no', 'pt_BR', 'af42', 3, '21061500', '0537');
 INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, transport, endpoint)
   VALUES
 (21061500, 'sip:0537@131.196.224.6:5060', 'sip:0537@131.196.224.6:5060', '0537', 'udp_transport', '21061500');
@@ -86,9 +85,9 @@ INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES (21061500, '21061500
 --############-- PROVIDER TRUNK AUTH - NAMED --###########--
 INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES ('NOVA', 'sip:131.196.224.6:5060', 120);
 INSERT INTO ps_auths (id, auth_type, username, password) VALUES ('NOVA', 'userpass', '0537', '2l1@mVcXe37u8i');
-INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, outbound_auth)
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, outbound_auth, from_user)
   VALUES
-('NOVA', 'udp_transport', 'NOVA', 'all', 'ulaw', 'NOVA', 'no', 'pt_BR', 'NOVA');
+('NOVA', 'udp_transport', 'NOVA', 'all', 'ulaw', 'NOVA', 'no', 'pt_BR', 'NOVA', '0537');
 INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, outbound_auth)
   VALUES
 ('NOVA', 'sip:0537@131.196.224.6:5060', 'sip:0537@131.196.224.6:5060', '0537', 'NOVA');
@@ -232,7 +231,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- SELECT trunkDelete(ARRAY['9002', '9910'], 1);
--- SELECT trunkDelete('{Embratel}');
+-- SELECT trunkDelete('{ALGAR}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints SIP Generate --
@@ -274,7 +273,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT endpointsSipGenerate('1550', 30, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
+-- SELECT endpointsSipGenerate('2014', 30, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints Web Generate --
@@ -317,7 +316,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- SELECT endpointsWebGenerate(9910, 1, '!vigos!!interface#01!', 'wss_transport', 'ddd-celular', 'info', 1, 'opus', 'geral', 'geral', 'no');
+-- SELECT endpointsWebGenerate(6200, 1, '!vigos!!interface#01!', 'wss_transport', 'ddd-celular', 'info', 1, 'opus', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints SELECT --
@@ -677,4 +676,15 @@ $$ LANGUAGE plpgsql;
 SELECT queuesMembersGenerate('teste', 'files');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES ('NOVA', 'sip:0537@131.196.224.6:5060', 120);
+INSERT INTO ps_auths (id, auth_type, username, password) VALUES ('NOVA', 'userpass', '0537', '2l1@mVcXe37u8i');
+INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, outbound_auth)
+  VALUES
+('NOVA', 'udp_transport', 'NOVA', 'all', 'ulaw', 'NOVA', 'no', 'pt_BR', 'NOVA');
+INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, outbound_auth)
+  VALUES
+('NOVA', 'sip:0537@131.196.224.6:5060', 'sip:0537@131.196.224.6:5060', '0537', 'NOVA');
+INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES ('NOVA', 'NOVA', '131.196.224.6');
+
 
