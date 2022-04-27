@@ -35,6 +35,28 @@ const EventsGet = () => {
     pbxEvents.onmessage = (event) => {
       const obj = JSON.parse(event.data);
 
+      if(obj.type === 'BridgeAttendedTransfer') {
+        const { caller } = obj.transfer_target;
+        const callerIfReceived = obj.transferee.caller;
+        const callerIfSent = obj.transferee.connected;
+
+        console.log('TARGET: ', caller);
+        console.log('CALLER: ', callerIfReceived);
+        console.log('TRANFER: ', callerIfSent);
+      }
+
+      if(obj.type === 'BridgeBlindTransfer') {
+        // console.log(obj);
+        const { channel: { caller, connected }, exten } = obj;
+
+        console.log('TARGET: ', exten);
+        console.log('CALLER: ', caller);
+        console.log('TRANFER: ', connected);
+        
+        // console.log('CALLER: ', caller);
+        // console.log('TARGET: ', connected);
+      }
+
       if(obj.type === 'ContactStatusChange') {
         let ipEndpoint = obj.contact_info.uri.split('@')[1];
         ipEndpoint = ipEndpoint.split(':')[0];
