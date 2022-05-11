@@ -692,22 +692,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersGenerate('aluguel', 5535, 5535);
+-- SELECT queuesMembersGenerate('atendimento', 1100, 1100);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Queue Membres Update --
-DROP FUNCTION queuesMembersUpdate;
-CREATE OR REPLACE FUNCTION queuesMembersUpdate(
-  nameQueue character varying(128),
-  endpointId integer,
-  pause integer
+-- Function Member Delete --
+DROP FUNCTION memberDelete;
+CREATE OR REPLACE FUNCTION memberDelete(
+  endpoint character varying(128),
+  nameQueue character varying(128)
 )
 RETURNS boolean 
 AS
 $$
 BEGIN
-  IF endpointId > 0 THEN
-    UPDATE queue_members SET (queue_name, paused) = (nameQueue, pause) WHERE uniqueid = endpointId;
+  IF CHAR_LENGTH(nameQueue) > 0 THEN
+    DELETE FROM queue_members WHERE queue_name = nameQueue AND interface LIKE '%' || endpoint;
     RETURN True;
   ELSE
     RETURN False;
@@ -715,59 +714,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersUpdate('avancadas', 5560);
+-- SELECT memberDelete('1100', 'atendimento');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Music on hold
-CREATE TYPE moh_mode_values AS ENUM ('custom', 'files', 'mp3nb', 'quietmp3nb', 'quietmp3');
-
-CREATE TABLE musiconhold (
-    name VARCHAR(80) NOT NULL, 
-    mode moh_mode_values, 
-    directory VARCHAR(255), 
-    application VARCHAR(255), 
-    digit VARCHAR(1), 
-    sort VARCHAR(10), 
-    format VARCHAR(10), 
-    stamp TIMESTAMP WITHOUT TIME ZONE, 
-    PRIMARY KEY (name)
-);
-
-INSERT INTO musiconhold (name, mode, directory) VALUES ('imobiliaria-jau', 'files', '/var/lib/asterisk/moh-imobiliaria');
--- Function Music On Hold Generate --
-INSERT INTO queue_members (queue_name, interface) VALUES ('crm', 'PJSIP/7251', 1);
-
-DROP FUNCTION mohGenerate;
-
-CREATE OR REPLACE FUNCTION mohGenerate(
-  mohName character varying(128),
-  mohMode character varying(128), -- custom, files, mp3nb, quietmp3nb, quietmp3
-)
-RETURNS boolean 
-AS
-$$
-BEGIN
-  IF char_length(mohName) > 0 THEN
-    INSERT INTO musiconhold (name, mode, directory) VALUES (mohName, mohMode, '/var/lib/asterisk/moh-imobiliaria');
-    RETURN True;
-  ELSE
-    RETURN False;
-  END IF;
-END;
-$$ LANGUAGE plpgsql;
-
-SELECT queuesMembersGenerate('teste', 'files');
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES ('NOVA', 'sip:0537@131.196.224.6:5060', 120);
-INSERT INTO ps_auths (id, auth_type, username, password) VALUES ('NOVA', 'userpass', '0537', '2l1@mVcXe37u8i');
-INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, outbound_auth)
-  VALUES
-('NOVA', 'udp_transport', 'NOVA', 'all', 'ulaw', 'NOVA', 'no', 'pt_BR', 'NOVA');
-INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, outbound_auth)
-  VALUES
-('NOVA', 'sip:0537@131.196.224.6:5060', 'sip:0537@131.196.224.6:5060', '0537', 'NOVA');
-INSERT INTO ps_endpoint_id_ips (id, endpoint, match) VALUES ('NOVA', 'NOVA', '131.196.224.6');
-
 
