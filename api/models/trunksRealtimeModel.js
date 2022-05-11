@@ -14,10 +14,10 @@ const createAuthTrunkEndpoint = async (connection, data) => {
   return result.rows;
 };
 
-// const readAllEndpoints = async (connection) => {
-//   const result = await connection.query(`SELECT endpointsSelect()`);
-//   return result.rows;
-// };
+const readAllTrunks = async (connection) => {
+  const result = await connection.query(`SELECT trunksSelect()`);
+  return result.rows;
+};
 
 // const readByIdEndpoints = async (connection, elements) => {
 //   const result = await connection.query(`SELECT endpointByIdSelect('{${elements}}')`);
@@ -44,8 +44,8 @@ const factory = function (connection) {
     createAuthTrunkEndpoint: (data) => {
       return createAuthTrunkEndpoint(connection, data);
     },
-    readAllEndpoints: (data) => {
-      return readAllEndpoints(connection, data);
+    readAllTrunks: (data) => {
+      return readAllTrunks(connection, data);
     },
     readByIdEndpoints: (data) => {
       return readByIdEndpoints(connection, data);

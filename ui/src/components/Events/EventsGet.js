@@ -16,9 +16,26 @@ const EventsGet = () => {
   } = process.env;
   
   const fetchEvents = useCallback(async () => {
+    const dateBrGenerate = (dateAndTime) => {
+      const date = new Date(dateAndTime);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const second = date.getSeconds();
+    
+      const dateBr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
+    
+      const dateBrFull = `${dateBr} ${time}`;
+    
+      return dateBrFull;
+    };
+
     const { ipRequest } = await accessLocalStorage.getUserLocalStorage();
     const ip = ipRequest.replace(/http/i, 'ws');
-    // const ip = ipRequest.split('/')[2];
+
     const dbLocal = localStorage;
     const pbxEvents = new WebSocket(`${ip}ari/events?api_key=${REACT_APP_API_USER_AST}:${REACT_APP_API_PASS_AST}&app=pbxLogs&subscribeAll=true`);
     pbxEvents.onerror = await function error(error){ console.log(error); };
@@ -36,25 +53,31 @@ const EventsGet = () => {
       const obj = JSON.parse(event.data);
 
       if(obj.type === 'BridgeAttendedTransfer') {
-        const { caller } = obj.transfer_target;
-        const callerIfReceived = obj.transferee.caller;
-        const callerIfSent = obj.transferee.connected;
-
-        console.log('TARGET: ', caller);
-        console.log('CALLER: ', callerIfReceived);
-        console.log('TRANFER: ', callerIfSent);
+        const { transferer_first_leg: { dialplan: { context } } } = obj;
+        const { transferer_second_leg: { creationtime } } = obj;
+    
+        const dateBrTransformed = dateBrGenerate(creationtime);
+    
+        const print = context !== 'dial-send'?
+            `${dateBrTransformed}, ${obj.transferee.caller.number}, ${obj.transferer_second_leg.connected.number}`
+          :
+            `${dateBrTransformed}, ${obj.transferer_second_leg.dialplan.app_data.split('/')[1].split('@')[0]}, ${obj.transferer_second_leg.connected.number}`;
+            
+        // console.log('PRINT: ', print)
       }
 
       if(obj.type === 'BridgeBlindTransfer') {
         // console.log(obj);
-        const { channel: { caller, connected }, exten } = obj;
+        const { channel: { dialplan: { context }, creationtime } } = obj;
 
-        console.log('TARGET: ', exten);
-        console.log('CALLER: ', caller);
-        console.log('TRANFER: ', connected);
-        
-        // console.log('CALLER: ', caller);
-        // console.log('TARGET: ', connected);
+        const dateBrTransformed = dateBrGenerate(creationtime);
+    
+        const print = context !== 'dial-send'?
+            `${dateBrTransformed}, ${obj.channel.connected.number}, ${obj.exten}`
+          :
+            `${dateBrTransformed}, ${obj.channel.dialplan.app_data.split('/')[1].split('@')[0]}, ${obj.exten}`;
+            
+        // console.log('PRINT: ', print)
       }
 
       if(obj.type === 'ContactStatusChange') {
@@ -133,10 +156,15 @@ const EventsGet = () => {
 
       if(obj.type === 'ChannelDestroyed') {
         const { channel: { caller: { number }, state } } = obj
+
         let endpointNameDestroyed = obj.channel.dialplan.app_data.split('/')[1];
+
         if(endpointNameDestroyed === undefined) endpointNameDestroyed = 'siptrunk';
+
         let myCallActivesOnLs = JSON.parse(localStorage.getItem('realTimeCalls'));
+
         if(!myCallActivesOnLs) myCallActivesOnLs = [];
+        
         const filterToRemoveItem = myCallActivesOnLs.filter((call) => call.channelId !== obj.channel.id);
         localStorage.setItem('realTimeCalls', JSON.stringify(filterToRemoveItem));
         setGetItemsCallsAnswers(filterToRemoveItem);
