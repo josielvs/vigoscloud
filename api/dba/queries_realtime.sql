@@ -17,6 +17,8 @@ INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recep
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepção', 'recep.bru@lagosan.com.br', '$2a$05$k9DIiCUqu1ALHOohEByIEOCuARFuc2p7gSVXeB.tsGUf.XQHonqjy', '6200', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vendas', 'auxvendas.jau@lagosan.com.br', '$2a$05$otXhMerurrt1Gobom4bUOOKpewrVwEX/7RYmxfHcP8Byw6gpESnjy', '7100', 'user', 'true');
 
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Telefonista', 'telefonista.fac@lagosan.com.br', '$2a$05$d3DTXdPa2VvSLMWuKHyG7.nPAUqeMflL/TtKFjd2WWZ5Qjtc7q70u', '6200', 'user', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepção', 'recepcao.fac@lagosan.com.br', '$2a$05$d3DTXdPa2VvSLMWuKHyG7.nPAUqeMflL/TtKFjd2WWZ5Qjtc7q70u', '6200', 'user', 'true');
 
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Cardans', 'cardans.blv@terra.com.br', '$2a$05$0ASUnKmkzjnRO7RRBxxvhOZ9gDlPow5rfPCyl8us1UVGIzA1QIFjC', '4599', 'admin', 'true');
 
@@ -208,20 +210,27 @@ CREATE OR REPLACE FUNCTION trunksSelectById(
   nameTrunk character varying(50)
 )
 RETURNS TABLE (
-  name character varying(50)
+  name character varying(150),
+  serverIP character varying(150),
+  localIP character varying(150),
+  trunk character varying(150),
+  nameuser character varying(150),
+  pass character varying(150)
 )
   LANGUAGE plpgsql AS
 $$
 BEGIN
   return QUERY
-    SELECT id FROM ps_endpoints WHERE id = nameTrunk;
+    SELECT id, server_uri, client_uri, contact_user, '-' AS username, '-' AS password FROM ps_registrations WHERE id = nameTrunk
+    UNION
+    SELECT '-' AS id, '-' AS server_uri, '-' AS client_uri, '-' AS contact_user, username, password FROM ps_auths WHERE id = nameTrunk;
 END;
 $$;
 
--- SELECT trunksSelectById();
+-- SELECT trunksSelectById('Algar');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Function Endpoints DELETE --
+-- Function Trunk DELETE --
 DROP FUNCTION trunkDelete;
 CREATE OR REPLACE FUNCTION trunkDelete(
   elements text[]
@@ -245,7 +254,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- SELECT trunkDelete(ARRAY['9002', '9910'], 1);
--- SELECT trunkDelete('{Embratel}');
+-- SELECT trunkDelete('{6721058700}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints SIP Generate --
@@ -330,7 +339,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- SELECT endpointsWebGenerate(6200, 1, '!vigos!!interface#01!', 'wss_transport', 'ddd-celular', 'info', 1, 'opus', 'geral', 'geral', 'no');
+-- SELECT endpointsWebGenerate(4200, 1, '!vigos!!interface#01!', 'wss_transport', 'ddd-celular', 'info', 1, 'opus', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints SELECT --
@@ -471,8 +480,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT endpointDelete(ARRAY['9002', '9910'], 1);
--- SELECT endpointDelete('{8002, 8504}');
+-- SELECT endpointDelete(ARRAY['4199', '9910'], 1);
+-- SELECT endpointDelete('{4199}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queues Generate --
@@ -644,13 +653,13 @@ $$ LANGUAGE plpgsql;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queue Delete --
 DROP FUNCTION queueDelete;
-CREATE OR REPLACE FUNCTION queueDelete(nameQueue character varying(128))
+CREATE OR REPLACE FUNCTION queueDelete(nameQueue text[])
 RETURNS boolean 
 AS
 $$
 BEGIN
   IF CHAR_LENGTH(nameQueue) > 0 THEN
-    DELETE FROM queues WHERE name = nameQueue;
+    DELETE FROM queues WHERE name = ANY(nameQueue);
     RETURN True;
   ELSE
     RETURN False;
@@ -658,7 +667,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queueDelete('atendimento');
+-- SELECT queueDelete('{atendimento}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queue Membres Generate --
@@ -695,6 +704,127 @@ $$ LANGUAGE plpgsql;
 -- SELECT queuesMembersGenerate('atendimento', 1100, 1100);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Members Queues SELECT --
+DROP FUNCTION queuesAllSelect;
+CREATE OR REPLACE FUNCTION queuesAllSelect()
+RETURNS TABLE (
+  return_queue_name character varying(128),
+  return_interface character varying(128),
+  return_membername character varying(128),
+  return_state_interface character varying(128),
+  return_penalty integer,
+  return_paused integer,
+  return_uniqueid integer,
+  return_wrapuptime integer,
+  return_ringinuse ast_bool_values
+)
+  LANGUAGE plpgsql AS
+$$
+BEGIN
+  return QUERY
+  SELECT
+    queue_name,
+    interface,
+    membername,
+    state_interface,
+    penalty,
+    paused,
+    uniqueid,
+    wrapuptime,
+    ringinuse
+  FROM
+    queue_members
+  ORDER BY queue_name;
+END;
+$$;
+
+-- SELECT queuesAllSelect();
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Members By Queue Name SELECT --
+DROP FUNCTION membersByQueueNameSelect;
+CREATE OR REPLACE FUNCTION membersByQueueNameSelect(
+  nameQueue text[]
+)
+RETURNS TABLE (
+  return_queue_name character varying(128),
+  return_interface character varying(128),
+  return_membername character varying(128),
+  return_state_interface character varying(128),
+  return_penalty integer,
+  return_paused integer,
+  return_uniqueid integer,
+  return_wrapuptime integer,
+  return_ringinuse ast_bool_values
+)
+  LANGUAGE plpgsql AS
+$$
+BEGIN
+  return QUERY
+  SELECT
+    queue_name,
+    interface,
+    membername,
+    state_interface,
+    penalty,
+    paused,
+    uniqueid,
+    wrapuptime,
+    ringinuse
+  FROM
+    queue_members
+  WHERE
+    queue_name = ANY(nameQueue)
+  ORDER BY queue_name;
+END;
+$$;
+
+-- SELECT membersByQueueNameSelect('{atendimento, teste}');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Members By Queue Endpoint SELECT --
+DROP FUNCTION membersByEndpointSelect;
+CREATE OR REPLACE FUNCTION membersByEndpointSelect(
+  endpoint character varying(128)
+)
+RETURNS TABLE (
+  return_queue_name character varying(128),
+  return_interface character varying(128),
+  return_membername character varying(128),
+  return_state_interface character varying(128),
+  return_penalty integer,
+  return_paused integer,
+  return_uniqueid integer,
+  return_wrapuptime integer,
+  return_ringinuse ast_bool_values
+)
+  LANGUAGE plpgsql AS
+$$
+DECLARE
+      intefaceReceived character varying(128) = CONCAT('PJSIP/', endpoint);
+BEGIN
+  return QUERY
+  SELECT
+    queue_name,
+    interface,
+    membername,
+    state_interface,
+    penalty,
+    paused,
+    uniqueid,
+    wrapuptime,
+    ringinuse
+  FROM
+    queue_members
+  WHERE
+    interface = intefaceReceived
+  ORDER BY queue_name;
+END;
+$$;
+
+-- SELECT membersByEndpointSelect('1100');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Member Delete --
 DROP FUNCTION memberDelete;
 CREATE OR REPLACE FUNCTION memberDelete(
@@ -717,4 +847,3 @@ $$ LANGUAGE plpgsql;
 -- SELECT memberDelete('1100', 'atendimento');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
