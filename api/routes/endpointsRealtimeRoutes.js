@@ -25,12 +25,4 @@ dbCallRoute.post('/update', authMiddleware, updateEndpointsRoute);
 const deleteEndpointsRoute = endpointsRealtimeController.deleteController(connRealtimeEndpoints);
 dbCallRoute.post('/delete', authMiddleware, deleteEndpointsRoute);
 
-// const downloadAudioCall = dbCallRoute.get('/file/:id', (req, res) => {
-//     const id = req.params.id;
-//     // res.download(path.join(__dirname, `../recs/${id}.wav`), (err)=>{
-//       res.download(path.join(__dirname, `../../../../media/recs/${id}.wav`), (err)=>{
-//     if(err) console.log(err);
-//   });
-// });
-
 module.exports = dbCallRoute;

@@ -18,8 +18,8 @@ exports.readAllController = (trunkRealtime) => {
 
 exports.readByIdController = (trunkRealtime) => {
   return async (req, res, next) => {
-    const { ids } = req.body;
-    const result = await trunkRealtime.readTrunkById(ids);
+    const { elements } = req.body;
+    const result = await trunkRealtime.readTrunkById(elements);
     res.status(200).json(result);
   }
 } 

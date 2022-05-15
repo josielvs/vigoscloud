@@ -1,36 +1,25 @@
 const { Router } = require('express');
-const path = require('path');
+// const path = require('path');
 const { conndb } = require('../config');
-const { endpointsRealtimeModel } = require('../models');
-const { endpointsRealtimeController } = require('../controllers');
-const { dbCallsMiddleware, authMiddleware } = require('../middlewares')
+const { trunksRealtimeModel } = require('../models');
+const { trunksRealtimeController } = require('../controllers');
+const { authMiddleware } = require('../middlewares')
 
 const dbCallRoute = Router();
 
-const connRealtimeEndpoints = endpointsRealtimeModel.factory(conndb);
+const connRealtimeTrunks = trunksRealtimeModel.factory(conndb);
 
 
-const readAllEndpointsRoute = endpointsRealtimeController.readAllController(connRealtimeEndpoints);
-dbCallRoute.get('/', authMiddleware, readAllEndpointsRoute);
+const readAllTrunksRoute = trunksRealtimeController.readAllController(connRealtimeTrunks);
+dbCallRoute.get('/', authMiddleware, readAllTrunksRoute);
 
-const readByIdEndpointsRoute = endpointsRealtimeController.readByIdController(connRealtimeEndpoints)
-dbCallRoute.post('/id', authMiddleware, readByIdEndpointsRoute);
+const readByIdTrunksRoute = trunksRealtimeController.readByIdController(connRealtimeTrunks)
+dbCallRoute.post('/id', authMiddleware, readByIdTrunksRoute);
 
-const createEndpointsRoute = endpointsRealtimeController.createEndpointsController(connRealtimeEndpoints);
-dbCallRoute.post('/create', authMiddleware, createEndpointsRoute);
+const createTrunksRoute = trunksRealtimeController.createEndpointsController(connRealtimeTrunks);
+dbCallRoute.post('/create', authMiddleware, createTrunksRoute);
 
-const updateEndpointsRoute = endpointsRealtimeController.updateController(connRealtimeEndpoints);
-dbCallRoute.post('/update', authMiddleware, updateEndpointsRoute);
-
-const deleteEndpointsRoute = endpointsRealtimeController.deleteController(connRealtimeEndpoints);
-dbCallRoute.post('/delete', authMiddleware, deleteEndpointsRoute);
-
-// const downloadAudioCall = dbCallRoute.get('/file/:id', (req, res) => {
-//     const id = req.params.id;
-//     // res.download(path.join(__dirname, `../recs/${id}.wav`), (err)=>{
-//       res.download(path.join(__dirname, `../../../../media/recs/${id}.wav`), (err)=>{
-//     if(err) console.log(err);
-//   });
-// });
+const deleteTrunksRoute = trunksRealtimeController.deleteController(connRealtimeTrunks);
+dbCallRoute.post('/delete', authMiddleware, deleteTrunksRoute);
 
 module.exports = dbCallRoute;

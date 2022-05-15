@@ -149,7 +149,7 @@ BEGIN
     RETURN False;
   END IF;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql; 
 
 -- SELECT trunkIPGenerate('VIVO', '189.52.73.116', '200.210.39.78', '1433727303', 'alaw');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ $$;
 -- Function Trunk SELECT By Id --
 DROP FUNCTION trunksSelectById;
 CREATE OR REPLACE FUNCTION trunksSelectById(
-  nameTrunk character varying(50)
+  nameTrunk text[]
 )
 RETURNS TABLE (
   name character varying(150),
@@ -221,13 +221,15 @@ RETURNS TABLE (
 $$
 BEGIN
   return QUERY
-    SELECT id, server_uri, client_uri, contact_user, '-' AS username, '-' AS password FROM ps_registrations WHERE id = nameTrunk
-    UNION
-    SELECT '-' AS id, '-' AS server_uri, '-' AS client_uri, '-' AS contact_user, username, password FROM ps_auths WHERE id = nameTrunk;
+    SELECT registry.id, registry.server_uri, registry.client_uri, registry.contact_user, auth.username, auth.password
+    FROM ps_registrations AS registry
+    LEFT JOIN ps_auths AS auth
+    ON registry.id = auth.id
+    WHERE registry.id = ANY(nameTrunk);
 END;
 $$;
 
--- SELECT trunksSelectById('Algar');
+-- SELECT trunksSelectById('{Algar, Embratel}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk DELETE --
@@ -314,7 +316,7 @@ CREATE OR REPLACE FUNCTION endpointsWebGenerate(
   pickupGroup character varying(50),
   nat yesno_values
 )
-RETURNS boolean 
+RETURNS boolean
 AS
 $$
 DECLARE
@@ -847,3 +849,10 @@ $$ LANGUAGE plpgsql;
 -- SELECT memberDelete('1100', 'atendimento');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SELECT registry.id, registry.server_uri, registry.client_uri, registry.contact_user, auth.username, auth.password
+FROM ps_registrations AS registry
+LEFT JOIN ps_auths AS auth
+ON registry.id = auth.id
+WHERE registry.id = 'Algar';
+-- ps_auths

@@ -1,12 +1,10 @@
 const createTrunk = async (connection, data) => {
-  const { type } = data;
+  const { type, provider, ipSbcTrunk, ipLocal, trunkNumber, codec, authUsername, password } = data;
   if (type === 'IP') {
-    const { provider, ipSbcTrunk, ipLocal, trunkNumber, codec } = data;
-    const result = await connection.query(`SELECT trunkIPGenerate(${provider}, ${ipSbcTrunk}, '${ipLocal}', '${trunkNumber}', '${codec}')`);
+    const result = await connection.query(`SELECT trunkIPGenerate('${provider}', '${ipSbcTrunk}', '${ipLocal}', '${trunkNumber}', '${codec}')`);
     return result.rows;
   } else {
-    const { provider, ipSbcTrunk, authUsername, password, codec } = data;
-    const result = await connection.query(`SELECT trunkAuthGenerate(${provider}, ${ipSbcTrunk}, '${authUsername}', '${password}', '${codec}')`);
+    const result = await connection.query(`SELECT trunkAuthGenerate('${provider}', '${ipSbcTrunk}', '${authUsername}', '${password}', '${codec}')`);
     return result.rows;
   }
 };
@@ -17,13 +15,13 @@ const readAllTrunks = async (connection) => {
 };
 
 const readTrunkById = async (connection, elements) => {
-  const result = await connection.query(`SELECT endpointByIdSelect(${elements})`);
+  const result = await connection.query(`SELECT trunksSelectById('{${elements}}')`);
   return result.rows;
 };
 
 const deleteTrunks = async (connection, data) => {
   const { elements } = data;
-  const result = await connection.query(`SELECT endpointDelete('{${elements}}')`);
+  const result = await connection.query(`SELECT trunkDelete('{${elements}}')`);
   return result.rows;
 };
 
