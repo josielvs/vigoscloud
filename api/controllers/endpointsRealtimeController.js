@@ -25,8 +25,8 @@ exports.readAllController = (endpointsRealtime) => {
 
 exports.readByIdController = (endpointsRealtime) => {
   return async (req, res, next) => {
-    const { ids } = req.body;
-    const result = await endpointsRealtime.readByIdEndpoints(ids);
+    const { elements } = req.body;
+    const result = await endpointsRealtime.readByIdEndpoints(elements);
     res.status(200).json(result);
   }
 }
