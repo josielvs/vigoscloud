@@ -4,6 +4,7 @@ const callsRealTimeController = require('./callsRealTimeController');
 const reportController = require('./exportReportController');
 const endpointsRealtimeController = require('./endpointsRealtimeController');
 const trunksRealtimeController = require('./trunksRealtimeController');
+const queuesAndMembersRealtimeController = require('./queuesAndMembersRealtimeController');
 
 module.exports = {
   dbCallsController,
@@ -12,4 +13,5 @@ module.exports = {
   reportController,
   endpointsRealtimeController,
   trunksRealtimeController,
+  queuesAndMembersRealtimeController,
 };
