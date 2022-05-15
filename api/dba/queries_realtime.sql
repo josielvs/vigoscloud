@@ -563,8 +563,8 @@ $$;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queue SELECT By ID --
-DROP FUNCTION queueByIdSelect;
-CREATE OR REPLACE FUNCTION queueByIdSelect(
+DROP FUNCTION queueByNameSelect;
+CREATE OR REPLACE FUNCTION queueByNameSelect(
   queueName text[]
 )
 RETURNS TABLE (
@@ -608,7 +608,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queueByIdSelect('{atendimento}');
+-- SELECT queueByNameSelect('{atendimento}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queues Update --
@@ -660,7 +660,7 @@ RETURNS boolean
 AS
 $$
 BEGIN
-  IF CHAR_LENGTH(nameQueue) > 0 THEN
+  IF array_length(nameQueue::text[], 0) IS NULL  THEN
     DELETE FROM queues WHERE name = ANY(nameQueue);
     RETURN True;
   ELSE
@@ -707,8 +707,8 @@ $$ LANGUAGE plpgsql;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Members Queues SELECT --
-DROP FUNCTION queuesAllSelect;
-CREATE OR REPLACE FUNCTION queuesAllSelect()
+DROP FUNCTION membersQueuesAllSelect;
+CREATE OR REPLACE FUNCTION membersQueuesAllSelect()
 RETURNS TABLE (
   return_queue_name character varying(128),
   return_interface character varying(128),
@@ -740,7 +740,7 @@ BEGIN
 END;
 $$;
 
--- SELECT queuesAllSelect();
+-- SELECT membersQueuesAllSelect();
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Members By Queue Name SELECT --
@@ -781,7 +781,7 @@ BEGIN
 END;
 $$;
 
--- SELECT membersByQueueNameSelect('{atendimento, teste}');
+-- SELECT membersByQueueNameSelect('{atendimento}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Members By Queue Endpoint SELECT --
