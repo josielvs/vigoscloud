@@ -445,7 +445,7 @@ RETURNS boolean
 AS
 $$
 BEGIN
-  IF array_length(endpoint::bigint[], 0) IS NULL THEN
+  IF array_length(endpoint::text[], 0) IS NULL THEN
       UPDATE ps_auths SET password = passwordValue WHERE id = ANY(endpoint);
       UPDATE ps_endpoints SET 
         (transport, context, language, dtmf_mode, device_state_busy_at, allow, named_call_group, named_pickup_group, force_rport, rewrite_contact, rtp_symmetric)
@@ -849,10 +849,79 @@ $$ LANGUAGE plpgsql;
 -- SELECT memberDelete('1100', 'atendimento');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function Musical On Hold Create --
+DROP FUNCTION mohGenerate;
+CREATE OR REPLACE FUNCTION mohGenerate(
+  mohName character varying(128),
+  mohPosition integer, -- 1, 2 ou 3...
+  mohEntry character varying(128) -- horario-atendimento.wav -- Caminho do arquivo com extensão.
+)
+RETURNS boolean 
+AS
+$$
+DECLARE
+  updateEntry character varying(128) = CONCAT('/var/lib/asterisk/moh', mohEntry, '.wav');
+BEGIN
+  IF CHAR_LENGTH(mohName) > 0 THEN
+    INSERT INTO musiconhold (name, mode, directory)
+      VALUES
+    (mohName, 'files', '/var/lib/asterisk/moh');
+    INSERT INTO musiconhold_entry (name, position, entry)
+      VALUES
+    (mohName, mohPosition, updateEntry);
+    RETURN True;
+  ELSE
+    RETURN False;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
 
-SELECT registry.id, registry.server_uri, registry.client_uri, registry.contact_user, auth.username, auth.password
-FROM ps_registrations AS registry
-LEFT JOIN ps_auths AS auth
-ON registry.id = auth.id
-WHERE registry.id = 'Algar';
--- ps_auths
+-- SELECT mohGenerate('horario', 1, 'horario-atendimento');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function MOH SELECT --
+DROP FUNCTION mohSelect;
+CREATE OR REPLACE FUNCTION mohSelect()
+RETURNS TABLE (
+  nameMoh character varying(128),
+  positionMoh integer,
+  fileName character varying(128)
+)
+  LANGUAGE plpgsql AS
+$$
+BEGIN
+  return QUERY
+  SELECT
+    *
+  FROM
+    musiconhold_entry
+  ORDER BY name;
+END;
+$$;
+
+-- SELECT mohSelect();
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Function MOH DELETE --
+DROP FUNCTION mohDelete;
+CREATE OR REPLACE FUNCTION mohDelete(
+  elements text[]
+)
+RETURNS boolean 
+AS
+$$
+BEGIN
+  IF array_length(elements::text[], 0) IS NULL THEN
+      DELETE FROM musiconhold_entry WHERE name = ANY(elements);
+      DELETE FROM musiconhold WHERE name = ANY(elements);
+    RETURN True;
+  ELSE
+    RETURN False;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- SELECT mohDelete(ARRAY['4199', '9910'], 1);
+-- SELECT mohDelete('{horario}');
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

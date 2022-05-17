@@ -35,7 +35,6 @@ dbCallRoute.post('/report/list-sector-chart', authMiddleware, readRowsChartSecto
 
 const downloadAudioCall = dbCallRoute.get('/file/:id', (req, res) => {
     const id = req.params.id;
-    // res.download(path.join(__dirname, `../recs/${id}.wav`), (err)=>{
       res.download(path.join(__dirname, `../../../../media/recs/${id}.wav`), (err)=>{
     if(err) console.log(err);
   });

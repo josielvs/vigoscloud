@@ -5,6 +5,7 @@ const exportReportRoutes = require('./exportReportRoutes');
 const endpointsRealtimeRoutes = require('./endpointsRealtimeRoutes');
 const trunksRealtimeRoutes = require('./trunksRealtimeRoutes');
 const queuesAndMembersRealtimeRoutes = require('./queuesAndMembersRealtimeRoutes');
+const mohRealtimeRoutes = require('./mohRealtimeRoutes');
 
 module.exports = {
   dbCallsRoutes,
@@ -13,5 +14,6 @@ module.exports = {
   exportReportRoutes,
   endpointsRealtimeRoutes,
   trunksRealtimeRoutes,
-  queuesAndMembersRealtimeRoutes, 
+  queuesAndMembersRealtimeRoutes,
+  mohRealtimeRoutes,
 };

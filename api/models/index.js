@@ -4,6 +4,7 @@ const amiCallsModel = require('./amiModel');
 const endpointsRealtimeModel = require('./endpointsRealtimeModel');
 const trunksRealtimeModel = require('./trunksRealtimeModel');
 const queuesAndMembersRealtimeModel = require('./queuesAndMembersRealtimeModel');
+const musicOnHoldRealtimeModel = require('./musicOnHoldRealtimeModel');
 
 module.exports = {
   callsModel,
@@ -12,4 +13,5 @@ module.exports = {
   endpointsRealtimeModel,
   trunksRealtimeModel,
   queuesAndMembersRealtimeModel,
+  musicOnHoldRealtimeModel,
 };
