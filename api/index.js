@@ -17,6 +17,7 @@ app.use('/api/report', route.exportReportRoutes);
 app.use('/api/config/endpoints', route.endpointsRealtimeRoutes);
 app.use('/api/config/trunks', route.trunksRealtimeRoutes);
 app.use('/api/config/queues', route.queuesAndMembersRealtimeRoutes);
+app.use('/api/config/moh', route.mohRealtimeRoutes)
 
 app.use(errorMiddleware);
 
