@@ -4,6 +4,8 @@
   4 | Gustavo | gustavo@vigossolucoes.com.br | $2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC | 4108     | admin | t
   5 | Victor  | victor@vigossolucoes.com.br  | $2a$05$ABJrNY5NXVQzgoMqenBlBuScfsCeFPtDxFp1qtyy8ovnJeluZqq4m | 4109     | admin | t
 
+  36 | Sergio   | sergio@refrigas.com.br                | $2a$05$DED/ROFo7ZoxL8y0M6rB4O7mpNEdvmPiKJkCIABPnJrwXS7yAyNVC | 6305     | user  | t
+
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vigos', 'adm@vigossolucoes.com.br', '$2a$05$A1Xso4kAVGLXxpJj1oAIxO5o4JR.PA0OdBKqZTwra10JQ62FCirj.', '2000', 'admin', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('User', 'user@vigossolucoes.com.br', '$2a$05$t77fhcB.jNZLLiYys6.aFuI5dZ07kTa/uTuF9cuIMK.TeyFfCp5Za', '9900', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Support', 'support@vigossolucoes.com.br', '$2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC', '9900', 'tecnical', 'true');
@@ -26,8 +28,17 @@ INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (8,
 INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (9, 'Gustavo', 'gustavo@agrosolo.com.br', '$2a$05$6pYafCk/Ni2YbsO5z4xYWud1c.Tb/cEok5hWbrGaOwECiN1ihrQVm', '7100', 'user', 'true');
 INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (10, 'Robert', 'robert@agrosolo.com.br', '$2a$05$6pYafCk/Ni2YbsO5z4xYWud1c.Tb/cEok5hWbrGaOwECiN1ihrQVm', '7100', 'user', 'true');
 
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepção', 'recepcao.3199@caminhoveiculos.com.br', '$2a$05$anEth7NFmaXJLQ4TH5G4y.La053LTWt7dUiaVh8J0C90zX/NzOO52', '4000', 'user', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepção', 'recepcao.90350@fiatcaminho.com.br', '$2a$05$anEth7NFmaXJLQ4TH5G4y.mq58PIGT9zD7M4uSUycfcXVmnDuckUG', '4000', 'user', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('André', 'andre.ruiz@caminhoveiculos.com.br', '$2a$05$anEth7NFmaXJLQ4TH5G4y.xGUa.4PDDFwuXbyuJGSM090r5F3taBK', '6305', 'admin', 'true');
+
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Sergio', 'sergio@refrigas.com.br', '$2a$05$DED/ROFo7ZoxL8y0M6rB4O7mpNEdvmPiKJkCIABPnJrwXS7yAyNVC', '9999', 'user', 'true');
+
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vendas', 'auxvendas.btu@lagosan.com.br', '$2a$05$lBK1ZAM4OVNx6dSnLlUcGOGD.bRBcZxPaHui.rcyYnY0sWTmyX6nS', '9999', 'user', 'true');
 
 
+TRUNCATE TABLE users;
+TRUNCATE TABLE cdr;
 TRUNCATE TABLE ps_aors;
 TRUNCATE TABLE ps_auths;
 TRUNCATE TABLE ps_endpoints;
@@ -35,7 +46,8 @@ TRUNCATE TABLE ps_registrations;
 TRUNCATE TABLE ps_endpoint_id_ips;
 TRUNCATE TABLE queues;
 TRUNCATE TABLE queue_members;
-TRUNCATE TABLE cdr;
+TRUNCATE TABLE musiconhold CASCADE;
+TRUNCATE TABLE musiconhold_entry;
 
 INSERT INTO ps_endpoints
         (id, transport, aors, auth, context, callerid, language, inband_progress, rtp_timeout, message_context, allow_subscribe, subscribe_context, direct_media, dtmf_mode, device_state_busy_at, disallow, allow, named_call_group, named_pickup_group, force_rport, rewrite_contact, rtp_symmetric)
@@ -151,7 +163,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql; 
 
--- SELECT trunkIPGenerate('VIVO', '189.52.73.116', '200.210.39.78', '1433727303', 'alaw');
+-- SELECT trunkIPGenerate('VIVO-SIP', '10.255.240.111', '10.19.197.122', '1432838070', 'alaw');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk AUTH Generate --
@@ -229,7 +241,7 @@ BEGIN
 END;
 $$;
 
--- SELECT trunksSelectById('{Algar, Embratel}');
+-- SELECT trunksSelectById('{Sao_Jose_Rio_Preto}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk DELETE --
@@ -256,7 +268,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- SELECT trunkDelete(ARRAY['9002', '9910'], 1);
--- SELECT trunkDelete('{6721058700}');
+-- SELECT trunkDelete('{AmericaNet-Ford, AmericaNet-Fiat}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints SIP Generate --
@@ -298,7 +310,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT endpointsSipGenerate('0100', 100, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
+-- SELECT endpointsSipGenerate('5900', 100, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints Web Generate --
@@ -483,7 +495,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- SELECT endpointDelete(ARRAY['4199', '9910'], 1);
--- SELECT endpointDelete('{4199}');
+-- SELECT endpointDelete('{1037, 1091, 1093}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queues Generate --
@@ -647,7 +659,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Com anuncio
--- SELECT queuesUpdate('atendimento', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, 'no', 'no');
+-- SELECT queuesUpdate('atendimento', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, 'strict', 'no');
 
 -- Sem anuncio
 -- SELECT queuesUpdate('monsenhor', 'default', 'ringall', 'yes', 20, 'no', 'no', 0, 'no', 0, 'yes', 5, '', '');
@@ -669,7 +681,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queueDelete('{atendimento}');
+-- SELECT queueDelete('{AmericaNet}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queue Membres Generate --
@@ -703,7 +715,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersGenerate('atendimento', 1100, 1100);
+-- SELECT queuesMembersGenerate('sdr_n2', 7285, 7291);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Members Queues SELECT --
@@ -846,7 +858,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT memberDelete('1100', 'atendimento');
+-- SELECT memberDelete('6305', 'agendamento-hyundai');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Musical On Hold Create --
@@ -860,12 +872,12 @@ RETURNS boolean
 AS
 $$
 DECLARE
-  updateEntry character varying(128) = CONCAT('/var/lib/asterisk/moh', mohEntry, '.wav');
+  updateEntry character varying(128) = CONCAT('/var/lib/asterisk/audios/moh', mohEntry, '.wav');
 BEGIN
   IF CHAR_LENGTH(mohName) > 0 THEN
     INSERT INTO musiconhold (name, mode, directory)
       VALUES
-    (mohName, 'files', '/var/lib/asterisk/moh');
+    (mohName, 'files', '/var/lib/asterisk/audios/moh');
     INSERT INTO musiconhold_entry (name, position, entry)
       VALUES
     (mohName, mohPosition, updateEntry);

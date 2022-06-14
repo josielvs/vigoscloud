@@ -234,3 +234,260 @@ export const exportReportDownload = async () => {
     return error;
   }
 };
+
+////////// API TRUNKS /////////
+export const exportCreateTrunks = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/trunks/create`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectAllTrunks = async () => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .get(`${ipRequest}api/config/trunks`, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportDeleteTrunks = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/trunks/delete`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+////////// API ENDPOINTS /////////
+export const exportCreateEndpoints = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/endpoints/create`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectAllEndpoints = async () => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .get(`${ipRequest}api/config/endpoints`, { headers: { Authorization: token } })
+    return response.data;
+  } catch (error) {
+    return console.error(error);
+  }
+};
+
+export const exportSelectEndpointsById = async () => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/endpoints/id`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportUpdateEndpoints = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/endpoints/update`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportDeleteEndpoints = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/endpoints/delete`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+////////// API QUEUES /////////
+export const exportCreateQueues = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/create`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectAllQueues = async () => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .get(`${ipRequest}api/config/queues`, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectQueuesByName = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/name`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportUpdateQueues = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/update`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportDeleteQueues = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/delete`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+////////// API MEMBER QUEUES /////////
+export const exportCreateQueueMembers = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/members/create`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectAllQueueMembers = async () => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .get(`${ipRequest}api/config/queues/members`, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectQueueMemberByName = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/members/name`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectQueueMemberByEndpoint = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/members/endpoint`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportDeleteQueueMember = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/members/delete`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+////////// API MOH /////////
+export const exportCreateMoh = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/queues/members/create`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportSelectAllMohs = async () => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .get(`${ipRequest}api/config/moh`, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const exportDeleteMohs = async (dataRequest) => {
+  const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
+  
+  try {
+    const response = await axios
+      .post(`${ipRequest}api/config/moh/delete`, dataRequest, { headers: { Authorization: token } });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

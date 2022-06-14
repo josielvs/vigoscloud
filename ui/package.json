@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "chart.js": "^3.3.2",
-    "react-chartjs-2": "^3.0.3"
+    "react-chartjs-2": "^3.0.3",
+    "react-dev-utils": "^12.0.1"
   }
 }
