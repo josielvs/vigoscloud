@@ -27,7 +27,7 @@ function EndpointsCreate() {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     const { user: { role } } = dataUser;
     if (!dataUser) return history.push('/');
-    if (dataUser && role !== 'admin') return history.push('/home');
+    if (dataUser && role !== 'root') return history.push('/home');
     return setLoading(false);
   }, []);
 

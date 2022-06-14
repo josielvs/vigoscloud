@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import PbxContext from '../../context/PbxContext';
@@ -7,7 +7,7 @@ import { accessLocalStorage } from '../../services';
 
 const Header = () => {
   const getItensStateGlobal = useContext(PbxContext);
-  let { path, setPath, toggleIsHidden, setComponentConfigIsUp } = getItensStateGlobal;
+  let { path, setPath, toggleIsChangeFormElements, setComponentConfigIsUp } = getItensStateGlobal;
   const history = useHistory();
   if(!path) path = history.location.pathname;
   const user = accessLocalStorage.getUserLocalStorage();
@@ -15,11 +15,16 @@ const Header = () => {
   const { ipRequest } = user;
   const protocolUriActive = ipRequest.replace(/http/i, 'https');
 
-  const verifyComponentView = (id) => {
-    setComponentConfigIsUp(id);
-    history.push('/config');
+  const verifyComponentView = async () => {
+    const user = await accessLocalStorage.getUserLocalStorage();
+    const { user: { role } } = user;
+    if(role === 'root') toggleIsChangeFormElements('config-items', 'navbar-dropdown mx-0 px-0 has-text-centered is-active')
     return;
   };
+
+  useEffect(() => {
+    verifyComponentView();
+  }, [])
   
   return path !== '/' ? (
     <div className="navbar header-custon card-header" role="navigation" aria-label="main navigation">
@@ -44,7 +49,7 @@ const Header = () => {
             <p className="navbar-link">
               Configurações
             </p>
-            <div className="navbar-dropdown mx-0 px-0 has-text-centered">
+            <div id="config-items" name="config-items" className="navbar-dropdown mx-0 px-0 has-text-centered is-hidden">
               <div className="dropdown is-hoverable mx-0 px-0">
                 <div className="dropdown-trigger mx-0 px-0">
                   <div className=" mx-0 px-0" aria-haspopup="true" aria-controls="dropdown-menu">
