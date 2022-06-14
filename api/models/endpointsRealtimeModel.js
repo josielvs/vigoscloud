@@ -12,9 +12,13 @@
 * nat string (20), 'yes' or 'no',
 *************************/
 const createSipEndpoint = async (connection, data) => {
-  const { first, qtt, password, transport, context, dtmf, state, codec, callGroup, pickupGroup, nat } = data;
-  const result = await connection.query(`SELECT endpointsSipGenerate(${first}, ${qtt}, '${password}', '${transport}', '${context}', '${dtmf}', ${state}, '${codec}', '${callGroup}', '${pickupGroup}', '${nat}')`);
-  return result.rows;
+  try {
+    const { first, qtt, password, transport, context, dtmf, state, codec, callGroup, pickupGroup, nat } = data;
+    const result = await connection.query(`SELECT endpointsSipGenerate(${first}, ${qtt}, '${password}', '${transport}', '${context}', '${dtmf}', ${state}, '${codec}', '${callGroup}', '${pickupGroup}', '${nat}')`);
+    return result.rows;
+  } catch (error) {
+    throw new Error('Não foi possível adicionar os ramais!');
+  }
 };
 
 const createWebEndpoint = async (connection, data) => {

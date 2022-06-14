@@ -27,7 +27,7 @@ const writeOnFile = (content) => {
   });
 };
 
-const pbxEvents = new WebSocket(`ws://localhost:8088/ari/events?api_key=vigospbx:vigosinterface&app=pbxLogEvents&subscribeAll=true`);
+const pbxEvents = new WebSocket(`http://localhost:8088/ari/events?api_key=vigospbx:vigosinterface&app=pbxLogEvents&subscribeAll=true`);
 pbxEvents.onerror = function error(error){ console.log(error); };
 
 pbxEvents.onmessage = (event) => {

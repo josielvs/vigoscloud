@@ -36,6 +36,14 @@ const Burger = () => {
           Relatórios
         </Link>
         <Link
+          to="/config"
+          className="navbar-item has-text-centered is-fullwidth"
+          data-testid="side-menu-item-products"
+          onClick={ () => handleClick('/config', '#navMenu') }
+        >
+          Relatórios
+        </Link>
+        <Link
           to="/"
           className="navbar-item  has-text-centered"
           data-testid="side-menu-item-logout"

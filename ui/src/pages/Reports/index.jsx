@@ -117,6 +117,7 @@ function Reports() {
 
   const fecthDataFilterCurrent = async () => {
     if (!startDate || !endDate) return getStatusNotification(true);
+    setLoading(true)
     const localFetchDataReport = await getDataReportDb();
     setStorageDataReport(localFetchDataReport);
 
@@ -128,6 +129,7 @@ function Reports() {
 
     const getRows = await getReportRowsFiltred();
     setCallsReceived(getRows);
+    setLoading(false);
   };
 
   const getReportRowsFiltredChartSectors = async (sector, status) => {

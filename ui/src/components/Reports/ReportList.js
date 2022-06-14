@@ -23,10 +23,6 @@ const ReportList = ({ callsList, sortedCalls }) => {
   };
 
   const thElement = useRef(null);
-  
-  const setAndChangeDataElement = () => {
-
-  };
 
   useEffect(() => {
     getUserDataLocal();
@@ -37,17 +33,17 @@ const ReportList = ({ callsList, sortedCalls }) => {
       <div className="table-container is-flex-wrap-wrap">
         <table id="tableCalls" className="table is-hoverable is-striped is-fullwidth">  
             <thead>
-                <tr className='is-size-7 has-text-centered '>
-                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('data') } >Data</th>
-                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('origem_primaria') } >Origem</th>
+                <tr className='is-size-7 has-text-centered'>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('data') } >Data</th>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('origem_primaria') } >Origem</th>
                 <th scope="col">Origem Secundaria</th>
-                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('setor') } >Setor</th>
-                <th scope="col" >Destino</th>
-                <th scope="col" >Destino Secundario</th>
-                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('status') } >Status</th>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('setor') } >Setor</th>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('destino_primario') }>Destino</th>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('destino_secundario') }>Destino Secundario</th>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('status') } >Status</th>
                 <th scope="col" >Tempo Espera (segundos)</th>
-                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('duracao') } >Total da Ligação (segundos)</th>
-                <th className='th-interactive' scope="col" onClick={ () => sortedCalls('tipo') } >Tipo</th>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('duracao') } >Total da Ligação (segundos)</th>
+                <th className='th-interactive is-clickable' scope="col" onClick={ () => sortedCalls('tipo') } >Tipo</th>
                 <th scope="col">Protocolo</th>
                 <th scope="col">Gravação</th>
                 </tr>

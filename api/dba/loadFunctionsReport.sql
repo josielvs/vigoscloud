@@ -924,7 +924,7 @@ DROP FUNCTION get_itens_report(
 );
 
 BEGIN;
-    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'boutique', '', '', '');
+    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', dateInitial, dateEnd, hourInitial, hourEnd, recSector, endpoint, telNumber, protocol);
     FETCH ALL IN "Ref1";
     FETCH ALL IN "Ref2";
     FETCH ALL IN "Ref3";

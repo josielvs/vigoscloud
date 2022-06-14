@@ -988,7 +988,7 @@ CREATE OR REPLACE FUNCTION get_sectors()
     END;
   $$;
 
-SELECT * FROM  "get_sectors"();
+-- SELECT * FROM  "get_sectors"();
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 16- Function Get Rows For Calls --
@@ -2309,44 +2309,21 @@ BEGIN
 END;
 $BODY$;
 
-DROP FUNCTION get_itens_report( 
-  ref1 refcursor,
-  ref2 refcursor,
-  ref3 refcursor,
-  ref4 refcursor,
-  ref5 refcursor,
-  ref6 refcursor,
-  ref7 refcursor,
-  ref8 refcursor,
-  ref9 refcursor,
-  ref10 refcursor,
-  ref11 refcursor,
-  ref12 refcursor,
-  dateInitial date,
-  dateEnd date,
-  hourInitial time,
-  hourEnd time,
-  recSector character varying(30),
-  endpoint character varying(30),
-  telNumber character varying(30),
-  protocol character varying(30)
-);
-
-BEGIN;
-    SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'boutique', '', '', '');
-    FETCH ALL IN "Ref1";
-    FETCH ALL IN "Ref2";
-    FETCH ALL IN "Ref3";
-    FETCH ALL IN "Ref4";
-    FETCH ALL IN "Ref5";
-    FETCH ALL IN "Ref6";
-    FETCH ALL IN "Ref7";
-    FETCH ALL IN "Ref8";
-    FETCH ALL IN "Ref9";
-    FETCH ALL IN "Ref10";
-    FETCH ALL IN "Ref11";
-    FETCH ALL IN "Ref12";
-COMMIT;
+-- BEGIN;
+--     SELECT get_itens_report('Ref1', 'Ref2', 'Ref3', 'Ref4', 'Ref5', 'Ref6', 'Ref7', 'Ref8', 'Ref9', 'Ref10', 'Ref11', 'Ref12', '2022-01-26', '2022-01-26', '00:00:00', '23:59:59', 'boutique', '', '', '');
+--     FETCH ALL IN "Ref1";
+--     FETCH ALL IN "Ref2";
+--     FETCH ALL IN "Ref3";
+--     FETCH ALL IN "Ref4";
+--     FETCH ALL IN "Ref5";
+--     FETCH ALL IN "Ref6";
+--     FETCH ALL IN "Ref7";
+--     FETCH ALL IN "Ref8";
+--     FETCH ALL IN "Ref9";
+--     FETCH ALL IN "Ref10";
+--     FETCH ALL IN "Ref11";
+--     FETCH ALL IN "Ref12";
+-- COMMIT;
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

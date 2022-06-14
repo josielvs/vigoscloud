@@ -6,11 +6,15 @@ exports.createEndpointsController = (endpointsRealtime) => {
     const data = req.body;
 
     if(type === 'SIP') {
-      const result = await endpointsRealtime.createSipEndpoint(data);
+      try {
+        const result = await endpointsRealtime.createSipEndpoint(data);
       res.status(200).json(result);
+      } catch (error) {
+        res.status(200).json(error);
+      }
     } else {
       const result = await endpointsRealtime.createWebEndpoint(data);
-      res.status(200).json(result);
+      res.status(500).json(result);
     }
   }
 }

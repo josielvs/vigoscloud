@@ -20,14 +20,25 @@ function Provider({ children }) {
   });
   const [callsAnalist, setCallsAnalist] = useState([]);
   const [callsOfDay, setCallsOfDay] = useState([]);
-  const [dayDb, setDayDb] = useState({ day: 0 });
   const [channelInState, setChannelInState] = useState({});
   const [clickToCallChannel, setClickToCallChannel] = useState('');
+  const [itemsEndpoints, setItemsEndpoints] = useState('callGroup,codec,context,dtmf,first,language,nat,password,pickupGroup,qtt,state,transport,type');
 
   const toggleIsHidden = (id) => {
     const showMenu = document.querySelector(id);
+    if(!showMenu) return;
     showMenu.classList.toggle('is-active');
     showMenu.classList.toggle('is-hidden');
+  };
+
+  const toggleIsChangeFormElements = (inputName, classState) => {
+    const showMenu = document.querySelector(`[name="${inputName}"]`);
+    
+    if(showMenu) {
+      showMenu.classList = `${classState}`;
+      return true;
+    }
+    return false;
   };
 
   const verifySort = (a, b) => {
@@ -38,7 +49,10 @@ function Provider({ children }) {
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  };
+
+  const validCharactersPassword = new RegExp(/^(?=.*[@!#$/\\])[@!#$%^&*()/\\a-zA-Z0-9]{6,30}$/);
+  const validCharactersTextAndNumbers = new RegExp(/[,a-zA-Z0-9]$/);
 
   const contextValues = {
     user,
@@ -66,6 +80,11 @@ function Provider({ children }) {
     storageDataReportList,
     setStorageDataReportList,
     capitalizeFirstLetter,
+    validCharactersPassword,
+    itemsEndpoints,
+    setItemsEndpoints,
+    toggleIsChangeFormElements,
+    validCharactersTextAndNumbers,
   };
   
   return (

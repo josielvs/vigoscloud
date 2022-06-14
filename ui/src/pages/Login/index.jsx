@@ -72,7 +72,7 @@ function Login() {
                   type="password"
                   placeholder="Digite a senha"
                   onChange={ (e) => setPassword(e.target.value) }
-                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                  onKeyPress={ (e) => { e.key === 'Enter' && e.preventDefault(); }}
                 />
               </label>
             </div>
