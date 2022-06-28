@@ -23,6 +23,7 @@ function Provider({ children }) {
   const [channelInState, setChannelInState] = useState({});
   const [clickToCallChannel, setClickToCallChannel] = useState('');
   const [itemsEndpoints, setItemsEndpoints] = useState('callGroup,codec,context,dtmf,first,language,nat,password,pickupGroup,qtt,state,transport,type');
+  const [itemsSelectedToEdit, setItemsSelectedToEdit] = useState([]);
 
   const toggleIsHidden = (id) => {
     const showMenu = document.querySelector(id);
@@ -52,7 +53,7 @@ function Provider({ children }) {
   };
 
   const validCharactersPassword = new RegExp(/^(?=.*[@!#$/\\])[@!#$%^&*()/\\a-zA-Z0-9]{6,30}$/);
-  const validCharactersTextAndNumbers = new RegExp(/[,a-zA-Z0-9]$/);
+  const validCharactersTextAndNumbers = new RegExp(/[,_\-a-zA-Z0-9]$/);
 
   const contextValues = {
     user,
@@ -85,6 +86,8 @@ function Provider({ children }) {
     setItemsEndpoints,
     toggleIsChangeFormElements,
     validCharactersTextAndNumbers,
+    itemsSelectedToEdit,
+    setItemsSelectedToEdit,
   };
   
   return (

@@ -7,12 +7,6 @@ const sethoursCallsRecsStatus = (receiveds, noReceiveds) => {
   const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort((a, b) => a - b);
   const labels = [...new Set(labelsVerify)];
 
-  const verifySort = (a, b) => {
-    if(a > b) return 1;
-    if (a < b) return -1;
-    return 0;
-  };
-
   const dataComplete = labels.map((hour) => {
     const data = {
       hour,

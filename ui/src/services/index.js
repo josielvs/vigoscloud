@@ -1,6 +1,7 @@
 import validEmail from './validEmail';
 import validPassword from './validPassword';
 import validName from './validName'
+import { charactersAnalyze, toggleIsChangeFormElements } from './configEndpointsAnayze'
 import accessLocalStorage from './accessLocalStorage';
 import {
   clickToCall,
@@ -49,6 +50,8 @@ export {
   validEmail,
   validPassword,
   validName,
+  charactersAnalyze,
+  toggleIsChangeFormElements,
   accessLocalStorage,
   clickToCall,
   cancelClickToCall,

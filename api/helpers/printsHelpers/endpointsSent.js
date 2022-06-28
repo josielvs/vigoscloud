@@ -17,7 +17,6 @@ const setEndpointsCallsSentsStatus = (receiveds, noReceiveds) => {
     const data = {
       endpoint,
       Atendida: Object.keys(callsSentsAnswered).includes(endpoint) ? Number(callsSentsAnswered[endpoint]) : 0,
-      // naoAtendidas: Object.keys(callsSentsNotAnswer).includes(endpoint) ? Number(callsSentsNotAnswer[endpoint]) : 0,
       naoAtendidas: callsSentsNotAnswer[endpoint] ? Number(callsSentsNotAnswer[endpoint]) : 0,
     };
     return data;

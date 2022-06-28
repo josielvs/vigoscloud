@@ -12,7 +12,6 @@ const setCallsBySector = (receiveds, noReceiveds) => {
   const labelNoAnswer = Object.keys(callsSentSector);
   const labelsVerify = labelsAnswered.concat(labelNoAnswer).sort(verifySort);
   const labels = [...new Set(labelsVerify)].filter((sector) => sector !== 'Porteiros');
-  // const labels = labelsMerge.map((label) => label.length > 4 ? capitalizeFirstLetter(label) : label.toUpperCase());
 
   const dataComplete = labels.map((sector) => {
     const data = {

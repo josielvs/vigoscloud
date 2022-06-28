@@ -360,35 +360,52 @@ $$ LANGUAGE plpgsql;
 DROP FUNCTION endpointsSelect;
 CREATE OR REPLACE FUNCTION endpointsSelect()
 RETURNS TABLE (
-  endpoint character varying(30),
-  transportName character varying(30),
-  contextName character varying(30),
-  languageName character varying(30),
-  codec character varying(30),
-  dtmf pjsip_dtmf_mode_values_v3,
-  busy integer,
-  callGroup  character varying(30),
-  captureGroup character varying(30),
-  nat yesno_values
+  "endpoint" character varying(30),
+  "pass" character varying(60),
+  "transportName" character varying(30),
+  "contextName" character varying(30),
+  "languageName" character varying(30),
+  "codec" character varying(30),
+  "dtmf" pjsip_dtmf_mode_values_v3,
+  "busy" integer,
+  "callGroup"  character varying(30),
+  "captureGroup" character varying(30),
+  "nat" yesno_values
 )
   LANGUAGE plpgsql AS
 $$
 BEGIN
   return QUERY
+  -- SELECT
+  --   id AS endpoint,
+  --   transport AS transportName,
+  --   context as contextName,
+  --   language,
+  --   allow AS codec,
+  --   dtmf_mode AS dtmf,
+  --   device_state_busy_at AS busy,
+  --   named_call_group AS callGroup,
+  --   named_pickup_group AS captureGroup,
+  --   rewrite_contact AS nat
+  -- FROM
+  --   ps_endpoints
+  -- ORDER BY id;
   SELECT
-    id AS endpoint,
-    transport AS transportName,
-    context as contextName,
-    language,
-    allow AS codec,
-    dtmf_mode AS dtmf,
-    device_state_busy_at AS busy,
-    named_call_group AS callGroup,
-    named_pickup_group AS captureGroup,
-    rewrite_contact AS nat
+    e.id AS endpoint,
+    a.password AS password,
+    e.transport AS transportName,
+    e.context as contextName,
+    e.language,
+    e.allow AS codec,
+    e.dtmf_mode AS dtmf,
+    e.device_state_busy_at AS busy,
+    e.named_call_group AS callGroup,
+    e.named_pickup_group AS captureGroup,
+    e.rewrite_contact AS nat
   FROM
-    ps_endpoints
-  ORDER BY id;
+    ps_endpoints AS e
+  INNER JOIN ps_auths AS a
+  ON e.id = a.id;
 END;
 $$;
 
@@ -402,6 +419,7 @@ CREATE OR REPLACE FUNCTION endpointByIdSelect(
 )
 RETURNS TABLE (
   endpoint character varying(30),
+  pass character varying(30),
   transportName character varying(30),
   contextName character varying(30),
   languageName character varying(30),
@@ -416,20 +434,23 @@ AS
 $$
 BEGIN
   return QUERY
-  SELECT
-    id AS endpoint,
-    transport AS transportName,
-    context as contextName,
-    language,
-    allow AS codec,
-    dtmf_mode AS dtmf,
-    device_state_busy_at AS busy,
-    named_call_group AS callGroup,
-    named_pickup_group AS captureGroup,
-    rewrite_contact AS nat
+    SELECT
+    e.id AS endpoint,
+    a.password AS password,
+    e.transport AS transportName,
+    e.context as contextName,
+    e.language,
+    e.allow AS codec,
+    e.dtmf_mode AS dtmf,
+    e.device_state_busy_at AS busy,
+    e.named_call_group AS callGroup,
+    e.named_pickup_group AS captureGroup,
+    e.rewrite_contact AS nat
   FROM
-    ps_endpoints
-  WHERE id = ANY(elements);
+    ps_endpoints AS e
+  INNER JOIN ps_auths AS a
+  ON e.id = a.id
+  WHERE e.id = ANY(elements);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -715,7 +736,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersGenerate('sdr_n2', 7285, 7291);
+-- SELECT queuesMembersGenerate('pecas', 6227, 6227);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Members Queues SELECT --
@@ -937,3 +958,26 @@ $$ LANGUAGE plpgsql;
 -- SELECT mohDelete('{horario}');
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- TESTE
+SELECT <select_list>
+FROM Tabela A
+INNER JOIN Tabela B
+ON A.Key = B.Key
+
+SELECT
+  e.id AS endpoint,
+  a.password AS password,
+  e.transport AS transportName,
+  e.context as contextName,
+  e.language,
+  e.allow AS codec,
+  e.dtmf_mode AS dtmf,
+  e.device_state_busy_at AS busy,
+  e.named_call_group AS callGroup,
+  e.named_pickup_group AS captureGroup,
+  e.rewrite_contact AS nat
+FROM
+  ps_endpoints AS e
+INNER JOIN ps_auths AS a
+ON e.id = a.id
+WHERE e.id = ANY('{7000,7005}');

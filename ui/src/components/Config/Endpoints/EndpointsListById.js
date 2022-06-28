@@ -1,35 +1,67 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { accessLocalStorage, exportSelectEndpointsById, exportUpdateEndpoints } from '../../../services';
 
 import PbxContext from '../../../context/PbxContext';
-
-import { accessLocalStorage, charactersAnalyze, exportCreateEndpoints } from '../../../services';
+import '../../../libs/bulma.min.css';
 
 import Loading from '../../../components/Loading/LoadingModule';
 
-import '../../../libs/bulma.min.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhoneSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
 
-function EndpointsCreate() {
+function EndpointsListById() {
   const getItensStateGlobal = useContext(PbxContext);
-  const { itemsEndpoints, toggleIsHidden, toggleIsChangeFormElements, validCharactersPassword, validCharactersTextAndNumbers } = getItensStateGlobal;
+  const { toggleIsChangeFormElements, toggleIsHidden, itemsSelectedToEdit, validCharactersPassword, validCharactersTextAndNumbers } = getItensStateGlobal;
 
   let url = window.location.href;
   url = url.split('/')[2];
 
+  const [loading, setLoading] = useState(true);
+  const [phones, setPhones] = useState([]);
+  const [endpointsSelected, setEndpointsSelected] = useState([]);
+  const [values, setValues] = useState({});
+  const [initialValues, setInitialValues] = useState({});
+
   const history = useHistory();
 
-  const [loading, setLoading] = useState(true);
-  const [values, setValues] = useState({});
+  const handleChangeValues = (item) => {
+    const { name, value } = item;
+    const validateData = valuesAnalyze(name, value);
+    if(validateData) {
+      const auxValues = { ...values };
+      auxValues[name] = value;
+      setValues(auxValues);
+    }
+  };
 
   const validateUserLogged = useCallback(async () => {
     const dataUser = await accessLocalStorage.getUserLocalStorage();
     const { user: { role } } = dataUser;
     if (!dataUser) return history.push('/');
     if (dataUser && role !== 'root') return history.push('/home');
-    return setLoading(false);
+
+    const endpointsList = await exportSelectEndpointsById(itemsSelectedToEdit);
+    if(endpointsList <= 0) return history.push('/config/ramal/lista');
+    const elements = endpointsList.map((element, index) => {
+      const endpointUpdate = element.split(',');
+      const result = {
+        endpoint: endpointUpdate[0],
+        password: endpointUpdate[1],
+        transport: endpointUpdate[2],
+        context: endpointUpdate[3],
+        language: endpointUpdate[4],
+        codec: endpointUpdate[5],
+        dtmf: endpointUpdate[6],
+        state: endpointUpdate[7],
+        callGroup: endpointUpdate[8],
+        pickupGroup: endpointUpdate[9],
+        nat: endpointUpdate[10],
+      };
+      return result;
+    });
+    setPhones(elements);
+    setLoading(false)
   }, []);
 
   const valuesAnalyze = (name, value) => {
@@ -57,49 +89,14 @@ function EndpointsCreate() {
     return true;
   };
 
-  const handleChangeValues = (item) => {
-    const { name, value } = item;
-    const validateData = valuesAnalyze(name, value);
-    if(validateData) {
-      const auxValues = { ...values };
-      auxValues[name] = value;
-      setValues(auxValues);
-    }
-  };
-
-  const sendDataEndpointsGenerate = async () => {
-    const isItemsRequired = itemsEndpoints.split(',');
-    const filteredProperties = isItemsRequired.filter((item) => !values.hasOwnProperty(item));
-    if(filteredProperties.length > 0) {
-      toggleIsHidden('#alert-create-endpoints');
-      const changeVisibilityInputs = filteredProperties.map((name) => {
-        const getInput = document.querySelector(`[name="${name}"]`);
-        const memberClassList = getInput.classList.value;
-        toggleIsChangeFormElements(name, `${memberClassList} is-danger`);
-      });
-      return;
-    };
-
-    const checkDataIsValid = charactersAnalyze(values);
-    const verifyResult = checkDataIsValid.some((element) => element === false);
-    if(verifyResult) return toggleIsChangeFormElements('alert-create-endpoints', 'column is-half is-offset-one-quarter message is-danger is-active');
-    toggleIsChangeFormElements('alert-create-endpoints', 'is-hidden');
-    const fetchEndpoints = await exportCreateEndpoints(values);
-    const result = Object.keys(fetchEndpoints).length > 0 ? true : false;
-    if(result) {
-      setLoading(false);
-      toggleIsChangeFormElements('create-form', 'is-hidden');
-      toggleIsChangeFormElements('button-send-form', 'is-hidden');
-      toggleIsChangeFormElements('success-create-endpoints', 'column is-half is-offset-one-quarter message is-info is-active');
-      setTimeout(() => {
-        return history.push('/config/ramal/lista');
-      }, 3000);
-    };
-    return;
+  const sendDataEndpointsUpdate = async () => {
+    const objectForUpdate = { elements: itemsSelectedToEdit, ...values };
+    const fetchItensUpdate = await exportUpdateEndpoints(objectForUpdate);
+    console.log(fetchItensUpdate);
   };
 
   useEffect(() => {
-    validateUserLogged();
+    validateUserLogged()
   }, [validateUserLogged]);
 
   return (
@@ -111,74 +108,47 @@ function EndpointsCreate() {
         <div>
           <div className="columns">
             <div className="column is-half is-offset-one-quarter has-text-centered">
-              <strong className="is-size-3">ADICIONAR RAMAIS</strong>
+              <strong className="is-size-3">LISTA DE RAMAIS</strong>
               <hr className="dropdown-divider"/>
             </div>
           </div>
-          <article id="alert-create-endpoints" name="alert-create-endpoints" className="column is-half is-offset-one-quarter message is-danger is-hidden">
+          <article id="alert-endpoints-not-delete" name="alert-endpoints-not-delete" className="column is-half is-offset-one-quarter message is-danger is-hidden">
+            <div className="message-header">
+              <p>Atenção!</p>
+              <button className="delete" aria-label="delete" onClick={ () => toggleIsHidden('#alert-endpoints-not-delete') }></button>
+            </div>
+            <div className="message-body">
+              Não foi possível deletar os ramais selecionados.
+            </div>
+          </article>
+          <article id="alert-endpoints-not-selected" name="alert-endpoints-not-selected" className="column is-half is-offset-one-quarter message is-danger is-hidden">
+            <div className="message-header">
+              <p>Atenção!</p>
+              <button className="delete" aria-label="delete" onClick={ () => toggleIsHidden('#alert-endpoints-not-selected') }></button>
+            </div>
+            <div className="message-body">
+              Nenhum ramal selecionado!
+            </div>
+          </article>
+          <article id="alert-create-endpoints" name="alert-create-endpoints" className="column is-half is-offset-one-quarter message is-warning is-hidden">
             <div className="message-header">
               <p>Atenção!</p>
               <button className="delete" aria-label="delete" onClick={ () => toggleIsHidden('#alert-create-endpoints') }></button>
             </div>
             <div className="message-body">
-              Não é possível gerar ramal com os campos abaixo não preenchidos.
-              <br />
-              Por favor, verifique os dados e clique novamente no botão <strong>Criar Ramais</strong> 
+              Ramais deletados com sucesso!
             </div>
           </article>
-          <article id="error-create-endpoints" name="error-create-endpoints" className="column is-half is-offset-one-quarter message is-danger is-hidden">
-            <div className="message-header">
-              <p>Erro!</p>
-              <button className="delete" aria-label="delete" onClick={ () => toggleIsHidden('#error-create-endpoints') }></button>
+          <div className="columns">
+            <div className="column is-half is-offset-one-quarter has-text-centered">
+              {
+                phones.map((item) => <span className="tag is-medium is-primary mx-2 py-3" key={ item.endpoint }>{ item.endpoint }</span>)
+              }
             </div>
-            <div className="message-body">
-              Não foi possível criar os ramais!
-              <br />
-              Verifique se os ramais já existem!
-            </div>
-          </article>
-          <article id="success-create-endpoints" name="success-create-endpoints" className="column is-half is-offset-one-quarter message is-info is-hidden">
-            <div className="message-header">
-              <p>Sucesso!</p>
-              <button className="delete" aria-label="delete" onClick={ () => toggleIsHidden('#success-create-endpoints') }></button>
-            </div>
-            <div className="message-body">
-              Ramais criados com <strong>sucesso</strong>!
-            </div>
-          </article>
+          </div>
           <form name="create-form" id="create-form" onSubmit={ (e) =>  e.preventDefault() }>
             <div className="columns mx-2">
-              <div className="column is-2 is-offset-5 field">
-                <div className="control has-text-centered">
-                  <p><strong>Tipo de Ramal</strong></p>
-                  <label className="radio">
-                    <input type="radio" className='radio' name="type" value="SIP" onChange={(e) => handleChangeValues(e.target)} /> <strong>SIP</strong>
-                  </label>
-                  <label className="radio ml-5">
-                    <input type="radio" className='radio' name="type" value="WEB" onChange={(e) => handleChangeValues(e.target)} /> <strong>WEB</strong>
-                  </label>
-                  <p name="type-invalid-data" className='has-text-danger is-size-7 is-hidden'>Selecione o tipo de ramal!</p>
-                </div>
-              </div>
-            </div>
-            <div className="columns mx-2">
-              <div className="column is-2 is-offset-3 field">
-                <label className="label">Ramal Inicial
-                  <div className="control">
-                  <input className="input" name="first" type="text" onChange={(e) => handleChangeValues(e.target)} />
-                  <p name="first-invalid-data" className='has-text-danger is-size-7 is-hidden'>Caracteres inválidos!</p>
-                </div>
-                </label>
-              </div>
-              <div className="field column is-2">
-                <label className="label">Quantidade
-                  <div className="control">
-                  <input className="input" name="qtt" type="text" onChange={(e) => handleChangeValues(e.target)} />
-                  <p name="qtt-invalid-data" className='has-text-danger is-size-7 is-hidden'>Caracteres inválidos!</p>
-                </div>
-                </label>
-              </div>
-              <div className="field column is-2">
+              <div className="field column is-offset-3 is-2">
                 <label className="label">Senha
                   <div className="control">
                   <input className="input" name="password" type="text" onBlur={(e) => handleChangeValues(e.target)} />
@@ -186,9 +156,7 @@ function EndpointsCreate() {
                 </div>
                 </label>
               </div>
-            </div>
-            <div className="columns mx-2">
-              <div className="column is-2 is-offset-3 field">
+              <div className="column is-1 field">
               <label className="label">Protocolo
                   <div className="control">
                     <div name="transport" className="select is-fullwidth">
@@ -201,7 +169,7 @@ function EndpointsCreate() {
                   </div>
                 </label>
               </div>
-              <div className="column is-2 field">
+              <div className="column is-1 field">
                 <label className="label">DTMF
                   <div className="control">
                     <div name="dtmf" className="select is-fullwidth">
@@ -302,23 +270,16 @@ function EndpointsCreate() {
               </div>
             </div>
           </form>
-          <div id="button-send-form" name="button-send-form" className="columns mt-3">
-            <div className="field column mt-3 is-half is-2 is-offset-5 has-text-centered">
-              <div className="control">
-                <button className="button is-info is-fullwidth mt-3" type="submit" onClick={ () => sendDataEndpointsGenerate() }>
-                  <span className="icon">
-                    <FontAwesomeIcon icon={ faPhoneSquare } fixedWidth />
-                  </span>
-                  <span>
-                    CRIAR RAMAIS
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
           <div className="columns">
-            <div className="field column is-half is-offset-one-quarter has-text-centered">
-              <hr className="dropdown-divider"/>
+            <div className="column is-half is-offset-one-quarter has-text-centered">
+                <button className="button is-info is-half mx-3 px-6" type="submit" onClick={ () => sendDataEndpointsUpdate() }>
+                      <span className="icon">
+                        <FontAwesomeIcon icon={ faSave } fixedWidth />
+                      </span>
+                      <span>
+                        Salvar
+                      </span>
+                </button>
             </div>
           </div>
         </div>
@@ -327,4 +288,4 @@ function EndpointsCreate() {
   );
 }
 
-export default EndpointsCreate;
+export default EndpointsListById;

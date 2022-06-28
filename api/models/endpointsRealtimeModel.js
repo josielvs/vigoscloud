@@ -28,13 +28,23 @@ const createWebEndpoint = async (connection, data) => {
 };
 
 const readAllEndpoints = async (connection) => {
-  const result = await connection.query(`SELECT endpointsSelect()`);
-  return result.rows;
+  try {
+    const fetchEndpoints = await connection.query(`SELECT endpointsSelect()`);
+    const result = fetchEndpoints.rows.map((element) => element.endpointsselect.split('(')[1].split(')')[0]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
 };
 
-const readByIdEndpoints = async (connection, elements) => {
-  const result = await connection.query(`SELECT endpointByIdSelect('{${elements}}')`);
-  return result.rows;
+const readByIdEndpoints = async (connection, data) => {
+  try {
+    const fetchEndpoints = await connection.query(`SELECT endpointByIdSelect('{${data}}')`);
+    const result = fetchEndpoints.rows.map((element) => element.endpointbyidselect.split('(')[1].split(')')[0]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
 };
 
 const updateEndpoints = async (connection, data) => {
@@ -44,8 +54,7 @@ const updateEndpoints = async (connection, data) => {
 };  
 
 const deleteEndpoints = async (connection, data) => {
-  const { elements } = data;
-  const result = await connection.query(`SELECT endpointDelete('{${elements}}')`);
+  const result = await connection.query(`SELECT endpointDelete('{${data}}')`);
   return result.rows;
 };
 
