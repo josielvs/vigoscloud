@@ -10,6 +10,7 @@ import Burger from './components/Burguer';
 import Config from './pages/Config';
 import CreateEndpoints from './components/Config/Endpoints/EndpointsCreate';
 import ListEndpoints from './components/Config/Endpoints/EndpointsList';
+import ListEndpointsById from './components/Config/Endpoints/EndpointsListById';
 
 class App extends React.Component {
   render() {
@@ -25,6 +26,7 @@ class App extends React.Component {
             <Route exact path="/config" component={ Config } />
             <Route exact path="/config/ramal/novo" component={ CreateEndpoints } />
             <Route exact path="/config/ramal/lista" component={ ListEndpoints } />
+            <Route exact path="/config/ramal/lista-id" component={ ListEndpointsById } />
           </div>
         </Provider>
       </BrowserRouter>

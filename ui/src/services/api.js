@@ -297,7 +297,7 @@ export const exportSelectAllEndpoints = async () => {
   }
 };
 
-export const exportSelectEndpointsById = async () => {
+export const exportSelectEndpointsById = async (dataRequest) => {
   const { token, ipRequest } = await accessLocalStorage.getUserLocalStorage();
   
   try {
