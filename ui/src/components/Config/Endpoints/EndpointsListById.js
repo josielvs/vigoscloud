@@ -92,6 +92,7 @@ function EndpointsListById() {
   const sendDataEndpointsUpdate = async () => {
     const objectForUpdate = { elements: itemsSelectedToEdit, ...values };
     const fetchItensUpdate = await exportUpdateEndpoints(objectForUpdate);
+    history.push('/config/ramal/lista');
     console.log(fetchItensUpdate);
   };
 
@@ -139,13 +140,53 @@ function EndpointsListById() {
               Ramais deletados com sucesso!
             </div>
           </article>
-          <div className="columns">
+          <div className="table-container is-flex-wrap-wrap has-text-centered">
+            <table id="tableCalls" className="table is-hoverable is-striped is-half column is-offset-3">  
+                <thead>
+                    <tr className='is-size-7 has-text-centered'>
+                    <th className='th-interactive is-clickable' scope="col">Ramal</th>
+                    <th className='th-interactive is-clickable' scope="col">Senha</th>
+                    <th className='th-interactive is-clickable' scope="col">Protocolo</th>
+                    <th className='th-interactive is-clickable' scope="col">Previlégios</th>
+                    <th scope="col">DTMF</th>
+                    <th className='th-interactive is-clickable' scope="col">Linguagem</th>
+                    <th className='th-interactive is-clickable' scope="col">Codec</th>
+                    <th className='th-interactive is-clickable' scope="col">NAT</th>
+                    <th scope="col" >Ocupado</th>
+                    <th className='th-interactive is-clickable' scope="col">Grupo Atendedor</th>
+                    <th className='th-interactive is-clickable' scope="col">Grupo de Captura</th>
+                    </tr>
+                </thead>
+                {
+                  phones.map((phone) => {
+                    const { endpoint, password, transport, context, language, codec, dtmf, state, callGroup, pickupGroup, nat } = phone;
+                    return (<tbody key={ endpoint }>
+                      <tr className='is-size-7 has-text-centered'>
+                        <td>{endpoint}</td>
+                        <td>{password}</td>
+                        <td>{transport}</td>
+                        <td>{context}</td>
+                        <td>{dtmf}</td>
+                        <td>{language}</td>
+                        <td>{codec}</td>
+                        <td>{nat}</td>
+                        <td>{state}</td>
+                        <td>{callGroup}</td>
+                        <td>{pickupGroup}</td>
+                      </tr>
+                    </tbody>)
+                  })
+                }
+            </table>
+          </div>
+          <hr className="mb-6 px-3"/>
+          {/* <div className="columns">
             <div className="column is-half is-offset-one-quarter has-text-centered">
               {
                 phones.map((item) => <span className="tag is-medium is-primary mx-2 py-3" key={ item.endpoint }>{ item.endpoint }</span>)
               }
             </div>
-          </div>
+          </div> */}
           <form name="create-form" id="create-form" onSubmit={ (e) =>  e.preventDefault() }>
             <div className="columns mx-2">
               <div className="field column is-offset-3 is-2">

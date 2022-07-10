@@ -18,17 +18,13 @@ function EndpointsList() {
   url = url.split('/')[2];
 
   const [loading, setLoading] = useState(true);
-  const [phones, setPhones] = useState([]);
+  const [phones, setPhones] = useState(() => []);
   const [endpointsSelected, setEndpointsSelected] = useState([]);
+  const [disable, setDisable] = useState(true);
 
   const history = useHistory();
 
-  const validateUserLogged = useCallback(async () => {
-    const dataUser = await accessLocalStorage.getUserLocalStorage();
-    const { user: { role } } = dataUser;
-    if (!dataUser) return history.push('/');
-    if (dataUser && role !== 'root') return history.push('/home');
-
+  const fetchEndpoints = async () => {
     const endpointsList = await exportSelectAllEndpoints();
     if(endpointsList === undefined) setLoading(true);
     const elements = endpointsList.map((element) => {
@@ -50,30 +46,53 @@ function EndpointsList() {
     });
     setPhones(elements);
     setLoading(false);
+    return true;
+  };
+
+  const validateUserLogged = useCallback(async () => {
+    const dataUser = accessLocalStorage.getUserLocalStorage();
+    const { user: { role } } = dataUser;
+    if (!dataUser) return history.push('/');
+    if (dataUser && role !== 'root') return history.push('/home');
+
+    await fetchEndpoints();
+    return;
   }, [phones]);
 
   const handleChangeSelectedEndpoints = (element) => {
-    const existsEndpoints =  endpointsSelected.map((element) => element.toString());
-    const elementsForSend = [...existsEndpoints, element.toString()]
-    setEndpointsSelected(elementsForSend);
-    return;
+    setEndpointsSelected((prevState) => {
+      const onlineState = prevState.includes(element) ? [...prevState.filter((e) => e !== element)] : [...prevState, element];
+      onlineState.length > 0 ? setDisable(false) : setDisable(true)
+      return onlineState;
+    });
   };
 
   const handleClickDelete = async () => {
     const sendDeleteEndpoints = await exportDeleteEndpoints(endpointsSelected);
-    if(sendDeleteEndpoints.length === undefined) return toggleIsChangeFormElements('alert-endpoints-not-delete', 'column is-half is-offset-one-quarter message is-danger is-active');
-    if(endpointsSelected.length <= 0) return toggleIsChangeFormElements('alert-endpoints-not-selected', 'column is-half is-offset-one-quarter message is-danger is-active');
+    if(sendDeleteEndpoints.length === undefined) {
+      toggleIsHidden('#alert-confirm-endpoints-delete');
+      return toggleIsChangeFormElements('alert-endpoints-not-delete', 'column is-half is-offset-one-quarter message is-danger is-active');
+    };
+    toggleIsHidden('#alert-confirm-endpoints-delete');
+    setDisable(true);
+    toggleIsHidden('#buttons');
     return;
   };
 
   const handleClickUpdate = async () => {
-    if(endpointsSelected.length <= 0) return toggleIsChangeFormElements('alert-endpoints-not-selected', 'column is-half is-offset-one-quarter message is-danger is-active');
     setItemsSelectedToEdit(endpointsSelected);
     return history.push('/config/ramal/lista-id');
   };
 
   useEffect(() => {
-    validateUserLogged()
+    let cancel = false;
+    
+    if (cancel) return;
+    validateUserLogged();
+
+    return () => {
+      cancel = true
+    };
   }, [validateUserLogged]);
 
   return (
@@ -98,14 +117,35 @@ function EndpointsList() {
               Não foi possível deletar os ramais selecionados.
             </div>
           </article>
-          <article id="alert-endpoints-not-selected" name="alert-endpoints-not-selected" className="column is-half is-offset-one-quarter message is-danger is-hidden">
+          <article id="alert-confirm-endpoints-delete" name="alert-confirm-endpoints-delete" className="column is-half is-offset-one-quarter message is-danger is-hidden">
             <div className="message-header">
               <p>Atenção!</p>
-              <button className="delete" aria-label="delete" onClick={ () => toggleIsHidden('#alert-endpoints-not-selected') }></button>
+              <button className="delete" aria-label="delete" onClick={ () => toggleIsHidden('#alert-confirm-endpoints-delete') }></button>
             </div>
             <div className="message-body">
-              Nenhum ramal selecionado!
+              Tem certeza que quer deletar os ramais selecionados?
             </div>
+            <br />
+          <div className="columns">
+            <div className="column is-half is-offset-one-quarter has-text-centered">
+              <button className="button is-danger is-half mx-3 px-6 is-offset-one-quarter" type="submit" onClick={ () => handleClickDelete() }>
+                    <span className="icon">
+                      <FontAwesomeIcon icon={ faTrash } fixedWidth />
+                    </span>
+                    <span>
+                      Confirmar
+                    </span>
+              </button>
+              <button className="button is-info is-half mx-3 px-6" type="submit" onClick={ () => toggleIsHidden('#alert-confirm-endpoints-delete') }>
+                    <span className="icon">
+                      <FontAwesomeIcon icon={ faTrash } fixedWidth />
+                    </span>
+                    <span>
+                      Cancelar
+                    </span>
+              </button>
+            </div>
+          </div>
           </article>
           <article id="alert-create-endpoints" name="alert-create-endpoints" className="column is-half is-offset-one-quarter message is-warning is-hidden">
             <div className="message-header">
@@ -158,8 +198,8 @@ function EndpointsList() {
             </table>
           </div>
           <div className="columns">
-            <div className="column is-half is-offset-one-quarter has-text-centered">
-                <button className="button is-info is-half mx-3 px-6" type="submit" onClick={ () => handleClickUpdate() }>
+            <div id="buttons" className="column is-half is-offset-one-quarter has-text-centered is-active">
+                <button className="button is-info is-half mx-3 px-6" type="submit" onClick={ () => handleClickUpdate() } disabled={ disable }>
                       <span className="icon">
                         <FontAwesomeIcon icon={ faPen } fixedWidth />
                       </span>
@@ -167,7 +207,15 @@ function EndpointsList() {
                         Alterar
                       </span>
                 </button>
-                <button className="button is-danger is-half mx-3 px-6" type="submit" onClick={ () => handleClickDelete() }>
+                <button
+                  className="button is-danger is-half mx-3 px-6"
+                  type="submit"
+                  onClick={ () => {
+                    toggleIsHidden('#alert-confirm-endpoints-delete')
+                    toggleIsHidden('#buttons')
+                    }}
+                  disabled={ disable }
+                >
                       <span className="icon">
                         <FontAwesomeIcon icon={ faTrash } fixedWidth />
                       </span>

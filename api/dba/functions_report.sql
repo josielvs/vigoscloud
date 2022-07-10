@@ -1,4 +1,5 @@
 ALTER TABLE cdr ADD COLUMN fromtypecall character varying(50) DEFAULT ''::character varying NOT NULL;
+ALTER TABLE cdr ADD COLUMN rating integer DEFAULT 0::integer NOT NULL;
 -- ******************************************************************************************************************************************************************** --
 -- FUNCTIONS INACTIVES IN DB --
 CREATE OR REPLACE FUNCTION remove_row_duplicate_on_insert()     
@@ -769,7 +770,8 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
     tipo_saida character varying(80),
     id text,
     encerramento character varying(50),
-    full_count bigint
+    full_count bigint,
+    pesquisa integer
   )
   LANGUAGE plpgsql AS
   $$
@@ -823,7 +825,8 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
         fromtypecall AS tipo_saida,
         REPLACE(uniqueid, 'VigosPBX-', '') AS id,
         hangupcause AS encerramento,
-        count(*) OVER() AS full_count
+        count(*) OVER() AS full_count,
+        rating AS pesquisa
       FROM cdr
         WHERE (calldate BETWEEN data_inicial AND data_final)
         AND lastapp <> '' AND lastapp <> 'Hangup' AND typecall <> ''
@@ -857,7 +860,7 @@ CREATE OR REPLACE FUNCTION get_all_calls_rows(
     END;
   $$;
 
-SELECT * FROM get_all_calls_rows('2021-02-14', '2022-02-14', '00:00:00', '23:59:59', '', '', '', '', '', 'Efetuada', '50', '0');
+-- SELECT * FROM get_all_calls_rows('2021-05-01', '2022-07-05', '00:00:00', '23:59:59', '', '', '', '', '', '', '50', '0');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 14- Function Get All Data Report --

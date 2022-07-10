@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 
 import PbxContext from '../../../context/PbxContext';
 
-import { accessLocalStorage, charactersAnalyze, exportCreateEndpoints } from '../../../services';
+import { accessLocalStorage, exportCreateEndpoints, valuesAnalyze, changeViewForms } from '../../../services';
 
 import Loading from '../../../components/Loading/LoadingModule';
 
@@ -14,7 +14,7 @@ import { faPhoneSquare } from '@fortawesome/free-solid-svg-icons';
 
 function EndpointsCreate() {
   const getItensStateGlobal = useContext(PbxContext);
-  const { itemsEndpoints, toggleIsHidden, toggleIsChangeFormElements, validCharactersPassword, validCharactersTextAndNumbers } = getItensStateGlobal;
+  const { majoritaryItemsEndpoints, toggleIsHidden, toggleIsChangeFormElements } = getItensStateGlobal;
 
   let url = window.location.href;
   url = url.split('/')[2];
@@ -23,74 +23,77 @@ function EndpointsCreate() {
 
   const [loading, setLoading] = useState(true);
   const [values, setValues] = useState({});
+  const [validate, setValidate] = useState({});
+  const [disable, setDisable] = useState(true);
 
-  const validateUserLogged = useCallback(async () => {
-    const dataUser = await accessLocalStorage.getUserLocalStorage();
+  const { changeBorderImputToRedOrNormal, changeVisibityMessages} = changeViewForms;
+
+  const validateUserLogged = useCallback(() => {
+    const dataUser = accessLocalStorage.getUserLocalStorage();
     const { user: { role } } = dataUser;
     if (!dataUser) return history.push('/');
     if (dataUser && role !== 'root') return history.push('/home');
     return setLoading(false);
   }, []);
 
-  const valuesAnalyze = (name, value) => {
+  const changeScreen = (check, name) => {
+    changeBorderImputToRedOrNormal(check, name);
+    changeVisibityMessages(check, `${name}-invalid-data`);
+  };
+
+  const handleChangeDataAnalyze = (name, value) => {
+    const { checkNumber, checkPassword, isTripleChar } = valuesAnalyze;
+
     if(name === 'first' || name === 'qtt' || name === 'state') {
-      const checkValueIsNumber = isNaN(value) ? false : true;
-      if(!checkValueIsNumber) return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-active')
-      return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-hidden');
+      const checkValueIsNumber = checkNumber(value);
+      changeScreen(checkValueIsNumber, name);
+      return checkValueIsNumber;
     };
 
     if(name === 'password') {
-      const checkValueIsPassword = validCharactersPassword.test(value);
-      if(!checkValueIsPassword) {
-        return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-active');
-      };
-      return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-hidden');
+      const passwordIsValid = checkPassword(value);
+      changeScreen(passwordIsValid, name);
+      return passwordIsValid;
     }
 
     if(name === 'callGroup'|| name === 'pickupGroup') {
-      const checkValueIsValid = validCharactersTextAndNumbers.test(value);
-      if(!checkValueIsValid || value === '') {
-        return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-active');
-      };
-      return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-hidden');
+      const checkValueIsCharacters = isTripleChar(value);
+      changeScreen(checkValueIsCharacters, name);
+      return checkValueIsCharacters;
     }
-    return true;
   };
 
   const handleChangeValues = (item) => {
     const { name, value } = item;
-    const validateData = valuesAnalyze(name, value);
-    if(validateData) {
-      const auxValues = { ...values };
-      auxValues[name] = value;
-      setValues(auxValues);
-    }
+
+    const itemStatus = handleChangeDataAnalyze(name, value);
+    setValidate((prevState) => prevState, validate[name] = itemStatus === undefined  ? true : itemStatus);
+    setValues((prevState) => prevState, values[name] = value )
+    if(Object.keys(validate).length >= 13) Object.values(validate).includes(false) ? setDisable(true) : setDisable(false);
+    return;
   };
 
   const sendDataEndpointsGenerate = async () => {
-    const isItemsRequired = itemsEndpoints.split(',');
-    const filteredProperties = isItemsRequired.filter((item) => !values.hasOwnProperty(item));
+    const filteredProperties = majoritaryItemsEndpoints.filter((item) => !values.hasOwnProperty(item));
+
     if(filteredProperties.length > 0) {
       toggleIsHidden('#alert-create-endpoints');
-      const changeVisibilityInputs = filteredProperties.map((name) => {
-        const getInput = document.querySelector(`[name="${name}"]`);
-        const memberClassList = getInput.classList.value;
-        toggleIsChangeFormElements(name, `${memberClassList} is-danger`);
+
+      filteredProperties.forEach((prop) => {
+        changeVisibityMessages(false, prop);
+        changeBorderImputToRedOrNormal(false, prop);
       });
       return;
     };
 
-    const checkDataIsValid = charactersAnalyze(values);
-    const verifyResult = checkDataIsValid.some((element) => element === false);
-    if(verifyResult) return toggleIsChangeFormElements('alert-create-endpoints', 'column is-half is-offset-one-quarter message is-danger is-active');
-    toggleIsChangeFormElements('alert-create-endpoints', 'is-hidden');
     const fetchEndpoints = await exportCreateEndpoints(values);
+    toggleIsChangeFormElements('alert-create-endpoints', 'is-hidden');
     const result = Object.keys(fetchEndpoints).length > 0 ? true : false;
     if(result) {
       setLoading(false);
-      toggleIsChangeFormElements('create-form', 'is-hidden');
-      toggleIsChangeFormElements('button-send-form', 'is-hidden');
-      toggleIsChangeFormElements('success-create-endpoints', 'column is-half is-offset-one-quarter message is-info is-active');
+      changeVisibityMessages(true, 'create-form');
+      changeVisibityMessages(true, 'button-send-form');
+      changeVisibityMessages(false, 'success-create-endpoints');
       setTimeout(() => {
         return history.push('/config/ramal/lista');
       }, 3000);
@@ -155,7 +158,7 @@ function EndpointsCreate() {
                     <input type="radio" className='radio' name="type" value="SIP" onChange={(e) => handleChangeValues(e.target)} /> <strong>SIP</strong>
                   </label>
                   <label className="radio ml-5">
-                    <input type="radio" className='radio' name="type" value="WEB" onChange={(e) => handleChangeValues(e.target)} /> <strong>WEB</strong>
+                    <input type="radio" className='radio' name="type" value="WEB" onChange={(e) => handleChangeValues(e.target)} disabled /> <strong>WEB</strong>
                   </label>
                   <p name="type-invalid-data" className='has-text-danger is-size-7 is-hidden'>Selecione o tipo de ramal!</p>
                 </div>
@@ -165,7 +168,7 @@ function EndpointsCreate() {
               <div className="column is-2 is-offset-3 field">
                 <label className="label">Ramal Inicial
                   <div className="control">
-                  <input className="input" name="first" type="text" onChange={(e) => handleChangeValues(e.target)} />
+                  <input className="input" name="first" type="text" onChange={(e) => handleChangeValues(e.target)} placeholder="Apenas números." />
                   <p name="first-invalid-data" className='has-text-danger is-size-7 is-hidden'>Caracteres inválidos!</p>
                 </div>
                 </label>
@@ -173,7 +176,7 @@ function EndpointsCreate() {
               <div className="field column is-2">
                 <label className="label">Quantidade
                   <div className="control">
-                  <input className="input" name="qtt" type="text" onChange={(e) => handleChangeValues(e.target)} />
+                  <input className="input" name="qtt" type="text" onChange={(e) => handleChangeValues(e.target)} placeholder="Apenas números." />
                   <p name="qtt-invalid-data" className='has-text-danger is-size-7 is-hidden'>Caracteres inválidos!</p>
                 </div>
                 </label>
@@ -181,7 +184,7 @@ function EndpointsCreate() {
               <div className="field column is-2">
                 <label className="label">Senha
                   <div className="control">
-                  <input className="input" name="password" type="text" onBlur={(e) => handleChangeValues(e.target)} />
+                  <input className="input" name="password" type="text" onBlur={(e) => handleChangeValues(e.target)} placeholder="Tamanho mínimo 6 caract. (@!#$&)"/>
                   <p name="password-invalid-data" className='has-text-danger is-size-7 is-hidden'>Verifique o tamanho e se existem caracteres inválidos!</p>
                 </div>
                 </label>
@@ -223,11 +226,11 @@ function EndpointsCreate() {
                     <div name="context" className="select is-fullwidth">
                       <select className="select" name="context" onChange={(e) => handleChangeValues(e.target)} >
                         <option value="">Selecione</option>
-                        <option value="interno">Interno</option>
-                        <option value="local-fixo">Local Fixo</option>
-                        <option value="local-celular">Local Celular</option>
-                        <option value="ddd-fixo">DDD Fixo</option>
-                        <option value="ddd-celular">DDD Celular</option>
+                        <option value="interno"> Chamadas Internas</option>
+                        <option value="local-fixo">Chamadas Local Fixo</option>
+                        <option value="local-celular">Chamadas Local Celular</option>
+                        <option value="ddd-fixo">Chamadas DDD Fixo</option>
+                        <option value="ddd-celular">Chamadas DDD Celular</option>
                       </select>
                     </div>
                   </div>
@@ -277,7 +280,7 @@ function EndpointsCreate() {
               <div className="column is-2 field">
                 <label className="label">Ocupado em:
                   <div className="control">
-                  <input className="input" name="state" type="text" onChange={(e) => handleChangeValues(e.target)} />
+                  <input className="input" name="state" type="text" onChange={(e) => handleChangeValues(e.target)} placeholder="Apenas números." />
                   <p name="state-invalid-data" className='has-text-danger is-size-7 is-hidden'>Caracteres inválidos!</p>
                   </div>
                 </label>
@@ -287,7 +290,7 @@ function EndpointsCreate() {
               <div className="column is-3 is-offset-3 field">
                 <label className="label">Grupo de Chamada
                   <div className="control">
-                  <input className="input" name="callGroup" type="text" onChange={(e) => handleChangeValues(e.target)} />
+                  <input className="input" name="callGroup" type="text" onChange={(e) => handleChangeValues(e.target)} placeholder="Apenas texto. (-_,)"/>
                   <p name="callGroup-invalid-data" className='has-text-danger is-size-7 is-hidden'>Caracteres inválidos!</p>
                 </div>
                 </label>
@@ -295,7 +298,7 @@ function EndpointsCreate() {
               <div className="field column is-3">
                 <label className="label">Grupo de Captura
                   <div className="control">
-                  <input className="input" name="pickupGroup" type="text" onChange={(e) => handleChangeValues(e.target)} />
+                  <input className="input" name="pickupGroup" type="text" onChange={(e) => handleChangeValues(e.target)} placeholder="Apenas texto. (-_,)" />
                   <p name="pickupGroup-invalid-data" className='has-text-danger is-size-7 is-hidden'>Caracteres inválidos!</p>
                 </div>
                 </label>
@@ -305,7 +308,7 @@ function EndpointsCreate() {
           <div id="button-send-form" name="button-send-form" className="columns mt-3">
             <div className="field column mt-3 is-half is-2 is-offset-5 has-text-centered">
               <div className="control">
-                <button className="button is-info is-fullwidth mt-3" type="submit" onClick={ () => sendDataEndpointsGenerate() }>
+                <button className="button is-info is-fullwidth mt-3" type="submit" disabled={ disable } onClick={ () => sendDataEndpointsGenerate() }>
                   <span className="icon">
                     <FontAwesomeIcon icon={ faPhoneSquare } fixedWidth />
                   </span>
