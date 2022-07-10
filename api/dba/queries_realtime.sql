@@ -4,11 +4,18 @@
   4 | Gustavo | gustavo@vigossolucoes.com.br | $2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC | 4108     | admin | t
   5 | Victor  | victor@vigossolucoes.com.br  | $2a$05$ABJrNY5NXVQzgoMqenBlBuScfsCeFPtDxFp1qtyy8ovnJeluZqq4m | 4109     | admin | t
 
-  36 | Sergio   | sergio@refrigas.com.br                | $2a$05$DED/ROFo7ZoxL8y0M6rB4O7mpNEdvmPiKJkCIABPnJrwXS7yAyNVC | 6305     | user  | t
+ 38 | Marcos   | suporte@gsbru.com.br                  | $2a$05$m6zk71NJI8j3zkoATAvZf.t5B.PGnmKOfgP6Ixi4jg6uy4s1//LSy | 2030     | user  | t
+ 39 | Rogerio  | rogerio@gsbru.com.br                  | $2a$05$m6zk71NJI8j3zkoATAvZf./.PNJ0HXVDhAWi4QcDX0p0QaAviMxye | 2024     | admin | t
+ 40 | Carol    | recepcao@gsbru.com.br                 | $2a$05$m6zk71NJI8j3zkoATAvZf.0KLUpoxjqhYJflBCdyRp6lePu5.GrGm | 2001     | user  | t
+ 41 | Giovanna | recepcao1@gsbru.com.br                | $2a$05$m6zk71NJI8j3zkoATAvZf.8ulJoHG51B1Zm/6VGuEtR1LRrgyfmJy | 2000     | user  | t
 
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vigos', 'adm@vigossolucoes.com.br', '$2a$05$A1Xso4kAVGLXxpJj1oAIxO5o4JR.PA0OdBKqZTwra10JQ62FCirj.', '2000', 'admin', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('User', 'user@vigossolucoes.com.br', '$2a$05$t77fhcB.jNZLLiYys6.aFuI5dZ07kTa/uTuF9cuIMK.TeyFfCp5Za', '9900', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Support', 'support@vigossolucoes.com.br', '$2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC', '9900', 'tecnical', 'true');
+
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Gustavo', 'gustavo@vigossolucoes.com.br', '$2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC', '4108', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Victor', 'victor@vigossolucoes.com.br', '$2a$05$ABJrNY5NXVQzgoMqenBlBuScfsCeFPtDxFp1qtyy8ovnJeluZqq4m', '4109', 'admin', 'true');
+
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Salete', 'salete@agrosolo.com.br', '$2a$05$vbjKbVzigocllTO2qvHZ6.qeZpM7bz1fwxz/W0rUt3xJlDzBY0GoG', '1152', 'admin', 'true');
 
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Recepcao', 'recepcaomonsenhor@magna.med.br', '$2a$05$I69z7Eqhu8zoPBFYIbqgmew6AObLz2QolP0BbInR4shLU26HG/OBm', '2500', 'user', 'true');
@@ -35,6 +42,11 @@ INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Andr√
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Sergio', 'sergio@refrigas.com.br', '$2a$05$DED/ROFo7ZoxL8y0M6rB4O7mpNEdvmPiKJkCIABPnJrwXS7yAyNVC', '9999', 'user', 'true');
 
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vendas', 'auxvendas.btu@lagosan.com.br', '$2a$05$lBK1ZAM4OVNx6dSnLlUcGOGD.bRBcZxPaHui.rcyYnY0sWTmyX6nS', '9999', 'user', 'true');
+
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Marcos', 'suporte@gsbru.com.br', '$2a$05$m6zk71NJI8j3zkoATAvZf.t5B.PGnmKOfgP6Ixi4jg6uy4s1//LSy', '2030', 'user', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Rog√©rio', 'rogerio@gsbru.com.br', '$2a$05$m6zk71NJI8j3zkoATAvZf./.PNJ0HXVDhAWi4QcDX0p0QaAviMxye', '2024', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Carol', 'recepcao@gsbru.com.br', '$2a$05$m6zk71NJI8j3zkoATAvZf.0KLUpoxjqhYJflBCdyRp6lePu5.GrGm', '2001', 'user', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Giovanna', 'recepcao1@gsbru.com.br', '$2a$05$m6zk71NJI8j3zkoATAvZf.8ulJoHG51B1Zm/6VGuEtR1LRrgyfmJy', '2000', 'user', 'true');
 
 
 TRUNCATE TABLE users;
@@ -163,7 +175,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql; 
 
--- SELECT trunkIPGenerate('VIVO-SIP', '10.255.240.111', '10.19.197.122', '1432838070', 'alaw');
+-- SELECT trunkIPGenerate('ALGAR-REFRIGAS', '201.48.10.3', '44.206.177.167', '1154121500', 'alaw');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk AUTH Generate --
@@ -310,7 +322,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT endpointsSipGenerate('5900', 100, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
+-- SELECT endpointsSipGenerate('1000', 10, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints Web Generate --
@@ -405,7 +417,8 @@ BEGIN
   FROM
     ps_endpoints AS e
   INNER JOIN ps_auths AS a
-  ON e.id = a.id;
+  ON e.id = a.id
+  ORDER BY e.id;
 END;
 $$;
 
@@ -492,7 +505,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT endpointsUpdate('{8502, 8002}', '!vigos!!zzzzzzzz#01!', 'tcp_transport', 'ddd-celular', 'en-teste', 'info', 1, 'ulaw', 'geral-3', 'geral-3', 'yes');
+-- SELECT endpointsUpdate('{1001}', '!vigos!!interface#01!', 'tcp_transport', 'ddd-celular', 'pt_BR', 'info', 1, 'ulaw', 'geral', 'geral', 'yes');
+-- SELECT endpointsSipGenerate('1000', 10, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints DELETE --
@@ -678,12 +692,12 @@ BEGIN
   END IF;
 END;
 $$ LANGUAGE plpgsql;
-
+  
 -- Com anuncio
 -- SELECT queuesUpdate('atendimento', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, 'strict', 'no');
 
--- Sem anuncio
--- SELECT queuesUpdate('monsenhor', 'default', 'ringall', 'yes', 20, 'no', 'no', 0, 'no', 0, 'yes', 5, '', '');
+-- Sem anuncio --- pecas,default,linear,yes,20,no,yes,30,yes,30,yes,5
+-- SELECT queuesUpdate('pecas-ford', 'default', 'ringall', 'yes', 20, 'no', 'no', 0, 'no', 0, 'yes', 5, 'strict', 'strict');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queue Delete --
@@ -712,7 +726,8 @@ DROP FUNCTION queuesMembersGenerate;
 CREATE OR REPLACE FUNCTION queuesMembersGenerate(
   nameQueue character varying(128),
   initEndpoint integer,
-  finalEndpoint integer
+  finalEndpoint integer,
+  penaltyMember integer
 )
 RETURNS boolean 
 AS
@@ -724,9 +739,9 @@ BEGIN
     FOR endpoint in initEndpoint .. finalEndpoint LOOP
       existsUniqueid = (SELECT COUNT(*) FROM queue_members WHERE uniqueid = endpoint);
       IF existsUniqueid::integer < 1 THEN
-        INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES (nameQueue, CONCAT('PJSIP/', endpoint), endpoint);
+        INSERT INTO queue_members (queue_name, interface, penalty, uniqueid) VALUES (nameQueue, CONCAT('PJSIP/', endpoint), penaltyMember, endpoint);
       ELSE
-        INSERT INTO queue_members (queue_name, interface, uniqueid) VALUES (nameQueue, CONCAT('PJSIP/', endpoint), (endpoint + to_char(ROUND(RANDOM()*10000), '0000')::integer));
+        INSERT INTO queue_members (queue_name, interface, penalty, uniqueid) VALUES (nameQueue, CONCAT('PJSIP/', endpoint), penaltyMember, (endpoint + to_char(ROUND(RANDOM()*10000), '0000')::integer));
       END IF;
     END LOOP;
     RETURN True;
@@ -736,7 +751,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersGenerate('pecas', 6227, 6227);
+-- SELECT queuesMembersGenerate('pecas', 6227, 6227, 1);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Members Queues SELECT --

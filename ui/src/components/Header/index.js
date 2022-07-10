@@ -12,12 +12,15 @@ const Header = () => {
   if(!path) path = history.location.pathname;
   const user = accessLocalStorage.getUserLocalStorage();
   if (!user) return null;
+  const { user: { role } } = user;
+  if(role === 'root') toggleIsChangeFormElements('config-items', 'navbar-dropdown mx-0 px-0 has-text-centered is-active')
   const { ipRequest } = user;
   const protocolUriActive = ipRequest.replace(/http/i, 'https');
 
-  const verifyComponentView = async () => {
-    const user = await accessLocalStorage.getUserLocalStorage();
+  const verifyComponentView = () => {
+    const user = accessLocalStorage.getUserLocalStorage();
     const { user: { role } } = user;
+    console.log()
     if(role === 'root') toggleIsChangeFormElements('config-items', 'navbar-dropdown mx-0 px-0 has-text-centered is-active')
     return;
   };

@@ -22,7 +22,7 @@ function Provider({ children }) {
   const [callsOfDay, setCallsOfDay] = useState([]);
   const [channelInState, setChannelInState] = useState({});
   const [clickToCallChannel, setClickToCallChannel] = useState('');
-  const [itemsEndpoints, setItemsEndpoints] = useState('callGroup,codec,context,dtmf,first,language,nat,password,pickupGroup,qtt,state,transport,type');
+  const [majoritaryItemsEndpoints, setMajoritaryItemsEndpoints] = useState(['callGroup', 'codec', 'context', 'dtmf', 'first', 'language', 'nat', 'password', 'pickupGroup', 'qtt', 'state', 'transport', 'type']);
   const [itemsSelectedToEdit, setItemsSelectedToEdit] = useState([]);
 
   const toggleIsHidden = (id) => {
@@ -82,8 +82,8 @@ function Provider({ children }) {
     setStorageDataReportList,
     capitalizeFirstLetter,
     validCharactersPassword,
-    itemsEndpoints,
-    setItemsEndpoints,
+    majoritaryItemsEndpoints,
+    setMajoritaryItemsEndpoints,
     toggleIsChangeFormElements,
     validCharactersTextAndNumbers,
     itemsSelectedToEdit,

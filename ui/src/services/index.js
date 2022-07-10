@@ -1,8 +1,9 @@
 import validEmail from './validEmail';
 import validPassword from './validPassword';
-import validName from './validName'
-import { charactersAnalyze, toggleIsChangeFormElements } from './configEndpointsAnayze'
+import validName from './validName';
 import accessLocalStorage from './accessLocalStorage';
+import valuesAnalyze from './charactesAnalyze';
+import changeViewForms from './changeViewForms';
 import {
   clickToCall,
   cancelClickToCall,
@@ -50,8 +51,6 @@ export {
   validEmail,
   validPassword,
   validName,
-  charactersAnalyze,
-  toggleIsChangeFormElements,
   accessLocalStorage,
   clickToCall,
   cancelClickToCall,
@@ -93,4 +92,6 @@ export {
   exportCreateMoh,
   exportSelectAllMohs,
   exportDeleteMohs,
+  valuesAnalyze,
+  changeViewForms,
  } 
