@@ -1,10 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { accessLocalStorage, exportSelectEndpointsById, exportUpdateEndpoints } from '../../../services';
 
-import PbxContext from '../../../context/PbxContext';
 import '../../../libs/bulma.min.css';
-
+import PbxContext from '../../../context/PbxContext';
+import { accessLocalStorage, exportSelectEndpointsById, valuesAnalyze, changeViewForms, exportUpdateEndpoints } from '../../../services';
 import Loading from '../../../components/Loading/LoadingModule';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,27 +11,44 @@ import { faSave } from '@fortawesome/free-solid-svg-icons';
 
 function EndpointsListById() {
   const getItensStateGlobal = useContext(PbxContext);
-  const { toggleIsChangeFormElements, toggleIsHidden, itemsSelectedToEdit, validCharactersPassword, validCharactersTextAndNumbers } = getItensStateGlobal;
+  const { toggleIsHidden, itemsSelectedToEdit } = getItensStateGlobal;
 
   let url = window.location.href;
   url = url.split('/')[2];
 
   const [loading, setLoading] = useState(true);
   const [phones, setPhones] = useState([]);
-  const [endpointsSelected, setEndpointsSelected] = useState([]);
   const [values, setValues] = useState({});
-  const [initialValues, setInitialValues] = useState({});
+  const [validate, setValidate] = useState({});
+
+  const { changeBorderImputToRedOrNormal, changeVisibityMessages} = changeViewForms;
 
   const history = useHistory();
 
-  const handleChangeValues = (item) => {
-    const { name, value } = item;
-    const validateData = valuesAnalyze(name, value);
-    if(validateData) {
-      const auxValues = { ...values };
-      auxValues[name] = value;
-      setValues(auxValues);
-    }
+  const fetchEndpoints = async () => {
+    const endpointsList = await exportSelectEndpointsById(itemsSelectedToEdit);
+    if(endpointsList <= 0) return history.push('/config/ramal/lista');
+    if(endpointsList === undefined) setLoading(true);
+    const elements = endpointsList.map((element) => {
+      const endpointCreate = element.split(',');
+      const result = {
+        endpoint: endpointCreate[0],
+        password: endpointCreate[1],
+        transport: endpointCreate[2],
+        context: endpointCreate[3],
+        language: endpointCreate[4],
+        codec: endpointCreate[5],
+        dtmf: endpointCreate[6],
+        state: endpointCreate[7],
+        callGroup: endpointCreate[8],
+        pickupGroup: endpointCreate[9],
+        nat: endpointCreate[10],
+      };
+      return result;
+    });
+    setPhones(elements);
+    setLoading(false);
+    return true;
   };
 
   const validateUserLogged = useCallback(async () => {
@@ -41,59 +57,52 @@ function EndpointsListById() {
     if (!dataUser) return history.push('/');
     if (dataUser && role !== 'root') return history.push('/home');
 
-    const endpointsList = await exportSelectEndpointsById(itemsSelectedToEdit);
-    if(endpointsList <= 0) return history.push('/config/ramal/lista');
-    const elements = endpointsList.map((element, index) => {
-      const endpointUpdate = element.split(',');
-      const result = {
-        endpoint: endpointUpdate[0],
-        password: endpointUpdate[1],
-        transport: endpointUpdate[2],
-        context: endpointUpdate[3],
-        language: endpointUpdate[4],
-        codec: endpointUpdate[5],
-        dtmf: endpointUpdate[6],
-        state: endpointUpdate[7],
-        callGroup: endpointUpdate[8],
-        pickupGroup: endpointUpdate[9],
-        nat: endpointUpdate[10],
-      };
-      return result;
-    });
-    setPhones(elements);
-    setLoading(false)
+    const elements = await fetchEndpoints();
+    return;
   }, []);
 
-  const valuesAnalyze = (name, value) => {
+  const changeScreen = (check, name) => {
+    changeBorderImputToRedOrNormal(check, name);
+    changeVisibityMessages(check, `${name}-invalid-data`);
+  };
+
+  const handleChangeDataAnalyze = (name, value) => {
+    const { checkNumber, checkPassword, isTripleChar } = valuesAnalyze;
+
     if(name === 'first' || name === 'qtt' || name === 'state') {
-      const checkValueIsNumber = isNaN(value) ? false : true;
-      if(!checkValueIsNumber) return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-active')
-      return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-hidden');
+      const checkValueIsNumber = checkNumber(value);
+      changeScreen(checkValueIsNumber, name);
+      return checkValueIsNumber;
     };
 
     if(name === 'password') {
-      const checkValueIsPassword = validCharactersPassword.test(value);
-      if(!checkValueIsPassword) {
-        return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-active');
-      };
-      return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-hidden');
+      const passwordIsValid = checkPassword(value);
+      changeScreen(passwordIsValid, name);
+      return passwordIsValid;
     }
 
     if(name === 'callGroup'|| name === 'pickupGroup') {
-      const checkValueIsValid = validCharactersTextAndNumbers.test(value);
-      if(!checkValueIsValid || value === '') {
-        return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-active');
-      };
-      return toggleIsChangeFormElements(`${name}-invalid-data`, 'has-text-danger is-size-7 is-hidden');
+      const checkValueIsCharacters = isTripleChar(value);
+      changeScreen(checkValueIsCharacters, name);
+      return checkValueIsCharacters;
     }
-    return true;
+  };
+
+  const handleChangeValues = (item) => {
+    const { name, value } = item;
+
+    const itemStatus = handleChangeDataAnalyze(name, value);
+    setValidate((prevState) => prevState, validate[name] = itemStatus === undefined  ? true : itemStatus);
+    setValues((prevState) => prevState, values[name] = value )
+    if(Object.keys(validate).length >= 13) Object.values(validate).includes(false) ? setDisable(true) : setDisable(false);
+    return;
   };
 
   const sendDataEndpointsUpdate = async () => {
     const objectForUpdate = { elements: itemsSelectedToEdit, ...values };
     const fetchItensUpdate = await exportUpdateEndpoints(objectForUpdate);
     history.push('/config/ramal/lista');
-    console.log(fetchItensUpdate);
+    return;
   };
 
   useEffect(() => {
