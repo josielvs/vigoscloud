@@ -71,14 +71,6 @@ const Header = () => {
                     <Link to="/config/ramal/lista" className="dropdown-item">
                       Consultar Ramal
                     </Link>
-                    <hr className="dropdown-divider"/>
-                    <Link to="/config" className="dropdown-item" onClick={() => toggleIsHidden('#endpoint-upd')}>
-                      Alterar Ramal
-                    </Link>
-                    <hr className="dropdown-divider"/>
-                    <Link to="config" className="dropdown-item">
-                      Deletar Ramal
-                    </Link>
                   </div>
                 </div>
               </div>
