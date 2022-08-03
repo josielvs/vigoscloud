@@ -42,71 +42,66 @@ const Header = () => {
             Home
           </Link>
         <div className="navbar-start">
+          <Link to="/callcenter" className="navbar-item" onClick={() => setPath('/callcenter')}>
+            CallCenter
+          </Link>
           <Link to={{ pathname: protocolUriActive }} target="_blank" className="navbar-item">
             WebPhone
           </Link>
           <Link to="/relatorios" className="navbar-item" onClick={() => setPath('/relatorios')}>
             Relatórios
           </Link>
-          <div className="navbar-item is-hoverable">
-            <p className="navbar-link">
-              Configurações
-            </p>
-            <div id="config-items" name="config-items" className="navbar-dropdown mx-0 px-0 has-text-centered is-hidden">
-              <div className="dropdown is-hoverable mx-0 px-0">
-                <div className="dropdown-trigger mx-0 px-0">
-                  <div className=" mx-0 px-0" aria-haspopup="true" aria-controls="dropdown-menu">
-                    <span>Ramais</span>
-                    <span className="icon is-small">
-                      <i className="fas fa-angle-down" aria-hidden="true"></i>
-                    </span>
-                  </div>
-                </div>
-                <div className="dropdown-menu ml-4" id="dropdown-menu" role="menu">
-                  <div className="dropdown-content has-background-light">
-                    <Link to="/config/ramal/novo" className="dropdown-item">
-                      Criar Ramal
-                    </Link>
-                    <hr className="dropdown-divider"/>
-                    <Link to="/config/ramal/lista" className="dropdown-item">
-                      Consultar Ramal
-                    </Link>
-                  </div>
+        <div className="navbar-item is-hoverable">
+          <p className="navbar-link">
+            Configurações
+          </p>
+          <div id="config-items" name="config-items" className="navbar-dropdown mx-0 px-0 has-text-centered is-hidden">
+            <div className="dropdown is-hoverable mx-0 px-0">
+              <div className="dropdown-trigger mx-0 px-0">
+                <div className=" mx-0 px-0" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <span>Ramais</span>
+                  <span className="icon is-small">
+                    <i className="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
                 </div>
               </div>
-              <hr className="dropdown-divider"/>
-              <div className="dropdown is-hoverable">
-                <div className="dropdown-trigger">
-                  <div className="" aria-haspopup="true" aria-controls="dropdown-menu-trunks">
-                    <span>Tronco</span>
-                    <span className="icon is-small">
-                      <i className="fas fa-angle-down" aria-hidden="true"></i>
-                    </span>
-                  </div>
+              <div className="dropdown-menu ml-4" id="dropdown-menu" role="menu">
+                <div className="dropdown-content has-background-light">
+                  <Link to="/config/ramal/novo" className="dropdown-item">
+                    Criar Ramal
+                  </Link>
+                  <hr className="dropdown-divider"/>
+                  <Link to="/config/ramal/lista" className="dropdown-item">
+                    Consultar Ramal
+                  </Link>
                 </div>
-                <div className="dropdown-menu ml-4" id="dropdown-menu-trunks" role="menu">
-                  <div className="dropdown-content has-background-light">
-                    <a href="#" className="dropdown-item">
-                      Criar Tronco
-                    </a>
-                    <hr className="dropdown-divider"/>
-                    <Link to="/" className="dropdown-item">
-                      Consultar Tronco
-                    </Link>
-                    <hr className="dropdown-divider"/>
-                    <a className="dropdown-item">
-                      Alterar Tronco
-                    </a>
-                    <hr className="dropdown-divider"/>
-                    <a href="#" className="dropdown-item">
-                      Deletar Tronco
-                    </a>
-                  </div>
+              </div>
+            </div>
+            <hr className="dropdown-divider"/>
+            <div className="dropdown is-hoverable">
+              <div className="dropdown-trigger">
+                <div className="" aria-haspopup="true" aria-controls="dropdown-menu-trunks">
+                  <span>Tronco</span>
+                  <span className="icon is-small">
+                    <i className="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+              <div className="dropdown-menu ml-4" id="dropdown-menu-trunks" role="menu">
+                <div className="dropdown-content has-background-light">
+                  <Link to="/config/tronco/novo" className="dropdown-item">
+                    Criar Tronco
+                  </Link>
+                  <hr className="dropdown-divider"/>
+                  <Link to="/config/tronco/lista" className="dropdown-item">
+                    Consultar Tronco
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
-          </div>
+        </div>
+        </div>
           <div className="navbar-item has-dropdown is-hoverable">
             <p className="navbar-link">
               Troubleshooting

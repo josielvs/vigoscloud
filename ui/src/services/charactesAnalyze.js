@@ -4,6 +4,7 @@ const isNumber = new RegExp(/^([0-9])+$/);
 const isTextAndComma = new RegExp(/[,a-zA-Z]$/);
 const isNumberAndComma = new RegExp(/[,0-9]$/);
 const isTextAndNumbersAndTripleChar = new RegExp(/^([A-Z\+a-z\+0-9\+_,\-])+$/);
+const isIP = new RegExp(/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/);
 
 const valuesAnalyze = {
   checkPassword: (pass) => {
@@ -23,6 +24,9 @@ const valuesAnalyze = {
   },
   isTripleChar: (char) => {
     return isTextAndNumbersAndTripleChar.test(char);
+  },
+  isIP: (ip) => {
+    return isIP.test(ip);
   },
 };
 

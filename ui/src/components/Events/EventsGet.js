@@ -4,6 +4,8 @@ import CallsTableTransition from './CallsTableTransition';
 import CallsTableAnswers from './CallsTableAnswers';
 import accessLocalStorage from '../../services/accessLocalStorage';
 
+import '../../libs/bulma.min.css';
+
 const EventsGet = () => {
   const getItensStateGlobal = useContext(PbxContext);
   const { setIpEndpoints, setRealTimeCall, setClickToCallChannel } = getItensStateGlobal;
