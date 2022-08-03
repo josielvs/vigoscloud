@@ -1,10 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PbxContext from '../../context/PbxContext';
+import Loading from '../../components/Loading/LoadingModule';
+import EndpointsList from '../../components/Endpoints/EndpointsList';
 import EventsGet from '../../components/Events/EventsGet';
 import { fetchCallsDataBase, fetchEndpoints, accessLocalStorage } from '../../services';
-import EndpointsList from '../../components/Endpoints/EndpointsList';
-import Loading from '../../components/Loading/LoadingModule';
+
 
 function Home() {
   const [loading, setLoading] = useState(true);

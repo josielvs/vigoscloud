@@ -192,7 +192,7 @@ function EndpointsCreate() {
             </div>
             <div className="columns mx-2">
               <div className="column is-2 is-offset-3 field">
-              <label className="label">Protocolo
+                <label className="label">Protocolo
                   <div className="control">
                     <div name="transport" className="select is-fullwidth">
                       <select className="select" name="transport" onChange={(e) => handleChangeValues(e.target)} >

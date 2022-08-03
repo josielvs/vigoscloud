@@ -81,7 +81,7 @@ function EndpointsList() {
 
   const handleClickUpdate = async () => {
     setItemsSelectedToEdit(endpointsSelected);
-    return history.push('/config/ramal/lista-id');
+    return history.push('/config/ramal/id');
   };
 
   useEffect(() => {

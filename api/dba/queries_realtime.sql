@@ -9,6 +9,34 @@
  40 | Carol    | recepcao@gsbru.com.br                 | $2a$05$m6zk71NJI8j3zkoATAvZf.0KLUpoxjqhYJflBCdyRp6lePu5.GrGm | 2001     | user  | t
  41 | Giovanna | recepcao1@gsbru.com.br                | $2a$05$m6zk71NJI8j3zkoATAvZf.8ulJoHG51B1Zm/6VGuEtR1LRrgyfmJy | 2000     | user  | t
 
+  id |   name    |              email               |                           password                           | endpoint |   role   | active 
+----+-----------+----------------------------------+--------------------------------------------------------------+----------+----------+--------
+  4 | Luiz      | luizpolito@cetromaquinas.com.br  | $2a$05$bL.VllFTomcvhSlLL9bLK.4ybkyAPeEy9cVXyJ/n3Adgwoc2Em8X. | 7683     | admin    | t
+  5 | Giovanna  | giovannaap@cetromaquinas.com.br  | $2a$05$bL.VllFTomcvhSlLL9bLK.BQvDEUeZA/ZZOmDteoGKi/d.ZB3AlNq | 7451     | admin    | t
+  7 | Guilherme | guilhermegg@cetromaquinas.com.br | $2a$05$nQWhzjs2EDHxsTLLGR15muWeepeqggpS9nb.rK/7RAXRFHeIoRbcy |          | admin    | t
+  8 | Murilo    | murilojs@cetromaquinas.com.br    | $2a$05$nQWhzjs2EDHxsTLLGR15muYRuDxlZjEZ6K5G62cnio6egWaBX2N5O | 8573     | admin    | t
+  6 | Paula     | paulalmd@cetromaquinas.com.br    | $2a$05$I69z7Eqhu8zoPBFYIbqgmeq2GtWxsdvepRFKLFdZfMVVTJwRZTuyi |          | admin    | t
+  9 | Leticia   | leticiar@cetromaquinas.com.br    | $2a$05$t8E1FYRkD1BTKVYwiaxJW.N.8Bbi3FHDM4ERa4Bg1P/stMGt5iWPe | 9900     | admin    | t
+ 10 | Jonathan  | jonathanhss@cetro.com.br         | $2a$05$k9DIiCUqu1ALHOohEByIEOcRtFfyMqP9IPurVR82Hh5OZeH/ke8Gu | 7100     | user     | t
+
+
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Luiz Polito', 'luizpolito@cetromaquinas.com.br', '$2a$05$bL.VllFTomcvhSlLL9bLK.4ybkyAPeEy9cVXyJ/n3Adgwoc2Em8X.', '7683', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Giovanna', 'giovannaap@cetromaquinas.com.br', '$2a$05$bL.VllFTomcvhSlLL9bLK.BQvDEUeZA/ZZOmDteoGKi/d.ZB3AlNq', '7451', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Paula', 'paulalmd@cetromaquinas.com.br', '$2a$05$I69z7Eqhu8zoPBFYIbqgmeq2GtWxsdvepRFKLFdZfMVVTJwRZTuyi', '', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Guilherme', 'guilhermegg@cetromaquinas.com.br', '$2a$05$nQWhzjs2EDHxsTLLGR15muWeepeqggpS9nb.rK/7RAXRFHeIoRbcy', '', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Murilo', 'murilojs@cetromaquinas.com.br', '$2a$05$nQWhzjs2EDHxsTLLGR15muYRuDxlZjEZ6K5G62cnio6egWaBX2N5O', '8573', 'admin', 'true');
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Letícia', 'leticiar@cetromaquinas.com.br', '$2a$05$t8E1FYRkD1BTKVYwiaxJW.N.8Bbi3FHDM4ERa4Bg1P/stMGt5iWPe', '', 'admin', 'true');\
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Jonathan', 'jonathanhss@cetro.com.br', '$2a$05$k9DIiCUqu1ALHOohEByIEOcRtFfyMqP9IPurVR82Hh5OZeH/ke8Gu', '7100', 'user', 'true');\
+
+INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (4, 'Luiz Polito', 'luizpolito@cetromaquinas.com.br', '$2a$05$bL.VllFTomcvhSlLL9bLK.4ybkyAPeEy9cVXyJ/n3Adgwoc2Em8X.', '7683', 'admin', 'true');
+INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (5, 'Giovanna', 'giovannaap@cetromaquinas.com.br', '$2a$05$bL.VllFTomcvhSlLL9bLK.BQvDEUeZA/ZZOmDteoGKi/d.ZB3AlNq', '7451', 'admin', 'true');
+INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (6, 'Paula', 'paulalmd@cetromaquinas.com.br', '$2a$05$I69z7Eqhu8zoPBFYIbqgmeq2GtWxsdvepRFKLFdZfMVVTJwRZTuyi', '', 'admin', 'true');
+INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (7, 'Guilherme', 'guilhermegg@cetromaquinas.com.br', '$2a$05$nQWhzjs2EDHxsTLLGR15muWeepeqggpS9nb.rK/7RAXRFHeIoRbcy', '', 'admin', 'true');
+INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (8, 'Murilo', 'murilojs@cetromaquinas.com.br', '$2a$05$nQWhzjs2EDHxsTLLGR15muYRuDxlZjEZ6K5G62cnio6egWaBX2N5O', '8573', 'admin', 'true');
+INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (9, 'Letícia', 'leticiar@cetromaquinas.com.br', '$2a$05$t8E1FYRkD1BTKVYwiaxJW.N.8Bbi3FHDM4ERa4Bg1P/stMGt5iWPe', '', 'admin', 'true');
+INSERT INTO users (id, name, email, password, endpoint, role, active) VALUES (10, 'Jonathan', 'jonathanhss@cetro.com.br', '$2a$05$k9DIiCUqu1ALHOohEByIEOcRtFfyMqP9IPurVR82Hh5OZeH/ke8Gu', '7100', 'user', 'true');
+
+
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Vigos', 'adm@vigossolucoes.com.br', '$2a$05$A1Xso4kAVGLXxpJj1oAIxO5o4JR.PA0OdBKqZTwra10JQ62FCirj.', '2000', 'admin', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('User', 'user@vigossolucoes.com.br', '$2a$05$t77fhcB.jNZLLiYys6.aFuI5dZ07kTa/uTuF9cuIMK.TeyFfCp5Za', '9900', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Support', 'support@vigossolucoes.com.br', '$2a$05$jbclBshzhwZhCyMgjbTcfOoeiOrGSv1Hyp6XIHZavat2.O8EnMARC', '9900', 'tecnical', 'true');
@@ -47,6 +75,8 @@ INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Marco
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Rogério', 'rogerio@gsbru.com.br', '$2a$05$m6zk71NJI8j3zkoATAvZf./.PNJ0HXVDhAWi4QcDX0p0QaAviMxye', '2024', 'admin', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Carol', 'recepcao@gsbru.com.br', '$2a$05$m6zk71NJI8j3zkoATAvZf.0KLUpoxjqhYJflBCdyRp6lePu5.GrGm', '2001', 'user', 'true');
 INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Giovanna', 'recepcao1@gsbru.com.br', '$2a$05$m6zk71NJI8j3zkoATAvZf.8ulJoHG51B1Zm/6VGuEtR1LRrgyfmJy', '2000', 'user', 'true');
+
+INSERT INTO users (name, email, password, endpoint, role, active) VALUES ('Coordenador', 'coordenadorcrm.rpo@lagosan.com.br', '$2a$05$RzOuOKqx1f12o1JGOOKJ5enhqrdTIk0lt7wxjy8VpgwDkEOslGaS6', '2000', 'admin', 'true');
 
 
 TRUNCATE TABLE users;
@@ -176,6 +206,7 @@ END;
 $$ LANGUAGE plpgsql; 
 
 -- SELECT trunkIPGenerate('ALGAR-REFRIGAS', '201.48.10.3', '44.206.177.167', '1154121500', 'alaw');
+-- SELECT trunkIPGenerate('NET', '192.168.0.45', '192.168.0.44', '6199', 'alaw,ulaw');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk AUTH Generate --
@@ -194,9 +225,9 @@ BEGIN
   IF char_length(provider) > 0 THEN
       INSERT INTO ps_aors (id, contact, qualify_frequency) VALUES (provider, 'sip:' || ipSbcTrunk || ':5060', 120);
       INSERT INTO ps_auths (id, auth_type, username, password) VALUES (provider, 'userpass', authUserName, password);
-      INSERT INTO ps_endpoints (id, transport, context, disallow, allow, aors, direct_media, language, outbound_auth)
+      INSERT INTO ps_endpoints (id, transport, context, disallow, allow, from_user, aors, direct_media, language, outbound_auth)
         VALUES
-      (provider, 'udp_transport', provider, 'all', codec, provider, 'no', 'pt_BR', provider);
+      (provider, 'udp_transport', provider, 'all', codec, authUserName, provider, 'no', 'pt_BR', provider);
       INSERT INTO ps_registrations (id, server_uri, client_uri, contact_user, outbound_auth)
         VALUES
       (provider, 'sip:' || ipSbcTrunk || ':5060', 'sip:' || authUserName || '@' || ipSbcTrunk || ':5060', authUserName, provider);
@@ -208,7 +239,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT trunkAuthGenerate('DirectCall', '189.84.133.135', 'KZBRI', 'QX1hzIP2YN2fov9w', 'ulaw');
+-- SELECT trunkAuthGenerate('NET-1', '192.168.0.45', '6199', '6199', 'ulaw,alaw');
+-- SELECT trunkAuthGenerate('JAU', '201.33.240.42', '1432250078', '81719860', 'ulaw');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk SELECT --
@@ -253,7 +285,7 @@ BEGIN
 END;
 $$;
 
--- SELECT trunksSelectById('{Sao_Jose_Rio_Preto}');
+-- SELECT trunksSelectById('{Algar}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Trunk DELETE --
@@ -279,7 +311,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT trunkDelete(ARRAY['9002', '9910'], 1);
+-- SELECT trunkDelete(ARRAY['NET-1'], 1);
 -- SELECT trunkDelete('{AmericaNet-Ford, AmericaNet-Fiat}');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -321,8 +353,9 @@ BEGIN
   END IF;
 END;
 $$ LANGUAGE plpgsql;
-
--- SELECT endpointsSipGenerate('1000', 10, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
+-- UPDATE ps_endpoint SET callerid = 'Janaina <6100>' WHERE id = '6100';
+-- SELECT endpointsSipGenerate('6100', 50, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'inband', 1, 'ulaw', 'geral', 'geral', 'no');
+-- SELECT endpointsSipGenerate('2200', 12, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Endpoints Web Generate --
@@ -505,7 +538,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT endpointsUpdate('{1001}', '!vigos!!interface#01!', 'tcp_transport', 'ddd-celular', 'pt_BR', 'info', 1, 'ulaw', 'geral', 'geral', 'yes');
+-- SELECT endpointsUpdate('{1000}', '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'pt_BR', 'info', 1, 'ulaw', 'geral', 'geral', 'yes');
 -- SELECT endpointsSipGenerate('1000', 10, '!vigos!!interface#01!', 'udp_transport', 'ddd-celular', 'info', 1, 'ulaw', 'geral', 'geral', 'no');
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -577,7 +610,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesGenerate('atendimento', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('recepcao', 'default', 'ringall', 'yes', 50, 'no', 'yes', 35, 'yes', 35, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('pecas', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
 -- SELECT queuesGenerate('teste', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
 -- SELECT queuesGenerate('mary-dota', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
 -- SELECT queuesGenerate('backoffice-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
@@ -587,7 +621,9 @@ $$ LANGUAGE plpgsql;
 -- SELECT queuesGenerate('isr_n2-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
 -- SELECT queuesGenerate('isr_n3-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
 -- SELECT queuesGenerate('isr_n4-ok', 'default', 'ringall', 'yes', 20, 'yes', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
-
+-- SELECT queuesGenerate('atendimento', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('transbordo', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
+-- SELECT queuesGenerate('tests', 'default', 'ringall', 'yes', 20, 'no', 'yes', 30, 'yes', 30, 'yes', 5, '', ''); -- Com Anuncio
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Queue SELECT --
@@ -751,7 +787,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- SELECT queuesMembersGenerate('pecas', 6227, 6227, 1);
+-- SELECT queuesMembersGenerate('atendimento', 2202, 2202, 0);
+-- SELECT queuesMembersGenerate('transbordo', 2209, 2209, 0);
+-- SELECT queuesMembersGenerate('recepcao', 3939, 3939, 0);
+-- SELECT queuesMembersGenerate('pecas', 7253, 7253, 0);
+-- SELECT queuesMembersGenerate('pecas', 7256, 7257, 0);
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Function Members Queues SELECT --

@@ -1143,6 +1143,8 @@ COPY (SELECT * FROM  "get_data_report_received"('2022-02-25', '2022-02-25', '00:
 COPY (SELECT * FROM  "get_data_report_sent"('2022-02-25', '2022-02-25', '00:00:00', '23:59:59', '', '', '', '')) TO '/var/lib/postgresql/report/allcsv/99_report_global_efetuadas.csv' WITH csv HEADER;
 COPY (SELECT * FROM get_all_calls_rows('2022-02-25', '2022-02-25', '00:00:00', '23:59:59', '', '', '', '', '', '', '50000', '0')) TO '/var/lib/postgresql/report/log_chamadas.csv' WITH csv HEADER;
 
+COPY (SELECT calldate, clid, src, dst, dstchannel, lastapp, lastdata, duration, billsec, typecall, callprotocol FROM cdr WHERE src LIKE '14997186552' ORDER BY calldate DESC) TO '/var/lib/postgresql/report/allcsv/14997186552.csv' WITH csv HEADER;
+
 -- cat /var/lib/postgresql/report/allcsv/*.csv > /var/lib/postgresql/report/report.csv
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
